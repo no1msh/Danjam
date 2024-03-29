@@ -15,3 +15,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Danjam"
 include(":app")
+
+include(":core:model")
+include(":core:data")
+include(":core:domain")
+include(":core:designsystem")
+
+include(":feature")
+include(":feature:onboading")

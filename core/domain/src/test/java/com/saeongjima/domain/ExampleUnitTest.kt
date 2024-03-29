@@ -1,6 +1,6 @@
-package com.saeongjima.danjam
+package com.saeongjima.domain
 
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
 /**

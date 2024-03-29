@@ -1,4 +1,4 @@
-package com.saeongjima.danjam
+package com.saeongjima.designsystem
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
