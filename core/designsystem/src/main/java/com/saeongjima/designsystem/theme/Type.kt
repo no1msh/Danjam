@@ -17,52 +17,63 @@ val wantedSans = FontFamily(
 )
 
 val Typography = Typography(
-    // H1
     displayLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
     ),
-
-    // H2
     displayMedium = TextStyle(
         fontFamily = wantedSans,
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold,
     ),
 
-    // H3
     headlineLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold,
     ),
-
-    // H4
     headlineMedium = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium,
+    ),
+
+    titleLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
     ),
+    titleMedium = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
+    ),
+    titleSmall = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal, // Regular
+    ),
 
-    // H5
-    headlineSmall = TextStyle(
+    bodyLarge = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal, // Regular
+    ),
+    bodyMedium = TextStyle(
         fontFamily = wantedSans,
         fontSize = 12.sp,
         fontWeight = FontWeight.SemiBold,
     ),
 
-    // Body1
-    bodyLarge = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = wantedSans,
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Normal, // Regular
     ),
-
-    // Body2
-    bodyMedium = TextStyle(
+    labelMedium = TextStyle(
         fontFamily = wantedSans,
-        fontSize = 14.sp,
+        fontSize = 8.sp,
         fontWeight = FontWeight.Normal, // Regular
     ),
 )
