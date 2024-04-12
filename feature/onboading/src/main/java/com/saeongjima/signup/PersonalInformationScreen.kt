@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,77 +37,46 @@ import com.saeongjima.signin.InputField
 
 @Composable
 fun PersonalInformationScreen(modifier: Modifier = Modifier) {
-    var currentPage by rememberSaveable { mutableFloatStateOf(0f) }
-    DanjamTheme {
-        Column(
-            modifier
-                .fillMaxSize()
-                .background(Black100),
-        ) {
-            OnboardingTopAppBar(
-                leadingIcon = com.saeongjima.designsystem.R.drawable.ic_back_24,
-                trailingIcon = com.saeongjima.designsystem.R.drawable.ic_exit_24,
-                leadingIconDescription = null,
-                trailingIconDescription = null,
-            )
-            Column(
-                modifier = Modifier
-                    .padding(
-                        start = 24.dp,
-                        end = 24.dp,
-                        bottom = 24.dp,
-                    ),
-            ) {
-                Spacer(modifier = Modifier.height(16.dp))
-                DanJamProgressBar(
-                    currentPageIndex = currentPage,
-                    totalPageCount = 5,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-                Text(
-                    text = "개인 정보",
-                    style = MaterialTheme.typography.displayLarge,
-                    color = White,
-                )
-                Spacer(modifier = Modifier.height(44.dp))
-                InputField(title = "이름", hint = "EX) 홍길동", modifier = Modifier.fillMaxWidth())
-                Text(
-                    text = "성별",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = Black950,
-                    modifier = Modifier.padding(top = 32.dp),
-                )
-                GenderSelector(modifier = Modifier.padding(top = 12.dp))
-                Spacer(modifier = Modifier.height(32.dp))
-                InputField(
-                    title = "생년월일",
-                    hint = "EX) 010101",
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                InputField(
-                    title = "이메일",
-                    hint = "EX) danjam@mate.com",
-                    modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
-                    trailing = {
-                        DanjamButton(
-                            text = "중복 확인",
-                            textStyle = MaterialTheme.typography.bodyMedium,
-                            textColor = White,
-                            containerColor = Black500,
-                            modifier = Modifier.size(
-                                width = 68.dp,
-                                height = 28.dp,
-                            ).padding(end = 8.dp),
-                        ) { /* onClick */ }
-                    },
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-                DanjamButton(text = "다음") {
-                }
-            }
-        }
+    Column(
+        modifier = modifier,
+    ) {
+        Text(
+            text = "개인 정보",
+            style = MaterialTheme.typography.displayLarge,
+            color = White,
+        )
+        Spacer(modifier = Modifier.height(44.dp))
+        InputField(title = "이름", hint = "EX) 홍길동", modifier = Modifier.fillMaxWidth())
+        Text(
+            text = "성별",
+            style = MaterialTheme.typography.headlineLarge,
+            color = Black950,
+            modifier = Modifier.padding(top = 32.dp),
+        )
+        GenderSelector(modifier = Modifier.padding(top = 12.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+        InputField(
+            title = "생년월일",
+            hint = "EX) 010101",
+            modifier = Modifier.fillMaxWidth(),
+        )
+        InputField(
+            title = "이메일",
+            hint = "EX) danjam@mate.com",
+            modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
+            trailing = {
+                DanjamButton(
+                    text = "중복 확인",
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    textColor = White,
+                    containerColor = Black500,
+                    modifier = Modifier.size(
+                        width = 68.dp,
+                        height = 28.dp,
+                    ).padding(end = 8.dp),
+                ) { /* onClick */ }
+            },
+        )
     }
 }
 
@@ -174,7 +141,7 @@ fun OnboardingTopAppBar(
             title?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.displayLarge,
                     color = White,
                 )
             }
