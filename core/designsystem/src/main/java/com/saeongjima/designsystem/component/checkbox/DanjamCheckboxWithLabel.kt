@@ -57,7 +57,7 @@ fun DanjamCheckboxWithLabel(
                 role = Role.Checkbox,
                 onValueChange = onValueChange,
             )
-            .padding(12.dp),
+            .padding(8.dp),
     ) {
         Box(
             modifier = Modifier
