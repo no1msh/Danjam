@@ -26,7 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,9 +49,13 @@ import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.login.R
 
 @Composable
-fun AgreeScreen(modifier: Modifier = Modifier) {
-    var openDialog by remember { mutableStateOf(false) }
-    var dialogText by remember { mutableStateOf(PolicyText.TermsOfUse) }
+fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) {
+    var openDialog by rememberSaveable { mutableStateOf(false) }
+    var dialogText by rememberSaveable { mutableStateOf(PolicyText.TermsOfUse) }
+    var isCheckedTermsOfUse by rememberSaveable { mutableStateOf(false) }
+    var isCheckedPrivacyPolicy by rememberSaveable { mutableStateOf(false) }
+
+    if (isCheckedTermsOfUse && isCheckedPrivacyPolicy) enableButton(true) else enableButton(false)
 
     if (openDialog) {
         FullTextDialog(text = stringResource(id = dialogText.res)) {
@@ -74,9 +78,9 @@ fun AgreeScreen(modifier: Modifier = Modifier) {
                 .padding(top = 36.dp),
         ) {
             DanjamCheckboxWithLabel(
-                isChecked = false,
+                isChecked = isCheckedTermsOfUse,
                 label = stringResource(R.string.terms_of_use_title),
-                onValueChange = {},
+                onValueChange = { isCheckedTermsOfUse = !isCheckedTermsOfUse },
                 modifier = Modifier.padding(start = 16.dp),
             )
             Text(
@@ -113,9 +117,9 @@ fun AgreeScreen(modifier: Modifier = Modifier) {
                 .padding(top = 20.dp),
         ) {
             DanjamCheckboxWithLabel(
-                isChecked = false,
+                isChecked = isCheckedPrivacyPolicy,
                 label = stringResource(R.string.privacy_policy_title),
-                onValueChange = {},
+                onValueChange = { isCheckedPrivacyPolicy = !isCheckedPrivacyPolicy },
                 modifier = Modifier.padding(start = 16.dp),
             )
             Text(
