@@ -1,6 +1,7 @@
 package com.saeongjima.designsystem.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -17,52 +18,104 @@ val wantedSans = FontFamily(
 )
 
 val Typography = Typography(
-    // H1
     displayLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
-
-    // H2
     displayMedium = TextStyle(
         fontFamily = wantedSans,
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
 
-    // H3
     headlineLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
 
-    // H4
-    headlineMedium = TextStyle(
+    titleLarge = TextStyle(
         fontFamily = wantedSans,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
-
-    // H5
-    headlineSmall = TextStyle(
-        fontFamily = wantedSans,
-        fontSize = 12.sp,
-        fontWeight = FontWeight.SemiBold,
-    ),
-
-    // Body1
-    bodyLarge = TextStyle(
+    titleMedium = TextStyle(
         fontFamily = wantedSans,
         fontSize = 16.sp,
         fontWeight = FontWeight.Medium,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    titleSmall = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal, // Regular
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
 
-    // Body2
+    bodyLarge = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
     bodyMedium = TextStyle(
         fontFamily = wantedSans,
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal, // Regular
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    bodySmall = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.SemiBold,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+
+    labelLarge = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Normal, // Regular
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    labelMedium = TextStyle(
+        fontFamily = wantedSans,
+        fontSize = 8.sp,
+        fontWeight = FontWeight.Normal, // Regular
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
 )
