@@ -40,7 +40,7 @@ fun SplashScreen(
     ) {
         Image(
             painter = painterResource(id = com.saeongjima.designsystem.R.drawable.logo),
-            contentDescription = stringResource(R.string.splash_danjam_logo_description),
+            contentDescription = stringResource(R.string.danjam_logo_description),
             modifier = Modifier
                 .width(width = 192.dp)
                 .weight(1f),
