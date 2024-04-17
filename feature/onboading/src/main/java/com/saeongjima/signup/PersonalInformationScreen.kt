@@ -25,15 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.saeongjima.designsystem.component.DanjamButton
+import com.saeongjima.designsystem.component.DanjamTextField
+import com.saeongjima.designsystem.component.button.DanjamButton
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black300
-import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.White
-import com.saeongjima.signin.InputField
 
 @Composable
 fun PersonalInformationScreen(modifier: Modifier = Modifier) {
@@ -46,7 +45,9 @@ fun PersonalInformationScreen(modifier: Modifier = Modifier) {
             color = White,
         )
         Spacer(modifier = Modifier.height(44.dp))
-        InputField(title = "이름", hint = "EX) 홍길동", modifier = Modifier.fillMaxWidth())
+        InputBox(title = "이름", modifier = Modifier.fillMaxWidth()) {
+            DanjamTextField(value = "", onValueChange = {}, hintText = "EX) 홍길동")
+        }
         Text(
             text = "성별",
             style = MaterialTheme.typography.headlineLarge,
@@ -55,28 +56,26 @@ fun PersonalInformationScreen(modifier: Modifier = Modifier) {
         )
         GenderSelector(modifier = Modifier.padding(top = 12.dp))
         Spacer(modifier = Modifier.height(32.dp))
-        InputField(
+        InputBox(
             title = "생년월일",
-            hint = "EX) 010101",
             modifier = Modifier.fillMaxWidth(),
-        )
-        InputField(
+        ) {
+            DanjamTextField(value = "", onValueChange = {}, hintText = "EX) 010101")
+        }
+        InputBox(
             title = "이메일",
-            hint = "EX) danjam@mate.com",
-            modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
-            trailing = {
-                DanjamButton(
-                    text = "중복 확인",
-                    textStyle = MaterialTheme.typography.bodyMedium,
-                    textColor = White,
-                    containerColor = Black500,
-                    modifier = Modifier.size(
-                        width = 68.dp,
-                        height = 28.dp,
-                    ).padding(end = 8.dp),
-                ) { /* onClick */ }
-            },
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+        ) {
+            DanjamTextField(
+                value = "",
+                onValueChange = {},
+                hintText = "EX) danjam@mate.com",
+                hasTrailingButton = true,
+                onTrailingButtonClick = { false },
+            )
+        }
     }
 }
 
@@ -90,7 +89,9 @@ fun GenderSelector(modifier: Modifier = Modifier) {
             containerColor = if (isMale) MainColor else Black300,
             textColor = White,
             textStyle = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.weight(1f).height(48.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp),
         ) {
             isMale = true
         }
@@ -101,7 +102,9 @@ fun GenderSelector(modifier: Modifier = Modifier) {
             containerColor = if (!isMale) MainColor else Black300,
             textColor = White,
             textStyle = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.weight(1f).height(48.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp),
         ) {
             isMale = false
         }
@@ -159,6 +162,24 @@ fun OnboardingTopAppBar(
                 )
             }
         }
+    }
+}
+
+
+@Composable
+private fun InputBox(
+    title: String,
+    modifier: Modifier = Modifier,
+    textField: @Composable () -> Unit,
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineLarge,
+            color = Black950,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        textField()
     }
 }
 
