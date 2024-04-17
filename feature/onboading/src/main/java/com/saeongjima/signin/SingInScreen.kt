@@ -31,7 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.saeongjima.designsystem.R.dimen
 import com.saeongjima.designsystem.R.drawable
 import com.saeongjima.designsystem.component.textfield.DanjamTextField
-import com.saeongjima.designsystem.component.button.DanjamButton
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black950
@@ -120,7 +120,7 @@ fun SignInScreen(
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
-        DanjamButton(
+        MainButton(
             text = stringResource(R.string.sign_in_sign_in_button_text),
             enabled = signInViewModel.id.value.length >= MinimumIdLength &&
                     signInViewModel.password.value.length >= MinimumPasswordLength,

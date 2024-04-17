@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.saeongjima.designsystem.component.button.DanjamButton
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
@@ -126,7 +126,7 @@ fun SignUpScreen(
                 }
             }
 
-            DanjamButton(
+            MainButton(
                 text = if (pagerState.currentPage == 5) "단잠메이트 만나러 가기!" else "다음",
                 modifier = Modifier.padding(
                     start = 24.dp,

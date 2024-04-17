@@ -25,7 +25,7 @@ import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
 
 @Composable
-fun DanjamButton(
+fun MainButton(
     text: String,
     modifier: Modifier = Modifier,
     size: Int = 50,
@@ -67,7 +67,7 @@ fun DanjamButton(
 @Composable
 private fun DanjamButtonPreview() {
     DanjamTheme {
-        DanjamButton("Hello, World!", enabled = false) {
+        MainButton("Hello, World!", enabled = false) {
         }
     }
 }

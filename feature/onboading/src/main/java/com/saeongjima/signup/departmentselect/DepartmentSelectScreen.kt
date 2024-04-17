@@ -30,7 +30,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.textfield.DanjamTextField
-import com.saeongjima.designsystem.component.button.DanjamButton
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black800
@@ -115,7 +115,7 @@ fun DepartmentSelectScreen(
                     }
                 }
             }
-            DanjamButton(text = "선택완료", modifier = Modifier.padding(vertical = 28.dp)) {
+            MainButton(text = "선택완료", modifier = Modifier.padding(vertical = 28.dp)) {
                 onDismissRequest()
             }
         }

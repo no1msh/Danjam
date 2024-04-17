@@ -23,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.saeongjima.designsystem.component.button.DanjamButton
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black300
@@ -106,7 +106,7 @@ fun UniversityCertificationScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-        DanjamButton(
+        MainButton(
             text = "다른사진 선택하기",
             containerColor = MainColor,
             textColor = White,

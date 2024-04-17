@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.saeongjima.designsystem.component.button.DanjamButton
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.White
@@ -46,12 +46,12 @@ fun SplashScreen(
                 .weight(1f),
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            DanjamButton(
+            MainButton(
                 text = stringResource(R.string.splash_sign_in_button_text),
                 onClick = onSignInClick,
             )
             Spacer(modifier = Modifier.height(ButtonMarginSize.dp))
-            DanjamButton(
+            MainButton(
                 text = stringResource(R.string.splash_sign_up_button_text),
                 containerColor = White,
                 textColor = MainColor,

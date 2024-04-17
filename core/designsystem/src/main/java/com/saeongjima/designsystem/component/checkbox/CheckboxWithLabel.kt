@@ -32,7 +32,7 @@ import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.White
 
 @Composable
-fun DanjamCheckboxWithLabel(
+fun CheckboxWithLabel(
     isChecked: Boolean,
     label: String,
     modifier: Modifier = Modifier,
@@ -86,7 +86,7 @@ fun DanjamCheckboxWithLabel(
 fun DanjamCheckBoxWithLabelPreview() {
     DanjamTheme {
         var isChecked by remember { mutableStateOf(true) }
-        DanjamCheckboxWithLabel(
+        CheckboxWithLabel(
             isChecked = isChecked,
             onValueChange = { isChecked = !isChecked },
             label = "개인정보 동의",

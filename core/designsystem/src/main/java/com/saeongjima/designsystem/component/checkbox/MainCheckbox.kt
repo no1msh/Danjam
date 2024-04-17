@@ -30,7 +30,7 @@ import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.White
 
 @Composable
-fun DanjamCheckbox(
+fun MainCheckbox(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
     size: Float = 24f,
@@ -78,7 +78,7 @@ fun DanjamCheckbox(
 fun DanjamCheckboxPreview() {
     DanjamTheme {
         var isChecked by remember { mutableStateOf(true) }
-        DanjamCheckbox(
+        MainCheckbox(
             isChecked = isChecked,
             onValueChange = { isChecked = !isChecked },
         )

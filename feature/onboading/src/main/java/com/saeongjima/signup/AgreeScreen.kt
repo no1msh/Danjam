@@ -41,7 +41,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
-import com.saeongjima.designsystem.component.checkbox.DanjamCheckboxWithLabel
+import com.saeongjima.designsystem.component.checkbox.CheckboxWithLabel
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black700
@@ -77,7 +77,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 .fillMaxWidth()
                 .padding(top = 36.dp),
         ) {
-            DanjamCheckboxWithLabel(
+            CheckboxWithLabel(
                 isChecked = isCheckedTermsOfUse,
                 label = stringResource(R.string.terms_of_use_title),
                 onValueChange = { isCheckedTermsOfUse = !isCheckedTermsOfUse },
@@ -116,7 +116,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 .fillMaxWidth()
                 .padding(top = 20.dp),
         ) {
-            DanjamCheckboxWithLabel(
+            CheckboxWithLabel(
                 isChecked = isCheckedPrivacyPolicy,
                 label = stringResource(R.string.privacy_policy_title),
                 onValueChange = { isCheckedPrivacyPolicy = !isCheckedPrivacyPolicy },
