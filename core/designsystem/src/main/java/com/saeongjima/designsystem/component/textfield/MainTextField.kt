@@ -1,4 +1,4 @@
-package com.saeongjima.designsystem.component
+package com.saeongjima.designsystem.component.textfield
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColor

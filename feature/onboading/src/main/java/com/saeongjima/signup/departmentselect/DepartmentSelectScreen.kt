@@ -29,7 +29,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.saeongjima.designsystem.R
-import com.saeongjima.designsystem.component.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.button.DanjamButton
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black700

@@ -157,7 +157,7 @@ fun SecureTextField(
 
 @Preview
 @Composable
-private fun TextFieldPreview() {
+private fun SecureTextFieldPreview() {
     DanjamTheme {
         var input by remember {
             mutableStateOf("")

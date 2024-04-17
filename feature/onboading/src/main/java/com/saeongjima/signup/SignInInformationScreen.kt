@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.saeongjima.designsystem.R
-import com.saeongjima.designsystem.component.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black950

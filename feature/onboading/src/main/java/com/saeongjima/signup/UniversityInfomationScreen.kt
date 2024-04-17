@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.saeongjima.designsystem.component.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.White
 import com.saeongjima.signup.departmentselect.DepartmentSelectScreen

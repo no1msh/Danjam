@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.saeongjima.designsystem.R.dimen
 import com.saeongjima.designsystem.R.drawable
-import com.saeongjima.designsystem.component.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.button.DanjamButton
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black700
