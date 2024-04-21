@@ -16,7 +16,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,11 +26,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R.dimen
 import com.saeongjima.designsystem.R.drawable
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black950
@@ -45,10 +45,10 @@ private const val MinimumPasswordLength = 1
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    signInViewModel: SignInViewModel = viewModel(),
+    signInViewModel: SignInViewModel = hiltViewModel(),
     onCloseClick: () -> Unit,
 ) {
-    val uiState: SignInUiState by signInViewModel.signInUiState.collectAsState()
+    val uiState: SignInUiState by signInViewModel.signInUiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
@@ -126,7 +126,7 @@ fun SignInScreen(
                     signInViewModel.password.value.length >= MinimumPasswordLength,
             modifier = Modifier.padding(top = 48.dp)
         ) {
-            // TODO: 로그인 호출
+            signInViewModel.signIn()
         }
     }
 }
