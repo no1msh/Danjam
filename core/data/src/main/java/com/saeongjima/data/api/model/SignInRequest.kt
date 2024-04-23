@@ -1,4 +1,4 @@
-package com.saeongjima.data.di
+package com.saeongjima.data.api.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
