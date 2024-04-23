@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.kotlinx.serialization.json)
     kapt(libs.hilt.compiler)
+    implementation(libs.data.preferences)
 }
 
 fun getApiKey(propertyKey: String): String {
