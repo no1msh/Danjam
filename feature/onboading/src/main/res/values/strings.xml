@@ -11,6 +11,8 @@
     <string name="sign_in_password_hint">비밀번호를 입력해주세요</string>
     <string name="sign_in_wrong_id_or_password">잘못된 아이디나 비밀번호 입니다</string>
     <string name="sign_in_sign_in_button_text">로그인</string>
+    <string name="sign_in_id_title">아이디</string>
+    <string name="sign_in_password_title">비밀번호</string>
 
     <!-- Drawable Description -->
     <string name="danjam_logo_description">단잠 로고</string>

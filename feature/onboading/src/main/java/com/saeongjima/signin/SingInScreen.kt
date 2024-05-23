@@ -75,7 +75,7 @@ fun SignInScreen(
             modifier = Modifier.padding(top = 62.dp)
         )
         InputBox(
-            title = "아이디",
+            title = stringResource(R.string.sign_in_id_title),
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 62.dp),
@@ -88,7 +88,7 @@ fun SignInScreen(
             )
         }
         InputBox(
-            title = "비밀번호",
+            title = stringResource(R.string.sign_in_password_title),
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 40.dp),
