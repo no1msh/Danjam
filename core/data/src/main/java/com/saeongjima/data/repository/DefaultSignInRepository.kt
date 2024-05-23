@@ -1,7 +1,7 @@
 package com.saeongjima.data.repository
 
-import com.saeongjima.data.di.SignInRequest
-import com.saeongjima.data.di.SignInService
+import com.saeongjima.data.api.SignInService
+import com.saeongjima.data.api.model.SignInRequest
 import javax.inject.Inject
 
 class DefaultSignInRepository @Inject constructor(

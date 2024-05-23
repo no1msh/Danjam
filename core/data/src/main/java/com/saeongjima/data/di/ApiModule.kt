@@ -4,6 +4,11 @@ import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.saeongjima.data.BuildConfig
 import com.saeongjima.data.DanjamCallAdapter
+import com.saeongjima.data.token.PublicClient
+import com.saeongjima.data.token.PublicRetrofit
+import com.saeongjima.data.token.SignInClient
+import com.saeongjima.data.token.SignInInterceptor
+import com.saeongjima.data.token.SignInRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,17 +32,6 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-        .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-        .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-        .addInterceptor(httpLoggingInterceptor)
-        .build()
-
-    @Provides
-    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor { message ->
             Log.d(TAG_HTTP_LOG, message)
@@ -45,12 +39,55 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideDanjamApi(
-        okHttpClient: OkHttpClient,
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
-        .addCallAdapterFactory(DanjamCallAdapter.CallAdapterFactory)
-        .client(okHttpClient)
-        .build()
+    @PublicClient
+    fun providePublicOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @PublicRetrofit
+    fun providePublicRetrofit(@PublicClient okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
+            .addCallAdapterFactory(DanjamCallAdapter.CallAdapterFactory)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @SignInClient
+    fun provideSignInOkHttpClient(
+        signInInterceptor: SignInInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(signInInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @SignInRetrofit
+    fun provideSignInRetrofit(@SignInClient okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
+            .addCallAdapterFactory(DanjamCallAdapter.CallAdapterFactory)
+            .client(okHttpClient)
+            .build()
+    }
 }
