@@ -97,7 +97,7 @@ fun SignInScreen(
                 value = signInViewModel.password.value,
                 onValueChange = { signInViewModel.updatePassword(it) },
                 hintText = stringResource(R.string.sign_in_password_hint),
-                onInputFinish = { /* TODO: 로그인 호출 */ },
+                onInputFinish = { signInViewModel.signIn() },
                 modifier = Modifier.padding(top = 8.dp),
             )
         }
@@ -124,10 +124,9 @@ fun SignInScreen(
             text = stringResource(R.string.sign_in_sign_in_button_text),
             enabled = signInViewModel.id.value.length >= MinimumIdLength &&
                     signInViewModel.password.value.length >= MinimumPasswordLength,
-            modifier = Modifier.padding(top = 48.dp)
-        ) {
-            signInViewModel.signIn()
-        }
+            modifier = Modifier.padding(top = 48.dp),
+            onClick = { signInViewModel.signIn() }
+        )
     }
 }
 
