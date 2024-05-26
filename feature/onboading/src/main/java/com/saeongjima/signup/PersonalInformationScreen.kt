@@ -25,8 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black300
 import com.saeongjima.designsystem.theme.Black950
@@ -162,24 +163,6 @@ fun OnboardingTopAppBar(
                 )
             }
         }
-    }
-}
-
-
-@Composable
-private fun InputBox(
-    title: String,
-    modifier: Modifier = Modifier,
-    textField: @Composable () -> Unit,
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineLarge,
-            color = Black950,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        textField()
     }
 }
 

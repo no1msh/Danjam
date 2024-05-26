@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black950
@@ -125,22 +125,6 @@ private fun InputValidator(
     }
 }
 
-@Composable
-private fun InputBox(
-    title: String,
-    modifier: Modifier = Modifier,
-    textField: @Composable () -> Unit,
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineLarge,
-            color = Black950,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        textField()
-    }
-}
 
 enum class ValidateState(
     val color: Color,
