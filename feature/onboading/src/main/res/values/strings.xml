@@ -14,6 +14,15 @@
     <string name="sign_in_id_title">아이디</string>
     <string name="sign_in_password_title">비밀번호</string>
 
+    <!-- PersonalInformationCertificationGuideScreen -->
+    <string name="personal_information_certification_guide_title">개인 정보 인증</string>
+    <string name="personal_information_certification_guide_description">성별인증을 위해 신분증 내용을 사진으로 수집합니다!\n성별인증 외에는 신분증의 정보를 사용하지 않고 폐기합니다.</string>
+    <string name="personal_information_certification_guide_guide_title">안전한 신분증 등록방법!</string>
+    <string name="personal_information_certification_guide_guide">주민등록번호 뒷자리 첫 숫자를 제외하고는 꼭 가려주세요!</string>
+    <string name="personal_information_certification_guide_caution">주민등록번호를 조작하거나 타인의 신분증을 사용했을 경우에\n법적인 조치를 받게될 수 있습니다.</string>
+    <string name="personal_information_certification_guide_caution_box_title">잘못된 신분증 등록시 승인이 거부될 수 있어요!</string>
+    <string name="personal_information_certification_guide_caution_box_description">" ･ 성별 숫자가 어두워서 식별이 어려운 경우\n ･ 빛 반사가 심해 숫자의 식별이 어려운 경우\n ･ 흔들린 사진으로 성별 숫자의 식별이 어려운 경우"</string>
+
     <!-- Drawable Description -->
     <string name="danjam_logo_description">단잠 로고</string>
     <string name="ic_exit_description">exit</string>
