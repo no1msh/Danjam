@@ -74,6 +74,7 @@ fun PersonalInformationScreen(modifier: Modifier = Modifier) {
                 onValueChange = {},
                 hintText = "EX) danjam@mate.com",
                 hasTrailingButton = true,
+                trailingButtonText = "중복확인",
                 onTrailingButtonClick = { false },
             )
         }
