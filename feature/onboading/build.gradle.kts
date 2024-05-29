@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.hilt.compose)
     kapt(libs.hilt.compiler)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.coil)
 
 
     androidTestImplementation(platform(libs.compose.bom))
