@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CloseUpIconButton -->
+    <string name="close_up_Icon_button_description">close up</string>
+</resources>
