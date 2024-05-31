@@ -7,16 +7,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.saeongjima.designsystem.theme.Black300
 
 @Composable
 fun Modifier.verticalScrollBar(
     state: ScrollState,
-    color: Color = Color.Gray,
+    color: Color = Black300,
     ratio: Float = 3f,
     width: Dp = 4.dp,
     isAlwaysVisible: Boolean = false,
@@ -39,10 +41,11 @@ fun Modifier.verticalScrollBar(
         val barRange = (this.size.height - barHeight) / state.maxValue
         if (needDrawScrollbar) {
             val position = state.value * barRange
-            drawRect(
+            drawRoundRect(
                 color = color.copy(alpha = alpha),
                 topLeft = Offset(this.size.width - width.toPx(), position),
-                size = Size(width.toPx(), barHeight)
+                size = Size(width.toPx(), barHeight),
+                cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx())
             )
         }
     }
