@@ -22,6 +22,7 @@
     <string name="personal_information_certification_guide_caution">주민등록번호를 조작하거나 타인의 신분증을 사용했을 경우에\n법적인 조치를 받게될 수 있습니다.</string>
     <string name="personal_information_certification_guide_caution_box_title">잘못된 신분증 등록시 승인이 거부될 수 있어요!</string>
     <string name="personal_information_certification_guide_caution_box_description">" ･ 성별 숫자가 어두워서 식별이 어려운 경우\n ･ 빛 반사가 심해 숫자의 식별이 어려운 경우\n ･ 흔들린 사진으로 성별 숫자의 식별이 어려운 경우"</string>
+    <string name="personal_information_certification_guide_next_button_text">업로드하러가기</string>
 
     <!-- Drawable Description -->
     <string name="danjam_logo_description">단잠 로고</string>

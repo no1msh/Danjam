@@ -16,24 +16,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.extension.modifier.verticalScrollBar
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black600
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black800
 import com.saeongjima.designsystem.theme.Black950
+import com.saeongjima.designsystem.theme.DanjamTheme
+import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.PointColor1
+import com.saeongjima.designsystem.theme.White
 import com.saeongjima.login.R
 
 @Composable
-fun PersonalInformationCertificationGuideScreen(modifier: Modifier = Modifier) {
-    val state: ScrollState = rememberScrollState()
+fun PersonalInformationCertificationGuideRoute(
+    modifier: Modifier,
+    onNextButtonClick: () -> Unit
+) {
+    PersonalInformationCertificationGuideScreen(
+        modifier = modifier,
+        onNextButtonClick = onNextButtonClick
+    )
+}
+
+@Composable
+internal fun PersonalInformationCertificationGuideScreen(
+    modifier: Modifier = Modifier,
+    onNextButtonClick: () -> Unit,
+) {
+    val scrollState: ScrollState = rememberScrollState()
     Column(
         modifier = modifier
-            .verticalScroll(state)
-            .verticalScrollBar(state, isAlwaysVisible = true)
+            .verticalScroll(scrollState)
+            .verticalScrollBar(scrollState, isAlwaysVisible = true)
     ) {
         Text(
             text = stringResource(R.string.personal_information_certification_guide_title),
@@ -78,11 +97,19 @@ fun PersonalInformationCertificationGuideScreen(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(top = 44.dp)
         )
+        MainButton(
+            text = stringResource(R.string.personal_information_certification_guide_next_button_text),
+            modifier = Modifier.padding(top = 48.dp, bottom = 28.dp),
+            enabled = true,
+            containerColor = MainColor,
+            textColor = White,
+            onClick = onNextButtonClick,
+        )
     }
 }
 
 @Composable
-fun CautionBox(modifier: Modifier = Modifier) {
+private fun CautionBox(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.background(Black200),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,5 +128,13 @@ fun CautionBox(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PersonalInformationCertificationScreenPreview() {
+    DanjamTheme {
+        PersonalInformationCertificationGuideScreen(onNextButtonClick = {})
     }
 }
