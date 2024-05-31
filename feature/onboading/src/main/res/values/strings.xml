@@ -49,4 +49,13 @@
     <string name="personal_information_email_input_box_trailing_button_text">중복확인</string>
     <string name="personal_information_gender_selector_male">남</string>
     <string name="personal_information_gender_selector_female">여</string>
+
+    <!-- PersonalInformationCertificationScreen -->
+    <string name="personal_information_certification_title">개인 정보 인증</string>
+    <string name="personal_information_certification_image_guide_description">성별을 알 수 있는 주민등록증 혹은\n운전면허증 사진을 올려주세요</string>
+    <string name="personal_information_certification_image_description">개인 정보 인증에 사용할 사진</string>
+    <string name="personal_information_certification_select_another_photo">다른사진 선택하기</string>
+    <string name="personal_information_certification_close_full_image">이미지 전체보기 종료</string>
+    <string name="personal_information_certification_check_again_id_card_number_covered">주민등록번호가\n잘 가려졌는지 확인하셨나요?</string>
+    <string name="personal_information_certification_check_again_sure">확인했어요!</string>
 </resources>
