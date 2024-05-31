@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +27,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -38,30 +40,41 @@ import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black950
+import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.login.R
 
 @Composable
-fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) {
+fun AgreeRoute(
+    onNextButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AgreeScreen(
+        modifier = modifier,
+        onNextButtonClick = onNextButtonClick,
+    )
+}
+
+@Composable
+internal fun AgreeScreen(modifier: Modifier = Modifier, onNextButtonClick: () -> Unit) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogText by rememberSaveable { mutableStateOf(PolicyText.TermsOfUse) }
+
     var isCheckedTermsOfUse by rememberSaveable { mutableStateOf(false) }
     var isCheckedPrivacyPolicy by rememberSaveable { mutableStateOf(false) }
 
-    if (isCheckedTermsOfUse && isCheckedPrivacyPolicy) enableButton(true) else enableButton(false)
-
     if (openDialog) {
-        FullTextDialog(text = stringResource(id = dialogText.res)) {
-            openDialog = false
-        }
+        FullTextDialog(
+            text = stringResource(id = dialogText.res),
+            onDismissRequest = { openDialog = false }
+        )
     }
-
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.request_agree_for_service),
             style = MaterialTheme.typography.displayLarge,
             color = Black950,
-            modifier = modifier.padding(top = 64.dp),
+            modifier = Modifier.padding(top = 64.dp),
         )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -74,7 +87,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 isChecked = isCheckedTermsOfUse,
                 label = stringResource(R.string.terms_of_use_title),
                 onValueChange = { isCheckedTermsOfUse = !isCheckedTermsOfUse },
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.offset(x = (-8).dp),
             )
             Text(
                 text = stringResource(R.string.see_full_text),
@@ -82,7 +95,6 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 color = Black500,
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
-                    .padding(end = 24.dp)
                     .clickable {
                         openDialog = true
                         dialogText = PolicyText.TermsOfUse
@@ -90,7 +102,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
             )
         }
         ScrollableView(
-            modifier = modifier
+            modifier = Modifier
                 .padding(top = 12.dp)
                 .weight(1f)
                 .background(Black200, shape = RoundedCornerShape(4.dp)),
@@ -113,7 +125,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 isChecked = isCheckedPrivacyPolicy,
                 label = stringResource(R.string.privacy_policy_title),
                 onValueChange = { isCheckedPrivacyPolicy = !isCheckedPrivacyPolicy },
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.offset(x = (-8).dp)
             )
             Text(
                 text = stringResource(id = R.string.see_full_text),
@@ -121,7 +133,6 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 color = Black500,
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
-                    .padding(end = 24.dp)
                     .clickable {
                         openDialog = true
                         dialogText = PolicyText.PrivacyPolicy
@@ -130,7 +141,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
         }
 
         ScrollableView(
-            modifier = modifier
+            modifier = Modifier
                 .padding(top = 12.dp)
                 .weight(1f)
                 .background(Black200, shape = RoundedCornerShape(4.dp)),
@@ -193,4 +204,12 @@ private fun FullTextDialog(
 enum class PolicyText(@StringRes val res: Int) {
     TermsOfUse(R.string.terms_of_use),
     PrivacyPolicy(R.string.privacy_policy),
+}
+
+@Preview
+@Composable
+private fun AgreeScreenPreview() {
+    DanjamTheme {
+        AgreeScreen(onNextButtonClick = {})
+    }
 }
