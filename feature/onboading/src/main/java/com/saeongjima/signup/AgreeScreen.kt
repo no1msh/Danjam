@@ -152,7 +152,18 @@ internal fun AgreeScreen(modifier: Modifier = Modifier, onNextButtonClick: () ->
                 color = Black700,
             )
         }
-        Spacer(modifier = Modifier.height(12.dp))
+
+        MainButton(
+            text = stringResource(id = com.saeongjima.designsystem.R.string.main_button_text_next),
+            modifier = Modifier.padding(
+                top = 12.dp,
+                bottom = 28.dp,
+            ),
+            enabled = isCheckedPrivacyPolicy && isCheckedTermsOfUse,
+            containerColor = PointColor1,
+            textColor = Black100,
+            onClick = onNextButtonClick
+        )
     }
 }
 
