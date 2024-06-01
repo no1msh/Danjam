@@ -59,6 +59,8 @@ fun DanjamTextField(
     hintText: String = "",
     errorText: String = "",
     isSecure: Boolean = false,
+    isReadOnly: Boolean = false,
+    isEnabled: Boolean = true,
     @DrawableRes leadingIcon: Int? = null,
     hasTrailingButton: Boolean = false,
     trailingButtonText: String = "",
@@ -101,6 +103,7 @@ fun DanjamTextField(
             )
             .height(48.dp)
             .fillMaxWidth(),
+        readOnly = isReadOnly,
         cursorBrush = SolidColor(MainColor),
         interactionSource = interactionSource,
         textStyle = MaterialTheme.typography.titleLarge.copy(Black950),
@@ -117,7 +120,7 @@ fun DanjamTextField(
                 focusManager.moveFocus(FocusDirection.Down)
             }
         ),
-        enabled = true,
+        enabled = isEnabled,
         singleLine = true,
         visualTransformation = if (isSecure) PasswordVisualTransformation() else VisualTransformation.None
     ) { innerTextField ->
