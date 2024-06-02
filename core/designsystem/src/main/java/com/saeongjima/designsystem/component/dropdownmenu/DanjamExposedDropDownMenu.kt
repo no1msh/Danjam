@@ -23,9 +23,15 @@ private const val MaxVisibleItemCount = 5
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DanjamExposedDropDownMenu(options: List<String>, modifier: Modifier = Modifier) {
+fun DanjamExposedDropDownMenu(
+    options: List<String>,
+    modifier: Modifier = Modifier,
+    hintText: String,
+    initialValue: String = options[0],
+    onValueChanged: (String) -> Unit,
+) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
+    var selectedOptionText by remember { mutableStateOf(initialValue) }
 
     ExposedDropdownMenuBox(
         modifier = modifier.wrapContentWidth(),
@@ -38,6 +44,7 @@ fun DanjamExposedDropDownMenu(options: List<String>, modifier: Modifier = Modifi
             value = selectedOptionText,
             onValueChange = {},
             isExpanded = expanded,
+            hintText = hintText,
             modifier = Modifier.menuAnchor()
         )
 
@@ -59,6 +66,7 @@ fun DanjamExposedDropDownMenu(options: List<String>, modifier: Modifier = Modifi
                     isSelected = selectionOption == selectedOptionText,
                     modifier = Modifier.clickable {
                         selectedOptionText = selectionOption
+                        onValueChanged(selectedOptionText)
                         expanded = false
                     }
                 )
@@ -71,6 +79,6 @@ fun DanjamExposedDropDownMenu(options: List<String>, modifier: Modifier = Modifi
 @Composable
 private fun DanjamExposedDropDownMenuPreview() {
     DanjamTheme {
-        DanjamExposedDropDownMenu(List(5) { "$it" })
+        DanjamExposedDropDownMenu(List(5) { "$it" }, hintText = "ex) 고려대학교", onValueChanged = {})
     }
 }
