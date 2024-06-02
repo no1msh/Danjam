@@ -33,12 +33,13 @@ class MainActivity : ComponentActivity() {
                         onboardingNavGraph(
                             onCloseClick = {
                                 navController.navigate(
-                                    OnboardingDestination.Splash.route,
+                                    route = OnboardingDestination.Splash.route,
                                     navOptions = navOptions {
                                         popUpTo(navController.graph.id) {
                                             inclusive = true
                                         }
-                                    })
+                                    }
+                                )
                             },
                             onSignInClick = {
                                 navController.navigate(OnboardingDestination.SignIn.route)
