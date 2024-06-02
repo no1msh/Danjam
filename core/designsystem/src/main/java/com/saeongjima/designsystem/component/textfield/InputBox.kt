@@ -14,7 +14,7 @@ import com.saeongjima.designsystem.theme.Black950
 fun InputBox(
     title: String,
     modifier: Modifier = Modifier,
-    textField: @Composable () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     Column(modifier = modifier) {
         Text(
@@ -25,6 +25,6 @@ fun InputBox(
                 .fillMaxWidth()
                 .padding(bottom = 12.dp),
         )
-        textField()
+        content()
     }
 }
