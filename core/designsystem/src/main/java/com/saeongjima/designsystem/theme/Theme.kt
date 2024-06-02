@@ -53,9 +53,11 @@ fun DanjamTheme(
             insetsController.isAppearanceLightNavigationBars = false
         }
     }
+    val shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(4.dp))
 
     MaterialTheme(
         colorScheme = colorScheme,
+        shapes = shapes,
         typography = Typography,
         content = content,
     )
