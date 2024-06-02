@@ -1,117 +1,208 @@
 package com.saeongjima.signup
 
-import androidx.compose.foundation.Image
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import com.saeongjima.designsystem.component.PhotoSelectGuideBox
+import com.saeongjima.designsystem.component.button.CloseUpIconButton
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.PhotoSourceSelectDialog
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black200
-import com.saeongjima.designsystem.theme.Black300
-import com.saeongjima.designsystem.theme.Black400
-import com.saeongjima.designsystem.theme.Black600
-import com.saeongjima.designsystem.theme.Black800
-import com.saeongjima.designsystem.theme.Black900
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.MainColor
+import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.designsystem.theme.White
+import java.io.File
 
 @Composable
-fun UniversityCertificationScreen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+fun UniversityCertificationRoute(
+    onNextButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+) {
+    val universityCheckImageUri by signUpViewModel.universityCheckImageUri.collectAsStateWithLifecycle()
+
+    UniversityCertificationScreen(
+        imageUri = universityCheckImageUri,
+        onImageTaken = signUpViewModel::updateUniversityCheckImageUri,
+        onNextButtonClick = onNextButtonClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun UniversityCertificationScreen(
+    imageUri: String,
+    onImageTaken: (String) -> Unit,
+    onNextButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var isOpenPhotoGetterSelectDialog by rememberSaveable { mutableStateOf(false) }
+    var isOpenPhotoCloseUpDialog by rememberSaveable { mutableStateOf(false) }
+
+    var selectedImageUri by remember<MutableState<Uri?>> {
+        mutableStateOf(null)
+    }
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            if (uri != null) {
+                selectedImageUri = uri
+                onImageTaken(selectedImageUri.toString())
+            }
+        }
+    )
+
+    val takePictureLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isSuccessful ->
+            if (isSuccessful) {
+                onImageTaken(selectedImageUri.toString())
+            }
+        }
+
+    val context = LocalContext.current
+
+    if (isOpenPhotoGetterSelectDialog) {
+        PhotoSourceSelectDialog(
+            onDismissRequest = { isOpenPhotoGetterSelectDialog = false },
+            onCameraClicked = {
+                val directory = File(context.cacheDir, "images")
+                directory.mkdirs()
+
+                val file = File.createTempFile(
+                    "selected_image",
+                    ".jpg",
+                    directory,
+                )
+
+                val authority = context.packageName + ".fileprovider"
+                selectedImageUri = FileProvider.getUriForFile(context, authority, file)
+                takePictureLauncher.launch(selectedImageUri)
+            },
+            onGalleryClicked = {
+                singlePhotoPickerLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            }
+        )
+    }
+
+    if (isOpenPhotoCloseUpDialog) {
+        FullAsyncImageDialog(
+            uri = Uri.parse(imageUri),
+            contentDescription = "학교인증에 사용할 사진",
+            onDismissRequest = { isOpenPhotoCloseUpDialog = false }
+        )
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Text(
             text = "학교 인증",
             style = MaterialTheme.typography.displayLarge,
             color = Black950,
         )
-        Row(
-            modifier = Modifier
-                .padding(top = 44.dp)
-                .background(Black300, shape = RoundedCornerShape(4.dp))
-                .fillMaxWidth()
-                .padding(8.dp),
-        ) {
-            Icon(
-                painter = painterResource(id = com.saeongjima.designsystem.R.drawable.ic_camera_24),
-                contentDescription = null,
-                tint = Black400,
+
+        PhotoSelectGuideBox(
+            onClick = { isOpenPhotoGetterSelectDialog = true },
+            modifier = Modifier.padding(top = 44.dp),
+            description = "재학 중인 대학교 개인정보 페이지 혹은 학생증(합격증) 사진을 올려주세요",
+        )
+
+        if (imageUri.isNotEmpty()) {
+            ImageBox(
+                uri = Uri.parse(imageUri),
+                onCloseUpClick = { isOpenPhotoCloseUpDialog = true },
+                contentDescription = "학교인증에 사용할 사진",
                 modifier = Modifier
-                    .size(56.dp)
-                    .background(Black200, shape = RoundedCornerShape(4.dp))
-                    .padding(8.dp),
+                    .padding(vertical = 24.dp)
+                    .weight(1f),
             )
-            Column(modifier = Modifier.padding(start = 16.dp)) {
-                Text(
-                    text = "재학 중인 대학교 개인정보 페이지 혹은\n학생증(합격증) 사진을 올려주세요",
-                    style = MaterialTheme.typography.titleLarge.copy(lineHeight = 20.sp),
-                    color = Black800,
-                )
-                Text(
-                    text = "10MB 내로 업로드 바랍니다.",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Black600,
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(vertical = 24.dp)
-        ) {
-            Image(
-                painter = painterResource(id = com.saeongjima.designsystem.R.drawable.logo),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(4.dp)),
-            )
-            IconButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .then(Modifier.size(48.dp))
-                    .align(Alignment.TopEnd),
+            MainButton(
+                text = "다른사진 선택하기",
+                containerColor = MainColor,
+                textColor = White,
             ) {
-                Icon(
-                    painter = painterResource(id = com.saeongjima.designsystem.R.drawable.ic_close_up_24),
-                    contentDescription = "close up",
-                    tint = Black100.copy(alpha = 0.6f),
-                    modifier = Modifier
-                        .then(Modifier.size(32.dp))
-                        .background(Black900.copy(alpha = 0.5f), shape = RoundedCornerShape(4.dp))
-                        .align(Alignment.Center),
-                )
+                isOpenPhotoGetterSelectDialog = true
             }
+        } else {
+            Spacer(modifier = Modifier.weight(1f))
         }
+
         MainButton(
-            text = "다른사진 선택하기",
-            containerColor = MainColor,
-            textColor = White,
-        ) {
-        }
+            text = stringResource(com.saeongjima.designsystem.R.string.main_button_text_next),
+            modifier = Modifier.padding(top = 16.dp, bottom = 28.dp),
+            enabled = imageUri.isNotEmpty(),
+            containerColor = PointColor1,
+            textColor = Black100,
+            onClick = onNextButtonClick,
+        )
+    }
+}
+
+
+@Composable
+private fun ImageBox(
+    uri: Uri?,
+    contentDescription: String?,
+    onCloseUpClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Black200, RoundedCornerShape(4.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        AsyncImage(
+            model = uri,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.clip(RoundedCornerShape(4.dp)),
+        )
+        CloseUpIconButton(
+            onClick = onCloseUpClick,
+            modifier = Modifier
+                .padding(4.dp)
+                .align(Alignment.TopEnd),
+        )
     }
 }
 
@@ -120,11 +211,14 @@ fun UniversityCertificationScreen(modifier: Modifier = Modifier) {
 fun UniversityCertificationScreenPreview() {
     DanjamTheme {
         UniversityCertificationScreen(
+            "",
             modifier = Modifier.padding(
                 top = 40.dp,
                 start = 24.dp,
                 end = 24.dp,
             ),
+            onNextButtonClick = {},
+            onImageTaken = {},
         )
     }
 }
