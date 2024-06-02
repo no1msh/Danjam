@@ -6,7 +6,7 @@ import com.saeongjima.navigation.OnboardingDestination.SignIn
 import com.saeongjima.navigation.OnboardingDestination.SignUp
 import com.saeongjima.navigation.OnboardingDestination.Splash
 import com.saeongjima.signin.SignInScreen
-import com.saeongjima.signup.SignUpScreen
+import com.saeongjima.signup.SignUpRoute
 import com.saeongjima.splash.SplashScreen
 
 enum class OnboardingDestination(val route: String) {
@@ -28,14 +28,10 @@ fun NavGraphBuilder.onboardingNavGraph(
     }
 
     composable(route = SignIn.route) {
-        SignInScreen(
-            onCloseClick = onCloseClick,
-        )
+        SignInScreen(onCloseClick = onCloseClick)
     }
 
     composable(route = SignUp.route) {
-        SignUpScreen(
-            onCloseClick = onCloseClick,
-        )
+        SignUpRoute(onCloseClick = onCloseClick)
     }
 }
