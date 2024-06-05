@@ -8,3 +8,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+dependencies{
+    testImplementation(libs.kotest.junit5)
+    testImplementation(libs.kotest.assertions.core)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

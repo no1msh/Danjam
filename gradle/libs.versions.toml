@@ -22,6 +22,7 @@ kotlinxSerializationJson = "1.5.1"
 data-store = "1.1.0"
 ktlint = "12.1.0"
 coil = "2.6.0"
+kotest = "5.3.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -51,6 +52,8 @@ retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "re
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 data-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "data-store" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+kotest-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest"}
+kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
