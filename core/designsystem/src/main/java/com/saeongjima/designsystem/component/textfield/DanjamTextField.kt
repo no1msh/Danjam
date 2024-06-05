@@ -61,6 +61,7 @@ fun DanjamTextField(
     isSecure: Boolean = false,
     isReadOnly: Boolean = false,
     isEnabled: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
     @DrawableRes leadingIcon: Int? = null,
     hasTrailingButton: Boolean = false,
     trailingButtonText: String = "",
@@ -108,7 +109,7 @@ fun DanjamTextField(
         interactionSource = interactionSource,
         textStyle = MaterialTheme.typography.titleLarge.copy(Black950),
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
+            keyboardType = keyboardType,
             imeAction = ImeAction.Next
         ),
 

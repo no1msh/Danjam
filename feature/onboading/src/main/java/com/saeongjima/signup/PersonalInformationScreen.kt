@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -118,6 +119,7 @@ internal fun PersonalInformationScreen(
             DanjamTextField(
                 value = birthDay,
                 onValueChange = onBirthDayChanged,
+                keyboardType = KeyboardType.Number,
                 hintText = stringResource(R.string.personal_information_birthday_input_box_hint)
             )
         }
@@ -131,6 +133,7 @@ internal fun PersonalInformationScreen(
                 value = email,
                 onValueChange = onEmailChanged,
                 hintText = stringResource(R.string.personal_information_email_input_box_hint),
+                keyboardType = KeyboardType.Email,
                 hasTrailingButton = true,
                 trailingButtonText = stringResource(R.string.personal_information_email_input_box_trailing_button_text),
                 onTrailingButtonClick = onEmailValidateButtonClick,
