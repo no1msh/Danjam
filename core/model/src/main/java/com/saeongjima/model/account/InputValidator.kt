@@ -4,6 +4,6 @@ sealed interface InputValidator {
     val value: String
 }
 
-interface NotSupportedLength : InputValidator {
+interface SupportedLengthValidator : InputValidator {
     fun isKeepRange(): Boolean
 }

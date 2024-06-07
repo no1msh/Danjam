@@ -1,7 +1,7 @@
 package com.saeongjima.model.account
 
 @JvmInline
-value class Id(override val value: String) : NotSupportedLength {
+value class Id(override val value: String) : SupportedLengthValidator {
 
     override fun isKeepRange(): Boolean {
         return value.length in MIN_LENGTH..MAX_LENGTH
