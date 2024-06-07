@@ -14,3 +14,10 @@ interface EnglishContainValidator : InputValidator {
         return regex.containsMatchIn(value)
     }
 }
+
+interface NumberContainValidator : InputValidator {
+    fun hasNumber(): Boolean {
+        val regex = Regex("[0-9]")
+        return regex.containsMatchIn(value)
+    }
+}
