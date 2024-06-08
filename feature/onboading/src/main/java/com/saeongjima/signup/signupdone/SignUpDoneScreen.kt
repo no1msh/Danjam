@@ -159,8 +159,7 @@ fun SignUpDoneScreen(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data(imageUri)
-                    .error(R.drawable.ic_camera_24)
+                    .data(imageUri.ifEmpty { R.drawable.ic_camera_24 })
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -175,6 +174,7 @@ fun SignUpDoneScreen(
                         }
                     }
                     .size(200.dp)
+                    .padding(if (imageUri.isEmpty()) 68.dp else 0.dp)
                     .align(Alignment.CenterHorizontally),
             )
 
