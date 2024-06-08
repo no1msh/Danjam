@@ -1,4 +1,4 @@
-package com.saeongjima.signup
+package com.saeongjima.signup.personalinformation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -45,40 +45,28 @@ fun PersonalInformationRoute(
     viewModel: PersonalInformationViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val isMale by viewModel.isMale.collectAsStateWithLifecycle()
-    val isAllConditionsMet by viewModel.isAllConditionsMet.collectAsStateWithLifecycle()
 
     PersonalInformationScreen(
         uiState = uiState,
-        name = viewModel.name,
         onNameChanged = viewModel::updateName,
-        isMale = isMale,
         onGenderChanged = viewModel::updateGender,
-        birthDay = viewModel.birthDay,
         onBirthDayChanged = viewModel::updateBirthDay,
-        email = viewModel.email,
         onEmailChanged = viewModel::updateEmail,
         onEmailValidateButtonClick = viewModel::checkValidationEmail,
         modifier = modifier,
-        isAllConditionsMet = isAllConditionsMet,
         onNextButtonClick = onNextButtonClick,
     )
 }
 
 @Composable
 internal fun PersonalInformationScreen(
-    uiState: PersonalInformationUiState,
-    name: String,
-    onNameChanged: (String) -> Unit,
-    isMale: Boolean,
-    onGenderChanged: (Boolean) -> Unit,
-    birthDay: String,
-    onBirthDayChanged: (String) -> Unit,
-    email: String,
-    onEmailChanged: (String) -> Unit,
-    onEmailValidateButtonClick: () -> Boolean,
     modifier: Modifier = Modifier,
-    isAllConditionsMet: Boolean,
+    uiState: PersonalInformationUiState,
+    onNameChanged: (String) -> Unit,
+    onGenderChanged: (Boolean) -> Unit,
+    onBirthDayChanged: (String) -> Unit,
+    onEmailChanged: (String) -> Unit,
+    onEmailValidateButtonClick: () -> Unit,
     onNextButtonClick: (PersonalInformationUiState) -> Unit,
 ) {
     Column(
@@ -95,7 +83,7 @@ internal fun PersonalInformationScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             DanjamTextField(
-                value = name,
+                value = uiState.name,
                 onValueChange = onNameChanged,
                 hintText = stringResource(R.string.personal_information_name_input_box_hint)
             )
@@ -107,7 +95,7 @@ internal fun PersonalInformationScreen(
             modifier = Modifier.padding(top = 32.dp),
         )
         GenderSelector(
-            isMale = isMale,
+            isMale = uiState.isMale,
             onGenderChanged = onGenderChanged,
             modifier = Modifier.padding(top = 12.dp),
         )
@@ -117,7 +105,7 @@ internal fun PersonalInformationScreen(
             modifier = Modifier.fillMaxWidth(),
         ) {
             DanjamTextField(
-                value = birthDay,
+                value = uiState.birthDay,
                 onValueChange = onBirthDayChanged,
                 keyboardType = KeyboardType.Number,
                 hintText = stringResource(R.string.personal_information_birthday_input_box_hint)
@@ -130,20 +118,20 @@ internal fun PersonalInformationScreen(
                 .padding(top = 32.dp),
         ) {
             DanjamTextField(
-                value = email,
+                value = uiState.email,
                 onValueChange = onEmailChanged,
                 hintText = stringResource(R.string.personal_information_email_input_box_hint),
                 keyboardType = KeyboardType.Email,
                 hasTrailingButton = true,
                 trailingButtonText = stringResource(R.string.personal_information_email_input_box_trailing_button_text),
-                onTrailingButtonClick = onEmailValidateButtonClick,
+                onTrailingButtonClick = { onEmailValidateButtonClick() },
             )
         }
         Spacer(modifier = Modifier.weight(1f))
         MainButton(
             text = stringResource(id = com.saeongjima.designsystem.R.string.main_button_text_next),
             modifier = Modifier.padding(bottom = 28.dp),
-            enabled = isAllConditionsMet,
+            enabled = uiState.hasMetAllConditions(),
             containerColor = PointColor1,
             textColor = Black100,
             onClick = { onNextButtonClick(uiState) }
@@ -246,16 +234,11 @@ private fun PersonalInformationScreenPreview() {
         PersonalInformationScreen(
             onNextButtonClick = {},
             uiState = PersonalInformationUiState(),
-            name = "",
             onNameChanged = {},
-            isMale = false,
             onGenderChanged = {},
-            birthDay = "",
             onBirthDayChanged = {},
-            email = "",
             onEmailChanged = {},
-            isAllConditionsMet = true,
-            onEmailValidateButtonClick = { true },
+            onEmailValidateButtonClick = {},
         )
     }
 }
