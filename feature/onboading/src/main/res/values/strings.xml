@@ -58,4 +58,26 @@
     <string name="personal_information_certification_close_full_image">이미지 전체보기 종료</string>
     <string name="personal_information_certification_check_again_id_card_number_covered">주민등록번호가\n잘 가려졌는지 확인하셨나요?</string>
     <string name="personal_information_certification_check_again_sure">확인했어요!</string>
+
+    <!-- SignInInformationScreen -->
+    <string name="sign_in_information_screen_title">로그인 정보</string>
+    <string name="sign_in_information_screen_id_input_box_title">아이디</string>
+    <string name="sign_in_information_screen_id_input_box_description">로그인 시 활용되는 아이디에요</string>
+    <string name="sign_in_information_screen_id_input_box_example">EX) honggildong</string>
+    <string name="sign_in_information_screen_duplication_check">중복확인</string>
+    <string name="sign_in_information_screen_duplication_check_done">확인완료</string>
+    <string name="sign_in_information_screen_id_input_validator_length_limit">2~10자 이내</string>
+    <string name="sign_in_information_screen_nickname_input_box_title">닉네임</string>
+    <string name="sign_in_information_screen_nickname_input_box_description">커뮤니티 활동에 사용되는 닉네임이에요</string>
+    <string name="sign_in_information_screen_nickname_input_box_example">EX) honggildong</string>
+    <string name="sign_in_information_screen_nickname_input_validator_length_limit">2~10자 이내</string>
+    <string name="sign_in_information_screen_password_input_box_title">비밀번호</string>
+    <string name="sign_in_information_screen_password_input_box_example">EX) danjam2468</string>
+    <string name="sign_in_information_screen_password_input_validator_contain_alphabet">영문포함</string>
+    <string name="sign_in_information_screen_password_input_validator_contain_number">숫자포함</string>
+    <string name="sign_in_information_screen_password_input_validator_length_limit">8~20자 이내</string>
+    <string name="sign_in_information_screen_password_repeat_input_box_title">비밀번호 확인</string>
+    <string name="sign_in_information_screen_password_repeat_input_box_description">비밀번호를 한 번 더 입력해주세요</string>
+    <string name="sign_in_information_screen_password_repeat_input_validator_same">일치</string>
+
 </resources>
