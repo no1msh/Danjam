@@ -106,25 +106,7 @@ fun DepartmentSelectScreen(
             val items = departments.filter { it.department.name.contains(input) }
 
             if (items.isEmpty()) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                ) {
-                    Text(
-                        text = "검색 내용이 없어요.\n다른 학과를 검색해주세요!",
-                        color = Black800,
-                        style = MaterialTheme.typography.titleLarge.copy(lineHeight = 24.sp),
-                        textAlign = TextAlign.Center,
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.img_danijamidridada),
-                        contentDescription = null,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
+                NotFoundScreen(modifier = Modifier.weight(1f))
             } else {
                 LazyColumn(
                     modifier = Modifier
@@ -155,6 +137,28 @@ fun DepartmentSelectScreen(
                 onDismissRequest()
             }
         }
+    }
+}
+
+@Composable
+private fun NotFoundScreen(modifier: Modifier = Modifier) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = "검색 내용이 없어요.\n다른 학과를 검색해주세요!",
+            color = Black800,
+            style = MaterialTheme.typography.titleLarge.copy(lineHeight = 24.sp),
+            textAlign = TextAlign.Center,
+        )
+        Image(
+            painter = painterResource(id = R.drawable.img_danijamidridada),
+            contentDescription = null,
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }
 
