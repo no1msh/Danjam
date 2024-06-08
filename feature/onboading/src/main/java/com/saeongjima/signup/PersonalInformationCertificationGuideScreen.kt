@@ -49,57 +49,61 @@ internal fun PersonalInformationCertificationGuideScreen(
     onNextButtonClick: () -> Unit,
 ) {
     val scrollState: ScrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .verticalScroll(scrollState)
-            .verticalScrollBar(scrollState, isAlwaysVisible = true)
-    ) {
-        Text(
-            text = stringResource(R.string.personal_information_certification_guide_title),
-            style = MaterialTheme.typography.displayLarge,
-            color = Black950,
-        )
-        Text(
-            text = stringResource(R.string.personal_information_certification_guide_description),
-            style = MaterialTheme.typography.titleMedium.copy(lineHeight = 24.sp),
-            color = Black600,
-            modifier = Modifier.padding(top = 8.dp),
-        )
-        Text(
-            text = stringResource(R.string.personal_information_certification_guide_guide_title),
-            style = MaterialTheme.typography.titleLarge,
-            color = Black800,
-            modifier = Modifier.padding(top = 24.dp)
-        )
+    Column(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(scrollState)
+                .verticalScrollBar(scrollState, isAlwaysVisible = true)
 
-        Image(
-            painter = painterResource(id = com.saeongjima.designsystem.R.drawable.img_id_card_example),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            contentScale = ContentScale.Crop
-        )
-        Text(
-            text = stringResource(R.string.personal_information_certification_guide_guide),
-            style = MaterialTheme.typography.titleLarge,
-            color = PointColor1,
-            modifier = Modifier.padding(top = 4.dp)
-        )
-        Text(
-            text = stringResource(R.string.personal_information_certification_guide_caution),
-            style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp),
-            color = Black950,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-        CautionBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 44.dp)
-        )
+        ) {
+            Text(
+                text = stringResource(R.string.personal_information_certification_guide_title),
+                style = MaterialTheme.typography.displayLarge,
+                color = Black950,
+            )
+            Text(
+                text = stringResource(R.string.personal_information_certification_guide_description),
+                style = MaterialTheme.typography.titleMedium.copy(lineHeight = 24.sp),
+                color = Black600,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Text(
+                text = stringResource(R.string.personal_information_certification_guide_guide_title),
+                style = MaterialTheme.typography.titleLarge,
+                color = Black800,
+                modifier = Modifier.padding(top = 24.dp)
+            )
+
+            Image(
+                painter = painterResource(id = com.saeongjima.designsystem.R.drawable.img_id_card_example),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = stringResource(R.string.personal_information_certification_guide_guide),
+                style = MaterialTheme.typography.titleLarge,
+                color = PointColor1,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            Text(
+                text = stringResource(R.string.personal_information_certification_guide_caution),
+                style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp),
+                color = Black950,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            CautionBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 44.dp)
+            )
+        }
         MainButton(
             text = stringResource(R.string.personal_information_certification_guide_next_button_text),
-            modifier = Modifier.padding(top = 48.dp, bottom = 28.dp),
+            modifier = Modifier.padding(top = 24.dp, bottom = 28.dp),
             enabled = true,
             containerColor = MainColor,
             textColor = White,
