@@ -1,12 +1,14 @@
 package com.saeongjima.signup.signininformation
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +30,7 @@ import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.component.textfield.SecureTextField
+import com.saeongjima.designsystem.extension.modifier.verticalScrollBar
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black950
@@ -88,157 +91,172 @@ fun SignInInformationScreen(
     onNicknameDuplicationCheck: () -> Unit,
     onNextButtonClick: (SignInInformationUiState) -> Unit,
 ) {
+    val scrollState: ScrollState = rememberScrollState()
+
     Column(modifier = modifier) {
-        Text(
-            text = stringResource(sign_in_information_screen_title),
-            color = Black950,
-            style = MaterialTheme.typography.displayLarge,
-        )
-        InputBox(
-            title = stringResource(sign_in_information_screen_id_input_box_title),
-            description = stringResource(sign_in_information_screen_id_input_box_description),
-            modifier = Modifier.padding(top = 44.dp),
+
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .verticalScrollBar(scrollState, isAlwaysVisible = true)
+                .weight(1f)
         ) {
-            DanjamTextField(
-                value = uiState.id.value,
-                onValueChange = onIdChanged,
-                hintText = stringResource(sign_in_information_screen_id_input_box_example),
-                hasTrailingButton = true,
-                isError = uiState.isIdDuplication == DuplicateState.Duplicated,
-                trailingButtonText = when (uiState.isIdDuplication) {
-                    DuplicateState.NotChecked -> stringResource(
-                        sign_in_information_screen_duplication_check
-                    )
-
-                    DuplicateState.Duplicated -> stringResource(
-                        sign_in_information_screen_duplication_check
-                    )
-
-                    DuplicateState.NotDuplicated -> stringResource(
-                        sign_in_information_screen_duplication_check_done
-                    )
-                },
-                onTrailingButtonClick = onIdDuplicationCheck
+            Text(
+                text = stringResource(sign_in_information_screen_title),
+                color = Black950,
+                style = MaterialTheme.typography.displayLarge,
             )
-        }
-        InputValidator(
-            label = stringResource(sign_in_information_screen_id_input_validator_length_limit),
-            validateState = when {
-                uiState.id.value.isEmpty() -> ValidateState.ValidateYet
-                uiState.id.isKeepRange() -> ValidateState.ValidateSuccess
-                else -> ValidateState.ValidateFailure
-            },
-            modifier = Modifier.padding(top = 12.dp),
-        )
+            InputBox(
+                title = stringResource(sign_in_information_screen_id_input_box_title),
+                description = stringResource(sign_in_information_screen_id_input_box_description),
+                modifier = Modifier.padding(top = 44.dp),
+            ) {
+                DanjamTextField(
+                    value = uiState.id.value,
+                    onValueChange = onIdChanged,
+                    hintText = stringResource(sign_in_information_screen_id_input_box_example),
+                    hasTrailingButton = true,
+                    isError = uiState.isIdDuplication == DuplicateState.Duplicated,
+                    trailingButtonText = when (uiState.isIdDuplication) {
+                        DuplicateState.NotChecked -> stringResource(
+                            sign_in_information_screen_duplication_check
+                        )
 
-        InputBox(
-            title = stringResource(sign_in_information_screen_nickname_input_box_title),
-            description = stringResource(sign_in_information_screen_nickname_input_box_description),
-            modifier = Modifier.padding(top = 32.dp),
-        ) {
-            DanjamTextField(
-                value = uiState.nickname.value,
-                onValueChange = onNicknameChanged,
-                hintText = stringResource(com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_example),
-                hasTrailingButton = true,
-                isError = uiState.isNicknameDuplication == DuplicateState.Duplicated,
-                trailingButtonText = when (uiState.isNicknameDuplication) {
-                    DuplicateState.NotChecked -> stringResource(
-                        sign_in_information_screen_duplication_check
-                    )
+                        DuplicateState.Duplicated -> stringResource(
+                            sign_in_information_screen_duplication_check
+                        )
 
-                    DuplicateState.Duplicated -> stringResource(
-                        sign_in_information_screen_duplication_check
-                    )
-
-                    DuplicateState.NotDuplicated -> stringResource(
-                        sign_in_information_screen_duplication_check_done
-                    )
-                },
-                onTrailingButtonClick = onNicknameDuplicationCheck
-            )
-        }
-        InputValidator(
-            label = stringResource(sign_in_information_screen_nickname_input_validator_length_limit),
-            validateState = when {
-                uiState.nickname.value.isEmpty() -> ValidateState.ValidateYet
-                uiState.nickname.isKeepRange() -> ValidateState.ValidateSuccess
-                else -> ValidateState.ValidateFailure
-            },
-            modifier = Modifier.padding(top = 12.dp),
-        )
-
-        InputBox(
-            title = stringResource(sign_in_information_screen_password_input_box_title),
-            modifier = Modifier.padding(top = 32.dp),
-        ) {
-            SecureTextField(
-                value = uiState.password.value,
-                onValueChange = onPasswordChanged,
-                hintText = stringResource(sign_in_information_screen_password_input_box_example),
-            )
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = 12.dp),
-        ) {
-            InputValidator(
-                label = stringResource(
-                    sign_in_information_screen_password_input_validator_contain_alphabet
-                ),
-                validateState = when {
-                    uiState.password.value.isEmpty() -> ValidateState.ValidateYet
-                    uiState.password.hasAlphabet() -> ValidateState.ValidateSuccess
-                    else -> ValidateState.ValidateFailure
-                },
-            )
-            InputValidator(
-                label = stringResource(
-                    sign_in_information_screen_password_input_validator_contain_number
-                ),
-                validateState = when {
-                    uiState.password.value.isEmpty() -> ValidateState.ValidateYet
-                    uiState.password.hasNumber() -> ValidateState.ValidateSuccess
-                    else -> ValidateState.ValidateFailure
-                },
-                modifier = Modifier.padding(start = 16.dp),
-            )
-            InputValidator(
-                label = stringResource(id = sign_in_information_screen_password_input_validator_length_limit),
-                validateState = when {
-                    uiState.password.value.isEmpty() -> ValidateState.ValidateYet
-                    uiState.password.isKeepRange() -> ValidateState.ValidateSuccess
-                    else -> ValidateState.ValidateFailure
-                },
-                modifier = Modifier.padding(start = 16.dp),
-            )
-        }
-
-        InputBox(
-            title = stringResource(sign_in_information_screen_password_repeat_input_box_title),
-            modifier = Modifier.padding(top = 32.dp),
-        ) {
-            SecureTextField(
-                value = uiState.passwordRepeat.value,
-                onValueChange = onPasswordRepeatChanged,
-                hintText = stringResource(
-                    sign_in_information_screen_password_repeat_input_box_description
+                        DuplicateState.NotDuplicated -> stringResource(
+                            sign_in_information_screen_duplication_check_done
+                        )
+                    },
+                    onTrailingButtonClick = onIdDuplicationCheck
                 )
+            }
+            InputValidator(
+                label = stringResource(sign_in_information_screen_id_input_validator_length_limit),
+                validateState = when {
+                    uiState.id.value.isEmpty() -> ValidateState.ValidateYet
+                    uiState.id.isKeepRange() -> ValidateState.ValidateSuccess
+                    else -> ValidateState.ValidateFailure
+                },
+                modifier = Modifier.padding(top = 12.dp),
+            )
+
+            InputBox(
+                title = stringResource(sign_in_information_screen_nickname_input_box_title),
+                description = stringResource(
+                    sign_in_information_screen_nickname_input_box_description
+                ),
+                modifier = Modifier.padding(top = 32.dp),
+            ) {
+                DanjamTextField(
+                    value = uiState.nickname.value,
+                    onValueChange = onNicknameChanged,
+                    hintText = stringResource(com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_example),
+                    hasTrailingButton = true,
+                    isError = uiState.isNicknameDuplication == DuplicateState.Duplicated,
+                    trailingButtonText = when (uiState.isNicknameDuplication) {
+                        DuplicateState.NotChecked -> stringResource(
+                            sign_in_information_screen_duplication_check
+                        )
+
+                        DuplicateState.Duplicated -> stringResource(
+                            sign_in_information_screen_duplication_check
+                        )
+
+                        DuplicateState.NotDuplicated -> stringResource(
+                            sign_in_information_screen_duplication_check_done
+                        )
+                    },
+                    onTrailingButtonClick = onNicknameDuplicationCheck
+                )
+            }
+            InputValidator(
+                label = stringResource(
+                    sign_in_information_screen_nickname_input_validator_length_limit
+                ),
+                validateState = when {
+                    uiState.nickname.value.isEmpty() -> ValidateState.ValidateYet
+                    uiState.nickname.isKeepRange() -> ValidateState.ValidateSuccess
+                    else -> ValidateState.ValidateFailure
+                },
+                modifier = Modifier.padding(top = 12.dp),
+            )
+
+            InputBox(
+                title = stringResource(sign_in_information_screen_password_input_box_title),
+                modifier = Modifier.padding(top = 32.dp),
+            ) {
+                SecureTextField(
+                    value = uiState.password.value,
+                    onValueChange = onPasswordChanged,
+                    hintText = stringResource(sign_in_information_screen_password_input_box_example),
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 12.dp),
+            ) {
+                InputValidator(
+                    label = stringResource(
+                        sign_in_information_screen_password_input_validator_contain_alphabet
+                    ),
+                    validateState = when {
+                        uiState.password.value.isEmpty() -> ValidateState.ValidateYet
+                        uiState.password.hasAlphabet() -> ValidateState.ValidateSuccess
+                        else -> ValidateState.ValidateFailure
+                    },
+                )
+                InputValidator(
+                    label = stringResource(
+                        sign_in_information_screen_password_input_validator_contain_number
+                    ),
+                    validateState = when {
+                        uiState.password.value.isEmpty() -> ValidateState.ValidateYet
+                        uiState.password.hasNumber() -> ValidateState.ValidateSuccess
+                        else -> ValidateState.ValidateFailure
+                    },
+                    modifier = Modifier.padding(start = 16.dp),
+                )
+                InputValidator(
+                    label = stringResource(id = sign_in_information_screen_password_input_validator_length_limit),
+                    validateState = when {
+                        uiState.password.value.isEmpty() -> ValidateState.ValidateYet
+                        uiState.password.isKeepRange() -> ValidateState.ValidateSuccess
+                        else -> ValidateState.ValidateFailure
+                    },
+                    modifier = Modifier.padding(start = 16.dp),
+                )
+            }
+
+            InputBox(
+                title = stringResource(sign_in_information_screen_password_repeat_input_box_title),
+                modifier = Modifier.padding(top = 32.dp),
+            ) {
+                SecureTextField(
+                    value = uiState.passwordRepeat.value,
+                    onValueChange = onPasswordRepeatChanged,
+                    hintText = stringResource(
+                        sign_in_information_screen_password_repeat_input_box_description
+                    )
+                )
+            }
+            InputValidator(
+                label = stringResource(
+                    sign_in_information_screen_password_repeat_input_validator_same
+                ),
+                validateState = when {
+                    uiState.passwordRepeat.value.isEmpty() -> ValidateState.ValidateYet
+                    uiState.passwordRepeat == uiState.password -> ValidateState.ValidateSuccess
+                    else -> ValidateState.ValidateFailure
+                },
+                modifier = Modifier.padding(top = 12.dp),
             )
         }
-        InputValidator(
-            label = stringResource(sign_in_information_screen_password_repeat_input_validator_same),
-            validateState = when {
-                uiState.passwordRepeat.value.isEmpty() -> ValidateState.ValidateYet
-                uiState.passwordRepeat == uiState.password -> ValidateState.ValidateSuccess
-                else -> ValidateState.ValidateFailure
-            },
-            modifier = Modifier.padding(top = 12.dp),
-        )
-        Spacer(modifier = Modifier.weight(1f))
         MainButton(
             text = stringResource(id = main_button_text_next),
-            modifier = Modifier.padding(bottom = 28.dp),
+            modifier = Modifier.padding(top = 24.dp, bottom = 28.dp),
             enabled = uiState.hasMetAllConditions(),
             containerColor = PointColor1,
             textColor = Black100,
