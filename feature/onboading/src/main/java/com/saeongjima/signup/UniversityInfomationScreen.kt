@@ -38,6 +38,7 @@ import com.saeongjima.login.R.string.university_information_screen_university_in
 import com.saeongjima.model.Department
 import com.saeongjima.signup.departmentselect.DepartmentItemUiState
 import com.saeongjima.signup.departmentselect.DepartmentSelectScreen
+import com.saeongjima.signup.universityinformation.UniversityInformationUiState
 
 @Composable
 fun UniversityInformationRoute(
@@ -45,40 +46,24 @@ fun UniversityInformationRoute(
     viewModel: SignUpViewModel = hiltViewModel(),
     onNextButtonClick: () -> Unit,
 ) {
-    val entranceYears by viewModel.entranceYear.collectAsStateWithLifecycle()
-    val universities by viewModel.universities.collectAsStateWithLifecycle()
-    val departments by viewModel.departments.collectAsStateWithLifecycle()
-
-    val userEntranceYear by viewModel.userEntranceYear.collectAsStateWithLifecycle()
-    val userUniversity by viewModel.userUniversity.collectAsStateWithLifecycle()
-    val userDepartment by viewModel.userDepartment.collectAsStateWithLifecycle()
+    val uiState by viewModel.universityInformationUiState.collectAsStateWithLifecycle()
 
     UniversityInformationScreen(
         modifier = modifier,
-        entranceYears = entranceYears,
-        universities = universities,
-        departments = departments,
-        userEntranceYear = userEntranceYear,
+        uiState = uiState,
         onUserEntranceYearChanged = viewModel::updateUserEntranceYear,
-        userUniversity = userUniversity,
         onUserUniversityChanged = viewModel::updateUserUniversity,
-        userDepartment = userDepartment,
         onUserDepartmentChanged = viewModel::updateUserDepartment,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
 @Composable
 fun UniversityInformationScreen(
     modifier: Modifier = Modifier,
-    entranceYears: List<String>,
-    universities: List<String>,
-    departments: List<String>,
-    userEntranceYear: String,
+    uiState: UniversityInformationUiState,
     onUserEntranceYearChanged: (String) -> Unit,
-    userUniversity: String,
     onUserUniversityChanged: (String) -> Unit,
-    userDepartment: String,
     onUserDepartmentChanged: (String) -> Unit,
     onNextButtonClick: () -> Unit,
 ) {
@@ -107,9 +92,9 @@ fun UniversityInformationScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             DanjamExposedDropDownMenu(
-                options = entranceYears,
+                options = uiState.entranceYears,
                 modifier = Modifier.fillMaxWidth(),
-                initialValue = userEntranceYear,
+                initialValue = uiState.userEntranceYear,
                 hintText = stringResource(
                     university_information_screen_entrance_year_input_box_example
                 ),
@@ -122,9 +107,9 @@ fun UniversityInformationScreen(
             modifier = Modifier.fillMaxWidth(),
         ) {
             DanjamExposedDropDownMenu(
-                options = universities,
+                options = uiState.universities,
                 modifier = Modifier.fillMaxWidth(),
-                initialValue = userUniversity,
+                initialValue = uiState.userUniversity,
                 hintText = stringResource(university_information_screen_university_input_box_example),
                 onValueChanged = onUserUniversityChanged,
             )
@@ -136,7 +121,7 @@ fun UniversityInformationScreen(
                 .padding(top = 32.dp),
         ) {
             DanjamTextField(
-                value = userDepartment,
+                value = uiState.userDepartment,
                 onValueChange = {},
                 hintText = stringResource(university_information_screen_department_input_box_example),
                 isReadOnly = true,
@@ -152,7 +137,7 @@ fun UniversityInformationScreen(
         MainButton(
             text = stringResource(id = R.string.main_button_text_next),
             modifier = Modifier.padding(bottom = 28.dp),
-            enabled = userEntranceYear.isNotBlank() && userUniversity.isNotBlank() && userDepartment.isNotBlank(),
+            enabled = uiState.hasMetAllConditions(),
             containerColor = PointColor1,
             textColor = Black100,
             onClick = { onNextButtonClick() }
@@ -165,14 +150,16 @@ fun UniversityInformationScreen(
 private fun UniversityInformationScreenPreview() {
     DanjamTheme {
         UniversityInformationScreen(
-            entranceYears = listOf("2024", "2023"),
-            universities = listOf("홍익대, 고려대"),
-            departments = listOf("컴퓨터 공학과", "패션 디자인 학과"),
-            userUniversity = "고려대",
+            uiState = UniversityInformationUiState(
+                entranceYears = listOf("2024", "2023"),
+                universities = listOf("홍익대, 고려대"),
+                departments = listOf("컴퓨터 공학과", "패션 디자인 학과"),
+                userUniversity = "고려대",
+                userEntranceYear = "2018",
+                userDepartment = "컴퓨터 공학",
+            ),
             onUserUniversityChanged = {},
-            userEntranceYear = "2018",
             onUserEntranceYearChanged = {},
-            userDepartment = "컴퓨터 공학",
             onUserDepartmentChanged = {},
             onNextButtonClick = {}
         )

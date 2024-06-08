@@ -3,10 +3,12 @@ package com.saeongjima.signup
 import androidx.lifecycle.ViewModel
 import com.saeongjima.signup.personalinformation.PersonalInformationUiState
 import com.saeongjima.signup.signininformation.SignInInformationUiState
+import com.saeongjima.signup.universityinformation.UniversityInformationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -22,6 +24,17 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     val signInInformationUiState: StateFlow<SignInInformationUiState> =
         _signInInformationUiState.asStateFlow()
 
+    private val _universityInformationUiState: MutableStateFlow<UniversityInformationUiState> =
+        MutableStateFlow(
+            UniversityInformationUiState(
+                entranceYears = List(MAX_ENTRANCE_YEARS) { "${LocalDateTime.now().year - it}" },
+                universities = listOf("고려대학교 세종캠퍼스", "홍익대학교 세종캠퍼스"),  /*TODO: 서비스 대학 추가시 변경*/
+                departments = listOf("게임소프트웨어전공", "게임그래픽디자인전공") // TODO: 서버 연결 시 변경
+            )
+        )
+    val universityInformationUiState: StateFlow<UniversityInformationUiState> =
+        _universityInformationUiState.asStateFlow()
+
     private val _idCardImageUri: MutableStateFlow<String> = MutableStateFlow("")
     val idCardImageUri: StateFlow<String> = _idCardImageUri.asStateFlow()
 
@@ -29,36 +42,22 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     val universityCheckImageUri: StateFlow<String> = _universityCheckImageUri.asStateFlow()
 
 
-    private val _entranceYear: MutableStateFlow<List<String>> = MutableStateFlow(
-        List(MAX_ENTRANCE_YEARS) { "${LocalDateTime.now().year - it}" }
-    )
-    val entranceYear: StateFlow<List<String>> = _entranceYear.asStateFlow()
-    private val _universities: MutableStateFlow<List<String>> = MutableStateFlow(
-        listOf("고려대학교 세종캠퍼스", "홍익대학교 세종캠퍼스") // TODO: 서비스 대학 추가시 변경
-    )
-    val universities: StateFlow<List<String>> = _universities.asStateFlow()
-    private val _departments: MutableStateFlow<List<String>> = MutableStateFlow(
-        listOf("게임소프트웨어전공", "게임그래픽디자인전공") // TODO: 서버 연결 시 변경
-    )
-    val departments: StateFlow<List<String>> = _departments.asStateFlow()
-
-    private val _userEntranceYear: MutableStateFlow<String> = MutableStateFlow("")
-    val userEntranceYear: StateFlow<String> = _userEntranceYear.asStateFlow()
-    private val _userUniversity: MutableStateFlow<String> = MutableStateFlow("")
-    val userUniversity: StateFlow<String> = _userUniversity.asStateFlow()
-    private val _userDepartment: MutableStateFlow<String> = MutableStateFlow("")
-    val userDepartment: StateFlow<String> = _userDepartment.asStateFlow()
-
     fun updateUserEntranceYear(value: String) {
-        _userEntranceYear.value = value
+        _universityInformationUiState.update {
+            it.copy(userEntranceYear = value)
+        }
     }
 
     fun updateUserUniversity(value: String) {
-        _userUniversity.value = value
+        _universityInformationUiState.update {
+            it.copy(userUniversity = value)
+        }
     }
 
     fun updateUserDepartment(value: String) {
-        _userDepartment.value = value
+        _universityInformationUiState.update {
+            it.copy(userDepartment = value)
+        }
     }
 
     fun updateIdCardImageUri(value: String) {
@@ -75,13 +74,6 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     fun updateSignInInformation(signInInformationUiState: SignInInformationUiState) {
         _signInInformationUiState.value = signInInformationUiState
-    }
-
-    fun fetchDepartments(university: String) { // TODO: 서버 연결 시 변경
-        _departments.value = listOf(
-            "게임소프트웨어전공",
-            "게임그래픽디자인전공",
-        )
     }
 
     companion object {
