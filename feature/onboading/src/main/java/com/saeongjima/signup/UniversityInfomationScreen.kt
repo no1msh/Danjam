@@ -28,6 +28,13 @@ import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.designsystem.theme.White
+import com.saeongjima.login.R.string.university_information_screen_department_input_box_example
+import com.saeongjima.login.R.string.university_information_screen_department_input_box_title
+import com.saeongjima.login.R.string.university_information_screen_entrance_year_input_box_example
+import com.saeongjima.login.R.string.university_information_screen_entrance_year_input_box_title
+import com.saeongjima.login.R.string.university_information_screen_title
+import com.saeongjima.login.R.string.university_information_screen_university_input_box_example
+import com.saeongjima.login.R.string.university_information_screen_university_input_box_title
 import com.saeongjima.model.Department
 import com.saeongjima.signup.departmentselect.DepartmentItemUiState
 import com.saeongjima.signup.departmentselect.DepartmentSelectScreen
@@ -90,35 +97,40 @@ fun UniversityInformationScreen(
 
     Column(modifier = modifier) {
         Text(
-            text = "학교 정보",
+            text = stringResource(university_information_screen_title),
             style = MaterialTheme.typography.displayLarge,
             color = White,
         )
         Spacer(modifier = Modifier.height(44.dp))
-        InputBox(title = "입학년도", modifier = Modifier.fillMaxWidth()) {
+        InputBox(
+            title = stringResource(university_information_screen_entrance_year_input_box_title),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             DanjamExposedDropDownMenu(
                 options = entranceYears,
                 modifier = Modifier.fillMaxWidth(),
                 initialValue = userEntranceYear,
-                hintText = "EX) 2024",
+                hintText = stringResource(
+                    university_information_screen_entrance_year_input_box_example
+                ),
                 onValueChanged = onUserEntranceYearChanged,
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         InputBox(
-            title = "학교",
+            title = stringResource(university_information_screen_university_input_box_title),
             modifier = Modifier.fillMaxWidth(),
         ) {
             DanjamExposedDropDownMenu(
                 options = universities,
                 modifier = Modifier.fillMaxWidth(),
                 initialValue = userUniversity,
-                hintText = "EX) 단잠대학교",
+                hintText = stringResource(university_information_screen_university_input_box_example),
                 onValueChanged = onUserUniversityChanged,
             )
         }
         InputBox(
-            title = "학과",
+            title = stringResource(university_information_screen_department_input_box_title),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -126,7 +138,7 @@ fun UniversityInformationScreen(
             DanjamTextField(
                 value = userDepartment,
                 onValueChange = {},
-                hintText = "EX) 단잠과",
+                hintText = stringResource(university_information_screen_department_input_box_example),
                 isReadOnly = true,
                 isEnabled = false,
                 modifier = Modifier.clickable {

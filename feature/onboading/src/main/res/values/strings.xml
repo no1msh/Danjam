@@ -80,6 +80,15 @@
     <string name="sign_in_information_screen_password_repeat_input_box_description">비밀번호를 한 번 더 입력해주세요</string>
     <string name="sign_in_information_screen_password_repeat_input_validator_same">일치</string>
 
+    <!-- UniversityInformationScreen -->
+    <string name="university_information_screen_title">학교 정보</string>
+    <string name="university_information_screen_entrance_year_input_box_title">입학년도</string>
+    <string name="university_information_screen_entrance_year_input_box_example">EX) 2024</string>
+    <string name="university_information_screen_university_input_box_title">학교</string>
+    <string name="university_information_screen_university_input_box_example">EX) 단잠대학교</string>
+    <string name="university_information_screen_department_input_box_title">학과</string>
+    <string name="university_information_screen_department_input_box_example">EX) 단잠과</string>
+
     <!-- DepartmentSelectScreen -->
     <string name="department_select_screen_title">학과 선택</string>
     <string name="department_select_screen_department_search_title">학과 검색</string>
