@@ -46,6 +46,7 @@ import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.designsystem.theme.White
+import com.saeongjima.login.R
 import java.io.File
 
 @Composable
@@ -124,7 +125,7 @@ fun UniversityCertificationScreen(
     if (isOpenPhotoCloseUpDialog) {
         FullAsyncImageDialog(
             uri = Uri.parse(imageUri),
-            contentDescription = "학교인증에 사용할 사진",
+            contentDescription = stringResource(R.string.university_certification_screen_image_box_description),
             onDismissRequest = { isOpenPhotoCloseUpDialog = false }
         )
     }
@@ -135,7 +136,7 @@ fun UniversityCertificationScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "학교 인증",
+            text = stringResource(R.string.university_certification_screen_title),
             style = MaterialTheme.typography.displayLarge,
             color = Black950,
         )
@@ -143,20 +144,20 @@ fun UniversityCertificationScreen(
         PhotoSelectGuideBox(
             onClick = { isOpenPhotoGetterSelectDialog = true },
             modifier = Modifier.padding(top = 44.dp),
-            description = "재학 중인 대학교 개인정보 페이지 혹은 학생증(합격증) 사진을 올려주세요",
+            description = stringResource(R.string.university_certification_screen_description),
         )
 
         if (imageUri.isNotEmpty()) {
             ImageBox(
                 uri = Uri.parse(imageUri),
                 onCloseUpClick = { isOpenPhotoCloseUpDialog = true },
-                contentDescription = "학교인증에 사용할 사진",
+                contentDescription = stringResource(R.string.university_certification_screen_image_box_description),
                 modifier = Modifier
                     .padding(vertical = 24.dp)
                     .weight(1f),
             )
             MainButton(
-                text = "다른사진 선택하기",
+                text = stringResource(R.string.university_certification_screen_pick_another_photo_button_text),
                 containerColor = MainColor,
                 textColor = White,
             ) {

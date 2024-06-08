@@ -80,4 +80,10 @@
     <string name="sign_in_information_screen_password_repeat_input_box_description">비밀번호를 한 번 더 입력해주세요</string>
     <string name="sign_in_information_screen_password_repeat_input_validator_same">일치</string>
 
+    <!-- UniversityCertificationScreen -->
+    <string name="university_certification_screen_title">학교 인증</string>
+    <string name="university_certification_screen_description">재학 중인 대학교 개인정보 페이지 혹은 학생증(합격증) 사진을 올려주세요</string>
+    <string name="university_certification_screen_image_box_description">학교인증에 사용할 사진</string>
+    <string name="university_certification_screen_pick_another_photo_button_text">다른사진 선택하기</string>
+
 </resources>
