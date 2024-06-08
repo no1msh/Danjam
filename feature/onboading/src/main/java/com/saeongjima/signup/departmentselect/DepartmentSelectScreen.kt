@@ -1,11 +1,14 @@
 package com.saeongjima.signup.departmentselect
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,34 +26,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.saeongjima.designsystem.R
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black800
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
+import com.saeongjima.login.R.string.department_select_screen_department_search_description
+import com.saeongjima.login.R.string.department_select_screen_department_search_title
+import com.saeongjima.login.R.string.department_select_screen_not_found_description
+import com.saeongjima.login.R.string.department_select_screen_select_done_button_text
+import com.saeongjima.login.R.string.department_select_screen_title
 import com.saeongjima.model.Department
 
 @Composable
 fun DepartmentSelectScreen(
     modifier: Modifier = Modifier,
-    departments: List<DepartmentItemUiState> = listOf(
-        DepartmentItemUiState(1, Department("게임소프트웨어전공", "게임학부")),
-        DepartmentItemUiState(2, Department("게임그래픽디자인전공", "게임학부")),
-    ),
+    departments: List<DepartmentItemUiState>,
     onDismissRequest: () -> Unit,
+    onValueSelected: (String) -> Unit,
 ) {
-    var departmentItems by remember { mutableStateOf(departments) }
+    var input: String by remember { mutableStateOf("") }
 
-    var input by remember { mutableStateOf("") }
+    var selectedItem: DepartmentItemUiState? by remember { mutableStateOf(null) }
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -80,13 +89,13 @@ fun DepartmentSelectScreen(
                 )
             }
             Text(
-                text = "학과 선택",
+                text = stringResource(department_select_screen_title),
                 style = MaterialTheme.typography.displayLarge,
                 color = Black950,
             )
 
             Text(
-                text = "학과 선택",
+                text = stringResource(department_select_screen_department_search_title),
                 style = MaterialTheme.typography.headlineLarge,
                 color = Black950,
                 modifier = Modifier.padding(top = 44.dp)
@@ -95,27 +104,42 @@ fun DepartmentSelectScreen(
                 value = input,
                 onValueChange = { input = it },
                 leadingIcon = R.drawable.ic_search_24,
-                hintText = "EX) 단잠과",
+                hintText = stringResource(department_select_screen_department_search_description),
                 hasTrailingButton = false,
                 modifier = Modifier.padding(top = 12.dp)
             )
 
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .weight(1f),
-                contentPadding = PaddingValues(vertical = 12.dp)
-            ) {
-                items(
-                    items = departments.filter { it.department.name.contains(input) },
-                    key = { item -> item.index }
-                ) {
-                    DepartmentItem(item = it, modifier = Modifier.padding(vertical = 12.dp)) {
+            val items = departments.filter { it.department.name.contains(input) }
 
+            if (items.isEmpty()) {
+                NotFoundScreen(modifier = Modifier.weight(1f))
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f),
+                    contentPadding = PaddingValues(top = 24.dp)
+                ) {
+                    items(
+                        items = items,
+                        key = { item -> item.index }
+                    ) {
+                        DepartmentItem(
+                            item = it,
+                            isSelected = selectedItem == it,
+                        ) {
+                            selectedItem = it
+                        }
                     }
                 }
             }
-            MainButton(text = "선택완료", modifier = Modifier.padding(vertical = 28.dp)) {
+            MainButton(
+                text = stringResource(department_select_screen_select_done_button_text),
+                enabled = selectedItem != null,
+                modifier = Modifier.padding(vertical = 28.dp)
+            ) {
+                selectedItem?.let {
+                    onValueSelected(it.department.name)
+                }
                 onDismissRequest()
             }
         }
@@ -123,20 +147,45 @@ fun DepartmentSelectScreen(
 }
 
 @Composable
+private fun NotFoundScreen(modifier: Modifier = Modifier) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = stringResource(department_select_screen_not_found_description),
+            color = Black800,
+            style = MaterialTheme.typography.titleLarge.copy(lineHeight = 24.sp),
+            textAlign = TextAlign.Center,
+        )
+        Image(
+            painter = painterResource(id = R.drawable.img_danijamidridada),
+            contentDescription = null,
+            modifier = Modifier.padding(top = 16.dp)
+        )
+    }
+}
+
+@Composable
 fun DepartmentItem(
     item: DepartmentItemUiState,
     modifier: Modifier = Modifier,
+    isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Column(
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
+            .height(68.dp)
             .clickable(onClick = onClick)
     ) {
         Text(
             text = item.department.name,
             style = MaterialTheme.typography.titleLarge,
-            color = if (item.isSelected) PointColor1 else Black800
+            color = if (isSelected) PointColor1 else Black800
         )
         Text(
             text = item.department.division,
@@ -151,6 +200,14 @@ fun DepartmentItem(
 @Composable
 fun DepartmentSelectScreenPreview() {
     DanjamTheme {
-        DepartmentSelectScreen(modifier = Modifier.padding(top = 24.dp), onDismissRequest = {})
+        DepartmentSelectScreen(
+            modifier = Modifier.padding(top = 24.dp),
+            onDismissRequest = {},
+            departments = listOf(
+                DepartmentItemUiState(1, Department("게임소프트웨어전공", "게임학부")),
+                DepartmentItemUiState(2, Department("게임그래픽디자인전공", "게임학부")),
+            ),
+            onValueSelected = {},
+        )
     }
 }

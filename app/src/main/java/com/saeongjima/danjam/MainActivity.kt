@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.navigation.OnboardingDestination
 import com.saeongjima.navigation.onboardingNavGraph
@@ -30,9 +31,22 @@ class MainActivity : ComponentActivity() {
                         startDestination = OnboardingDestination.Splash.route,
                     ) {
                         onboardingNavGraph(
-                            onCloseClick = { navController.navigate(OnboardingDestination.Splash.route) },
-                            onSignInClick = { navController.navigate(OnboardingDestination.SignIn.route) },
-                            onSignUpClick = { navController.navigate(OnboardingDestination.SignUp.route) },
+                            onCloseClick = {
+                                navController.navigate(
+                                    route = OnboardingDestination.Splash.route,
+                                    navOptions = navOptions {
+                                        popUpTo(navController.graph.id) {
+                                            inclusive = true
+                                        }
+                                    }
+                                )
+                            },
+                            onSignInClick = {
+                                navController.navigate(OnboardingDestination.SignIn.route)
+                            },
+                            onSignUpClick = {
+                                navController.navigate(OnboardingDestination.SignUp.route)
+                            },
                         )
                     }
                 }

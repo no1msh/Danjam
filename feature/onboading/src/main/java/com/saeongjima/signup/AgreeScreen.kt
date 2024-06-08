@@ -1,21 +1,14 @@
 package com.saeongjima.signup
 
-import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.LinearLayout
-import android.widget.ScrollView
 import androidx.annotation.StringRes
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,45 +23,58 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import com.saeongjima.designsystem.component.ScrollableView
+import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.checkbox.CheckboxWithLabel
+import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black950
+import com.saeongjima.designsystem.theme.DanjamTheme
+import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.login.R
 
 @Composable
-fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) {
+fun AgreeRoute(
+    onNextButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AgreeScreen(
+        modifier = modifier,
+        onNextButtonClick = onNextButtonClick,
+    )
+}
+
+@Composable
+internal fun AgreeScreen(modifier: Modifier = Modifier, onNextButtonClick: () -> Unit) {
     var openDialog by rememberSaveable { mutableStateOf(false) }
     var dialogText by rememberSaveable { mutableStateOf(PolicyText.TermsOfUse) }
+
     var isCheckedTermsOfUse by rememberSaveable { mutableStateOf(false) }
     var isCheckedPrivacyPolicy by rememberSaveable { mutableStateOf(false) }
 
-    if (isCheckedTermsOfUse && isCheckedPrivacyPolicy) enableButton(true) else enableButton(false)
-
     if (openDialog) {
-        FullTextDialog(text = stringResource(id = dialogText.res)) {
-            openDialog = false
-        }
+        FullTextDialog(
+            text = stringResource(id = dialogText.res),
+            onDismissRequest = { openDialog = false }
+        )
     }
-
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.request_agree_for_service),
             style = MaterialTheme.typography.displayLarge,
             color = Black950,
-            modifier = modifier.padding(top = 64.dp),
+            modifier = Modifier.padding(top = 64.dp),
         )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -81,7 +87,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 isChecked = isCheckedTermsOfUse,
                 label = stringResource(R.string.terms_of_use_title),
                 onValueChange = { isCheckedTermsOfUse = !isCheckedTermsOfUse },
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.offset(x = (-8).dp),
             )
             Text(
                 text = stringResource(R.string.see_full_text),
@@ -89,15 +95,14 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 color = Black500,
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
-                    .padding(end = 24.dp)
                     .clickable {
                         openDialog = true
                         dialogText = PolicyText.TermsOfUse
                     },
             )
         }
-        DrawScrollableView(
-            modifier = modifier
+        ScrollableView(
+            modifier = Modifier
                 .padding(top = 12.dp)
                 .weight(1f)
                 .background(Black200, shape = RoundedCornerShape(4.dp)),
@@ -120,7 +125,7 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 isChecked = isCheckedPrivacyPolicy,
                 label = stringResource(R.string.privacy_policy_title),
                 onValueChange = { isCheckedPrivacyPolicy = !isCheckedPrivacyPolicy },
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.offset(x = (-8).dp)
             )
             Text(
                 text = stringResource(id = R.string.see_full_text),
@@ -128,15 +133,15 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 color = Black500,
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
-                    .padding(end = 24.dp)
                     .clickable {
                         openDialog = true
                         dialogText = PolicyText.PrivacyPolicy
                     },
             )
         }
-        DrawScrollableView(
-            modifier = modifier
+
+        ScrollableView(
+            modifier = Modifier
                 .padding(top = 12.dp)
                 .weight(1f)
                 .background(Black200, shape = RoundedCornerShape(4.dp)),
@@ -147,12 +152,27 @@ fun AgreeScreen(modifier: Modifier = Modifier, enableButton: (Boolean) -> Unit) 
                 color = Black700,
             )
         }
-        Spacer(modifier = Modifier.height(12.dp))
+
+        MainButton(
+            text = stringResource(id = com.saeongjima.designsystem.R.string.main_button_text_next),
+            modifier = Modifier.padding(
+                top = 12.dp,
+                bottom = 28.dp,
+            ),
+            enabled = isCheckedPrivacyPolicy && isCheckedTermsOfUse,
+            containerColor = PointColor1,
+            textColor = Black100,
+            onClick = onNextButtonClick
+        )
     }
 }
 
 @Composable
-fun FullTextDialog(text: String, modifier: Modifier = Modifier, onDismissRequest: () -> Unit) {
+private fun FullTextDialog(
+    text: String,
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit
+) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -176,7 +196,7 @@ fun FullTextDialog(text: String, modifier: Modifier = Modifier, onDismissRequest
                     tint = Black700,
                 )
             }
-            DrawScrollableView(
+            ScrollableView(
                 modifier = modifier
                     .padding(top = 12.dp)
                     .weight(1f)
@@ -192,42 +212,15 @@ fun FullTextDialog(text: String, modifier: Modifier = Modifier, onDismissRequest
     }
 }
 
-@Composable
-fun DrawScrollableView(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    val context = LocalContext.current
-    AndroidView(
-        modifier = modifier.padding(16.dp),
-        factory = {
-            val scrollView = ScrollView(it)
-            val layout = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            scrollView.layoutParams = layout
-            scrollView.isVerticalFadingEdgeEnabled = true
-            scrollView.isScrollbarFadingEnabled = false
-            scrollView.isVerticalScrollBarEnabled = true
-            scrollView.scrollBarSize = 12
-            scrollView.scrollBarStyle = View.SCROLLBARS_OUTSIDE_INSET
-            scrollView.isSmoothScrollingEnabled = true
-            scrollView.verticalScrollbarThumbDrawable = AppCompatResources.getDrawable(
-                context,
-                com.saeongjima.designsystem.R.drawable.scroll_bar,
-            )
-            scrollView.addView(
-                ComposeView(it).apply {
-                    setContent {
-                        content()
-                    }
-                },
-            )
-            val linearLayout = LinearLayout(it)
-            linearLayout.orientation = LinearLayout.VERTICAL
-            linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            linearLayout.addView(scrollView)
-            linearLayout
-        },
-    )
-}
-
 enum class PolicyText(@StringRes val res: Int) {
     TermsOfUse(R.string.terms_of_use),
     PrivacyPolicy(R.string.privacy_policy),
+}
+
+@Preview
+@Composable
+private fun AgreeScreenPreview() {
+    DanjamTheme {
+        AgreeScreen(onNextButtonClick = {})
+    }
 }

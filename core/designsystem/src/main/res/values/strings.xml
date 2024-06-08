@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CloseUpIconButton -->
+    <string name="close_up_Icon_button_description">close up</string>
+
+    <!-- PhotoGuideBox -->
+    <string name="photo_guide_box_sub_description">10MB 내로 업로드 바랍니다.</string>
+
+    <!-- PhotoSourceSelectDialog-->
+    <string name="photo_source_select_dialog_get_from_gallery">앨범에서 사진 선택하기</string>
+    <string name="photo_source_select_dialog_get_from_camera">사진 촬영하기</string>
+
+    <!-- MainButton -->
+    <string name="main_button_text_next">다음</string>
+</resources>
