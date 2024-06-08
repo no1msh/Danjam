@@ -61,12 +61,14 @@ fun DanjamTextField(
     isSecure: Boolean = false,
     isReadOnly: Boolean = false,
     isEnabled: Boolean = true,
+    isError: Boolean = false,
+    isSuccess: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     @DrawableRes leadingIcon: Int? = null,
     hasTrailingButton: Boolean = false,
     trailingButtonText: String = "",
     onLeadingIconClick: () -> Unit = {},
-    onTrailingButtonClick: () -> Boolean = { false },
+    onTrailingButtonClick: () -> Unit = { },
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -86,7 +88,8 @@ fun DanjamTextField(
     val focusManager = LocalFocusManager.current
 
     val onTrailingButtonClicked = {
-        if (!onTrailingButtonClick()) {
+        onTrailingButtonClick()
+        if (isError) {
             hintMessage = errorText
             hintColor = Error
         }
@@ -172,12 +175,13 @@ fun DanjamTextField(
                     innerTextField()
                 }
             }
+
             if (hasTrailingButton) {
                 TrailingButton(
                     text = trailingButtonText,
                     modifier = Modifier.padding(end = 10.dp),
                     onClick = onTrailingButtonClicked,
-                    enabled = value.isNotEmpty(),
+                    enabled = value.isNotEmpty() || isSuccess,
                 )
             }
         }
