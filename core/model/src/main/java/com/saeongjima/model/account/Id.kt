@@ -7,6 +7,10 @@ value class Id(override val value: String) : SupportedLengthValidator {
         return value.length in MIN_LENGTH..MAX_LENGTH
     }
 
+    fun isValid(): Boolean {
+        return isKeepRange()
+    }
+
     companion object {
         private const val MIN_LENGTH = 2
         private const val MAX_LENGTH = 10

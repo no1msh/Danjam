@@ -1,10 +1,14 @@
 package com.saeongjima.model.account
 
 @JvmInline
-value class Nickname(override val value: String): SupportedLengthValidator {
+value class Nickname(override val value: String) : SupportedLengthValidator {
 
     override fun isKeepRange(): Boolean {
         return value.length in MIN_LENGTH..MAX_LENGTH
+    }
+
+    fun isValid(): Boolean {
+        return isKeepRange()
     }
 
     companion object {
