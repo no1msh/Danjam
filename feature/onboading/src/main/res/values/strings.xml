@@ -86,4 +86,14 @@
     <string name="university_certification_screen_image_box_description">학교인증에 사용할 사진</string>
     <string name="university_certification_screen_pick_another_photo_button_text">다른사진 선택하기</string>
 
+    <!-- SignUpDoneScreen -->
+    <string name="sign_up_done_screen_title">회원가입 완료</string>
+    <string name="sign_up_done_screen_description">나를 표현하는 프로필 사진을 등록해주세요!</string>
+    <string name="sign_up_done_screen_profile_image_description">프로필 사진</string>
+    <string name="sign_up_done_screen_id_title">아이디</string>
+    <string name="sign_up_done_screen_department_title">학과</string>
+    <string name="sign_up_done_screen_student_number_title">학번</string>
+    <string name="sign_up_done_screen_select_another_photo">다른사진 선택하기</string>
+    <string name="sign_up_done_screen_go_to_sign_in_button_text">로그인 하러가기</string>
+
 </resources>
