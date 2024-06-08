@@ -80,6 +80,13 @@
     <string name="sign_in_information_screen_password_repeat_input_box_description">비밀번호를 한 번 더 입력해주세요</string>
     <string name="sign_in_information_screen_password_repeat_input_validator_same">일치</string>
 
+    <!-- DepartmentSelectScreen -->
+    <string name="department_select_screen_title">학과 선택</string>
+    <string name="department_select_screen_department_search_title">학과 검색</string>
+    <string name="department_select_screen_department_search_description">EX) 단잠과</string>
+    <string name="department_select_screen_not_found_description">검색 내용이 없어요.\n다른 학과를 검색해주세요!</string>
+    <string name="department_select_screen_select_done_button_text">선택완료</string>
+
     <!-- UniversityCertificationScreen -->
     <string name="university_certification_screen_title">학교 인증</string>
     <string name="university_certification_screen_description">재학 중인 대학교 개인정보 페이지 혹은 학생증(합격증) 사진을 올려주세요</string>

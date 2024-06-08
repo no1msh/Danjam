@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,6 +43,11 @@ import com.saeongjima.designsystem.theme.Black800
 import com.saeongjima.designsystem.theme.Black950
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
+import com.saeongjima.login.R.string.department_select_screen_department_search_description
+import com.saeongjima.login.R.string.department_select_screen_department_search_title
+import com.saeongjima.login.R.string.department_select_screen_not_found_description
+import com.saeongjima.login.R.string.department_select_screen_select_done_button_text
+import com.saeongjima.login.R.string.department_select_screen_title
 import com.saeongjima.model.Department
 
 @Composable
@@ -83,13 +89,13 @@ fun DepartmentSelectScreen(
                 )
             }
             Text(
-                text = "학과 선택",
+                text = stringResource(department_select_screen_title),
                 style = MaterialTheme.typography.displayLarge,
                 color = Black950,
             )
 
             Text(
-                text = "학과 검색",
+                text = stringResource(department_select_screen_department_search_title),
                 style = MaterialTheme.typography.headlineLarge,
                 color = Black950,
                 modifier = Modifier.padding(top = 44.dp)
@@ -98,7 +104,7 @@ fun DepartmentSelectScreen(
                 value = input,
                 onValueChange = { input = it },
                 leadingIcon = R.drawable.ic_search_24,
-                hintText = "EX) 단잠과",
+                hintText = stringResource(department_select_screen_department_search_description),
                 hasTrailingButton = false,
                 modifier = Modifier.padding(top = 12.dp)
             )
@@ -127,7 +133,7 @@ fun DepartmentSelectScreen(
                 }
             }
             MainButton(
-                text = "선택완료",
+                text = stringResource(department_select_screen_select_done_button_text),
                 enabled = selectedItem != null,
                 modifier = Modifier.padding(vertical = 28.dp)
             ) {
@@ -149,7 +155,7 @@ private fun NotFoundScreen(modifier: Modifier = Modifier) {
             .fillMaxWidth(),
     ) {
         Text(
-            text = "검색 내용이 없어요.\n다른 학과를 검색해주세요!",
+            text = stringResource(department_select_screen_not_found_description),
             color = Black800,
             style = MaterialTheme.typography.titleLarge.copy(lineHeight = 24.sp),
             textAlign = TextAlign.Center,
