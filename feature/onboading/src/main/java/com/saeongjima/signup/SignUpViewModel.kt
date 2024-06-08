@@ -1,6 +1,8 @@
 package com.saeongjima.signup
 
 import androidx.lifecycle.ViewModel
+import com.saeongjima.signup.personalinformation.PersonalInformationUiState
+import com.saeongjima.signup.signininformation.SignInInformationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,9 +14,13 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor() : ViewModel() {
     private val _personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
         MutableStateFlow(PersonalInformationUiState())
-
     val personalInformationUiState: StateFlow<PersonalInformationUiState> =
         _personalInformationUiState.asStateFlow()
+
+    private val _signInInformationUiState: MutableStateFlow<SignInInformationUiState> =
+        MutableStateFlow(SignInInformationUiState())
+    val signInInformationUiState: StateFlow<SignInInformationUiState> =
+        _signInInformationUiState.asStateFlow()
 
     private val _idCardImageUri: MutableStateFlow<String> = MutableStateFlow("")
     val idCardImageUri: StateFlow<String> = _idCardImageUri.asStateFlow()
@@ -67,13 +73,16 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         _personalInformationUiState.value = personalInformationUiState
     }
 
-    fun fetchDepartments(university: String) {
+    fun updateSignInInformation(signInInformationUiState: SignInInformationUiState) {
+        _signInInformationUiState.value = signInInformationUiState
+    }
+
+    fun fetchDepartments(university: String) { // TODO: 서버 연결 시 변경
         _departments.value = listOf(
             "게임소프트웨어전공",
             "게임그래픽디자인전공",
         )
     }
-
 
     companion object {
         private const val MAX_ENTRANCE_YEARS = 10
