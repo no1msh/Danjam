@@ -53,6 +53,7 @@ import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_
 import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_input_box_title
 import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_input_validator_same
 import com.saeongjima.login.R.string.sign_in_information_screen_title
+import com.saeongjima.signup.DuplicateState
 
 @Composable
 fun SignInInformationRoute(

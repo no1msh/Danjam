@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.saeongjima.model.account.Id
 import com.saeongjima.model.account.Nickname
 import com.saeongjima.model.account.Password
+import com.saeongjima.signup.DuplicateState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
