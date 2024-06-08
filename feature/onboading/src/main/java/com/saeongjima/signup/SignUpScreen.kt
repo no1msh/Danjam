@@ -27,6 +27,10 @@ import com.saeongjima.designsystem.extension.modifier.pagerFadeTransition
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.PointColor1
+import com.saeongjima.signup.personalinformation.OnboardingTopAppBar
+import com.saeongjima.signup.personalinformation.PersonalInformationRoute
+import com.saeongjima.signup.signininformation.SignInInformationRoute
+import com.saeongjima.signup.signupdone.SignUpDoneRoute
 import kotlinx.coroutines.launch
 
 @Composable
@@ -52,7 +56,7 @@ internal fun SignUpScreen(
 
     Column {
         OnboardingTopAppBar(
-            leadingIcon = if (pagerState.currentPage == 0) {
+            leadingIcon = if (pagerState.currentPage == 0 || !pagerState.canScrollForward) {
                 null
             } else {
                 R.drawable.ic_back_24
@@ -128,7 +132,10 @@ internal fun SignUpScreen(
                         )
 
                         5 -> SignInInformationRoute(
-                            onNextButtonClick = onNextButtonClick,
+                            onNextButtonClick = { signInInformationUiState ->
+                                viewModel.updateSignInInformation(signInInformationUiState)
+                                onNextButtonClick()
+                            },
                             modifier = modifierWithDefaultPadding,
                         )
 
@@ -137,10 +144,9 @@ internal fun SignUpScreen(
                             modifier = modifierWithDefaultPadding,
                         )
 
-                        7 -> SignUpDoneScreen(modifier = modifierWithDefaultPadding)
+                        7 -> SignUpDoneRoute(modifier = modifierWithDefaultPadding)
                     }
                 }
-
             }
         }
     }
