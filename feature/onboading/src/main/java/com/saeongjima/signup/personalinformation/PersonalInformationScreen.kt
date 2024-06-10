@@ -29,8 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R.string.main_button_text_next
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.DanjamDuplicationCheckButtonTextField
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black300
@@ -92,7 +92,7 @@ internal fun PersonalInformationScreen(
             title = stringResource(R.string.personal_information_name_input_box_title),
             modifier = Modifier.fillMaxWidth()
         ) {
-            DanjamTextField(
+            DanjamBasicTextField(
                 value = uiState.name,
                 onValueChange = onNameChanged,
                 hintText = stringResource(R.string.personal_information_name_input_box_hint)
@@ -114,7 +114,7 @@ internal fun PersonalInformationScreen(
             title = stringResource(R.string.personal_information_birthday_input_box_title),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            DanjamTextField(
+            DanjamBasicTextField(
                 value = uiState.birthDay,
                 onValueChange = onBirthDayChanged,
                 keyboardType = KeyboardType.Number,

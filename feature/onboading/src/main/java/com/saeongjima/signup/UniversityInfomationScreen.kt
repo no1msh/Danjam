@@ -22,7 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.dropdownmenu.DanjamExposedDropDownMenu
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.DanjamTheme
@@ -120,7 +120,7 @@ fun UniversityInformationScreen(
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         ) {
-            DanjamTextField(
+            DanjamBasicTextField(
                 value = uiState.userDepartment,
                 onValueChange = {},
                 hintText = stringResource(university_information_screen_department_input_box_example),

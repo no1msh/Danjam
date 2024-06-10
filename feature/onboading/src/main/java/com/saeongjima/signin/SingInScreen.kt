@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R.dimen
 import com.saeongjima.designsystem.R.drawable
 import com.saeongjima.designsystem.component.button.MainButton
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black950
@@ -80,7 +80,7 @@ fun SignInScreen(
                 .fillMaxWidth()
                 .padding(top = 62.dp),
         ) {
-            DanjamTextField(
+            DanjamBasicTextField(
                 value = signInViewModel.id.value,
                 onValueChange = { signInViewModel.updateId(it) },
                 hintText = stringResource(R.string.sign_in_id_hint),
