@@ -46,7 +46,6 @@
     <string name="personal_information_birthday_input_box_hint">EX) 010101</string>
     <string name="personal_information_email_input_box_title">이메일</string>
     <string name="personal_information_email_input_box_hint">EX) danjam@mate.com</string>
-    <string name="personal_information_email_input_box_trailing_button_text">중복확인</string>
     <string name="personal_information_gender_selector_male">남</string>
     <string name="personal_information_gender_selector_female">여</string>
 
@@ -64,8 +63,6 @@
     <string name="sign_in_information_screen_id_input_box_title">아이디</string>
     <string name="sign_in_information_screen_id_input_box_description">로그인 시 활용되는 아이디에요</string>
     <string name="sign_in_information_screen_id_input_box_example">EX) honggildong</string>
-    <string name="sign_in_information_screen_duplication_check">중복확인</string>
-    <string name="sign_in_information_screen_duplication_check_done">확인완료</string>
     <string name="sign_in_information_screen_id_input_validator_length_limit">2~10자 이내</string>
     <string name="sign_in_information_screen_nickname_input_box_title">닉네임</string>
     <string name="sign_in_information_screen_nickname_input_box_description">커뮤니티 활동에 사용되는 닉네임이에요</string>

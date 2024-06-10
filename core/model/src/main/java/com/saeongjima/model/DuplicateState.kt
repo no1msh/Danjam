@@ -1,4 +1,4 @@
-package com.saeongjima.signup
+package com.saeongjima.model
 
 enum class DuplicateState {
     Duplicated,
