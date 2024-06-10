@@ -95,7 +95,9 @@ internal fun PersonalInformationScreen(
             DanjamBasicTextField(
                 value = uiState.name,
                 onValueChange = onNameChanged,
-                hintText = stringResource(R.string.personal_information_name_input_box_hint)
+                hintText = stringResource(R.string.personal_information_name_input_box_hint),
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
             )
         }
         Text(
@@ -118,6 +120,7 @@ internal fun PersonalInformationScreen(
                 value = uiState.birthDay,
                 onValueChange = onBirthDayChanged,
                 keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next,
                 hintText = stringResource(personal_information_birthday_input_box_hint)
             )
         }

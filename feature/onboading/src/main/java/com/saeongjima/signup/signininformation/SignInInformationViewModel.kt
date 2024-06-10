@@ -56,7 +56,6 @@ class SignInInformationViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _signInInformationUiState.update {
                 it.copy(
-                    id = Id(""),
                     isIdDuplication = DuplicateState.NotDuplicated
                 ) // TODO: 서버 통신 연결 시 변경)
             }

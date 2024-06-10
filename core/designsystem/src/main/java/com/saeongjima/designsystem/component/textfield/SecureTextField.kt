@@ -30,6 +30,9 @@ fun SecureTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     hintText: String = "",
+    keyboardType: KeyboardType = KeyboardType.Password,
+    imeAction: ImeAction = ImeAction.Go,
+    keyboardActions: KeyboardActions? = null,
     onInputFinish: () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
@@ -43,16 +46,17 @@ fun SecureTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         hintText = hintText,
-        keyboardType = KeyboardType.Password,
-        imeAction = ImeAction.Go,
-        keyboardActions = KeyboardActions(
-            onDone = {
-                focusManager.clearFocus(true)
-            },
-            onGo = {
-                onInputFinish()
-            }
-        ),
+        keyboardType = keyboardType,
+        imeAction = imeAction,
+        keyboardActions = keyboardActions
+            ?: KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus(true)
+                },
+                onGo = {
+                    onInputFinish()
+                }
+            ),
         isSecure = !isVisible,
         trailingContent = {
             IconButton(onClick = { isVisible = !isVisible }) {

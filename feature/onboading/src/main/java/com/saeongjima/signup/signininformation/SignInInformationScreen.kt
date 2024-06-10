@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -119,7 +121,9 @@ fun SignInInformationScreen(
                     errorText = stringResource(sign_in_information_screen_id_input_box_error_text),
                     isError = uiState.isIdDuplication == DuplicateState.Duplicated,
                     duplicateState = uiState.isIdDuplication,
-                    onButtonClick = onIdDuplicationCheck
+                    onButtonClick = onIdDuplicationCheck,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
                 )
             }
             InputValidator(
@@ -148,7 +152,9 @@ fun SignInInformationScreen(
                         sign_in_information_screen_nickname_input_box_error_text
                     ),
                     duplicateState = uiState.isNicknameDuplication,
-                    onButtonClick = onNicknameDuplicationCheck
+                    onButtonClick = onNicknameDuplicationCheck,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
                 )
             }
             InputValidator(
@@ -171,6 +177,7 @@ fun SignInInformationScreen(
                     value = uiState.password.value,
                     onValueChange = onPasswordChanged,
                     hintText = stringResource(sign_in_information_screen_password_input_box_example),
+                    imeAction = ImeAction.Next,
                 )
             }
             Row(
@@ -218,7 +225,8 @@ fun SignInInformationScreen(
                     onValueChange = onPasswordRepeatChanged,
                     hintText = stringResource(
                         sign_in_information_screen_password_repeat_input_box_description
-                    )
+                    ),
+                    imeAction = ImeAction.Done,
                 )
             }
             InputValidator(
