@@ -63,10 +63,12 @@
     <string name="sign_in_information_screen_title">로그인 정보</string>
     <string name="sign_in_information_screen_id_input_box_title">아이디</string>
     <string name="sign_in_information_screen_id_input_box_description">로그인 시 활용되는 아이디에요</string>
+    <string name="sign_in_information_screen_id_input_box_error_text">중복된 아이디입니다</string>
     <string name="sign_in_information_screen_id_input_box_example">EX) honggildong</string>
     <string name="sign_in_information_screen_id_input_validator_length_limit">2~10자 이내</string>
     <string name="sign_in_information_screen_nickname_input_box_title">닉네임</string>
     <string name="sign_in_information_screen_nickname_input_box_description">커뮤니티 활동에 사용되는 닉네임이에요</string>
+    <string name="sign_in_information_screen_nickname_input_box_error_text">중복된 닉네임입니다</string>
     <string name="sign_in_information_screen_nickname_input_box_example">EX) honggildong</string>
     <string name="sign_in_information_screen_nickname_input_validator_length_limit">2~10자 이내</string>
     <string name="sign_in_information_screen_password_input_box_title">비밀번호</string>

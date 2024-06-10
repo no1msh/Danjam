@@ -21,12 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.saeongjima.designsystem.R.string.main_button_text_next
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.textfield.DanjamDuplicationCheckButtonTextField
 import com.saeongjima.designsystem.component.textfield.DanjamTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.theme.Black100
@@ -37,6 +40,13 @@ import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.designsystem.theme.White
 import com.saeongjima.login.R
+import com.saeongjima.login.R.string.personal_information_birthday_input_box_hint
+import com.saeongjima.login.R.string.personal_information_email_input_box_error_text
+import com.saeongjima.login.R.string.personal_information_email_input_box_hint
+import com.saeongjima.login.R.string.personal_information_email_input_box_title
+import com.saeongjima.login.R.string.personal_information_gender_selector_female
+import com.saeongjima.login.R.string.personal_information_gender_selector_male
+import com.saeongjima.model.DuplicateState
 
 @Composable
 fun PersonalInformationRoute(
@@ -108,28 +118,30 @@ internal fun PersonalInformationScreen(
                 value = uiState.birthDay,
                 onValueChange = onBirthDayChanged,
                 keyboardType = KeyboardType.Number,
-                hintText = stringResource(R.string.personal_information_birthday_input_box_hint)
+                hintText = stringResource(personal_information_birthday_input_box_hint)
             )
         }
         InputBox(
-            title = stringResource(R.string.personal_information_email_input_box_title),
+            title = stringResource(personal_information_email_input_box_title),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         ) {
-            DanjamTextField(
+            DanjamDuplicationCheckButtonTextField(
                 value = uiState.email,
                 onValueChange = onEmailChanged,
-                hintText = stringResource(R.string.personal_information_email_input_box_hint),
+                hintText = stringResource(personal_information_email_input_box_hint),
+                isError = uiState.isValidEmail == DuplicateState.Duplicated,
+                errorText = stringResource(personal_information_email_input_box_error_text),
                 keyboardType = KeyboardType.Email,
-                hasTrailingButton = true,
-                trailingButtonText = stringResource(R.string.personal_information_email_input_box_trailing_button_text),
-                onTrailingButtonClick = { onEmailValidateButtonClick() },
+                imeAction = ImeAction.Done,
+                duplicateState = uiState.isValidEmail,
+                onButtonClick = onEmailValidateButtonClick,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
         MainButton(
-            text = stringResource(id = com.saeongjima.designsystem.R.string.main_button_text_next),
+            text = stringResource(id = main_button_text_next),
             modifier = Modifier.padding(bottom = 28.dp),
             enabled = uiState.hasMetAllConditions(),
             containerColor = PointColor1,
@@ -147,7 +159,7 @@ fun GenderSelector(
 ) {
     Row(modifier) {
         MainButton(
-            text = stringResource(R.string.personal_information_gender_selector_male),
+            text = stringResource(personal_information_gender_selector_male),
             containerColor = if (isMale) MainColor else Black300,
             textColor = White,
             textStyle = MaterialTheme.typography.headlineLarge,
@@ -160,7 +172,7 @@ fun GenderSelector(
 
         Spacer(modifier = Modifier.width(12.dp))
         MainButton(
-            text = stringResource(R.string.personal_information_gender_selector_female),
+            text = stringResource(personal_information_gender_selector_female),
             containerColor = if (!isMale) MainColor else Black300,
             textColor = White,
             textStyle = MaterialTheme.typography.headlineLarge,

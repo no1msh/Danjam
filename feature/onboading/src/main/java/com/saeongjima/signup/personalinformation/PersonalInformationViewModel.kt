@@ -1,7 +1,7 @@
 package com.saeongjima.signup.personalinformation
 
 import androidx.lifecycle.ViewModel
-import com.saeongjima.signup.personalinformation.PersonalInformationUiState
+import com.saeongjima.model.DuplicateState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,12 +36,19 @@ class PersonalInformationViewModel @Inject constructor() : ViewModel() {
 
     fun updateEmail(value: String) {
         _uiState.update {
-            it.copy(email = value)
+            it.copy(
+                email = value,
+                isValidEmail = DuplicateState.NotChecked
+            )
         }
     }
 
     // TODO: 서버 연결시 로직 변경
     fun checkValidationEmail() {
-        _uiState.update { it.copy(isValidEmail = true) }
+        _uiState.update {
+            it.copy(
+                isValidEmail = DuplicateState.NotDuplicated
+            )
+        }
     }
 }
