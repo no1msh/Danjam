@@ -45,6 +45,7 @@
     <string name="personal_information_birthday_input_box_title">생년월일</string>
     <string name="personal_information_birthday_input_box_hint">EX) 010101</string>
     <string name="personal_information_email_input_box_title">이메일</string>
+    <string name="personal_information_email_input_box_error_text">중복된 이메일입니다</string>
     <string name="personal_information_email_input_box_hint">EX) danjam@mate.com</string>
     <string name="personal_information_gender_selector_male">남</string>
     <string name="personal_information_gender_selector_female">여</string>
