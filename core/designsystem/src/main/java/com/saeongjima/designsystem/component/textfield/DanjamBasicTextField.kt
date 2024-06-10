@@ -31,12 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -66,6 +64,7 @@ fun DanjamBasicTextField(
     hasBorderColor: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     leadingContent: @Composable (RowScope.() -> Unit)? = null,
     trailingContent: @Composable (RowScope.() -> Unit)? = null,
 ) {
@@ -74,7 +73,6 @@ fun DanjamBasicTextField(
     val transition = updateTransition(hasFocused)
     val borderColor by transition.animateColor { if (it) Correct else Black200 }
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
     BasicTextField(
         value = value,
@@ -94,14 +92,7 @@ fun DanjamBasicTextField(
             keyboardType = keyboardType,
             imeAction = imeAction,
         ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                focusManager.clearFocus(true)
-            },
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Down)
-            }
-        ),
+        keyboardActions = keyboardActions,
         enabled = isEnabled,
         singleLine = true,
         visualTransformation = if (isSecure) PasswordVisualTransformation() else VisualTransformation.None
