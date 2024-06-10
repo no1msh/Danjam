@@ -2,10 +2,10 @@ package com.saeongjima.signup.signininformation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.model.DuplicateState
 import com.saeongjima.model.account.Id
 import com.saeongjima.model.account.Nickname
 import com.saeongjima.model.account.Password
-import com.saeongjima.signup.DuplicateState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,13 +24,19 @@ class SignInInformationViewModel @Inject constructor() : ViewModel() {
 
     fun updateId(value: String) {
         _signInInformationUiState.update {
-            it.copy(id = Id(value))
+            it.copy(
+                id = Id(value),
+                isIdDuplication = DuplicateState.NotChecked,
+            )
         }
     }
 
     fun updateNickname(value: String) {
         _signInInformationUiState.update {
-            it.copy(nickname = Nickname(value))
+            it.copy(
+                nickname = Nickname(value),
+                isNicknameDuplication = DuplicateState.NotChecked,
+            )
         }
     }
 
@@ -49,7 +55,9 @@ class SignInInformationViewModel @Inject constructor() : ViewModel() {
     fun checkIdDuplication() {
         viewModelScope.launch {
             _signInInformationUiState.update {
-                it.copy(isIdDuplication = DuplicateState.NotDuplicated) // TODO: 서버 통신 연결 시 변경)
+                it.copy(
+                    isIdDuplication = DuplicateState.NotDuplicated
+                ) // TODO: 서버 통신 연결 시 변경)
             }
         }
     }

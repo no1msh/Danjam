@@ -6,11 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
@@ -36,8 +38,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.theme.Black100
+import com.saeongjima.designsystem.theme.Black500
 import com.saeongjima.designsystem.theme.Black700
 import com.saeongjima.designsystem.theme.Black800
 import com.saeongjima.designsystem.theme.Black950
@@ -100,13 +103,22 @@ fun DepartmentSelectScreen(
                 color = Black950,
                 modifier = Modifier.padding(top = 44.dp)
             )
-            DanjamTextField(
+            DanjamBasicTextField(
                 value = input,
                 onValueChange = { input = it },
-                leadingIcon = R.drawable.ic_search_24,
                 hintText = stringResource(department_select_screen_department_search_description),
-                hasTrailingButton = false,
-                modifier = Modifier.padding(top = 12.dp)
+                modifier = Modifier.padding(top = 12.dp),
+                leadingContent = {
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_search_24),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp),
+                        tint = Black500,
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
             )
 
             val items = departments.filter { it.department.name.contains(input) }

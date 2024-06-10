@@ -12,4 +12,12 @@
 
     <!-- MainButton -->
     <string name="main_button_text_next">다음</string>
+
+    <!-- DanjamDuplicationCheckButtonTextField -->
+    <string name="danjam_duplication_check_button_text_field_duplication_check">중복확인</string>
+    <string name="danjam_duplication_check_button_text_field_check_done">확인완료</string>
+
+    <!-- SecureTextField -->
+    <string name="secure_text_field_input_visible">입력 표시하기</string>
+    <string name="secure_text_field_input_invisible">입력 숨기기</string>
 </resources>

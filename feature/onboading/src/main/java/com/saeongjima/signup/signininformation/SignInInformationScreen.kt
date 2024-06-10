@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -27,7 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.R.string.main_button_text_next
 import com.saeongjima.designsystem.component.button.MainButton
-import com.saeongjima.designsystem.component.textfield.DanjamTextField
+import com.saeongjima.designsystem.component.textfield.DanjamDuplicationCheckButtonTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.component.textfield.SecureTextField
 import com.saeongjima.designsystem.extension.modifier.verticalScrollBar
@@ -38,13 +40,14 @@ import com.saeongjima.designsystem.theme.Correct
 import com.saeongjima.designsystem.theme.DanjamTheme
 import com.saeongjima.designsystem.theme.Error
 import com.saeongjima.designsystem.theme.PointColor1
-import com.saeongjima.login.R.string.sign_in_information_screen_duplication_check
-import com.saeongjima.login.R.string.sign_in_information_screen_duplication_check_done
 import com.saeongjima.login.R.string.sign_in_information_screen_id_input_box_description
+import com.saeongjima.login.R.string.sign_in_information_screen_id_input_box_error_text
 import com.saeongjima.login.R.string.sign_in_information_screen_id_input_box_example
 import com.saeongjima.login.R.string.sign_in_information_screen_id_input_box_title
 import com.saeongjima.login.R.string.sign_in_information_screen_id_input_validator_length_limit
 import com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_description
+import com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_error_text
+import com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_example
 import com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_title
 import com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_validator_length_limit
 import com.saeongjima.login.R.string.sign_in_information_screen_password_input_box_example
@@ -56,7 +59,7 @@ import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_
 import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_input_box_title
 import com.saeongjima.login.R.string.sign_in_information_screen_password_repeat_input_validator_same
 import com.saeongjima.login.R.string.sign_in_information_screen_title
-import com.saeongjima.signup.DuplicateState
+import com.saeongjima.model.DuplicateState
 
 @Composable
 fun SignInInformationRoute(
@@ -111,26 +114,16 @@ fun SignInInformationScreen(
                 description = stringResource(sign_in_information_screen_id_input_box_description),
                 modifier = Modifier.padding(top = 44.dp),
             ) {
-                DanjamTextField(
+                DanjamDuplicationCheckButtonTextField(
                     value = uiState.id.value,
                     onValueChange = onIdChanged,
                     hintText = stringResource(sign_in_information_screen_id_input_box_example),
-                    hasTrailingButton = true,
+                    errorText = stringResource(sign_in_information_screen_id_input_box_error_text),
                     isError = uiState.isIdDuplication == DuplicateState.Duplicated,
-                    trailingButtonText = when (uiState.isIdDuplication) {
-                        DuplicateState.NotChecked -> stringResource(
-                            sign_in_information_screen_duplication_check
-                        )
-
-                        DuplicateState.Duplicated -> stringResource(
-                            sign_in_information_screen_duplication_check
-                        )
-
-                        DuplicateState.NotDuplicated -> stringResource(
-                            sign_in_information_screen_duplication_check_done
-                        )
-                    },
-                    onTrailingButtonClick = onIdDuplicationCheck
+                    duplicateState = uiState.isIdDuplication,
+                    onButtonClick = onIdDuplicationCheck,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
                 )
             }
             InputValidator(
@@ -150,26 +143,18 @@ fun SignInInformationScreen(
                 ),
                 modifier = Modifier.padding(top = 32.dp),
             ) {
-                DanjamTextField(
+                DanjamDuplicationCheckButtonTextField(
                     value = uiState.nickname.value,
                     onValueChange = onNicknameChanged,
-                    hintText = stringResource(com.saeongjima.login.R.string.sign_in_information_screen_nickname_input_box_example),
-                    hasTrailingButton = true,
+                    hintText = stringResource(sign_in_information_screen_nickname_input_box_example),
                     isError = uiState.isNicknameDuplication == DuplicateState.Duplicated,
-                    trailingButtonText = when (uiState.isNicknameDuplication) {
-                        DuplicateState.NotChecked -> stringResource(
-                            sign_in_information_screen_duplication_check
-                        )
-
-                        DuplicateState.Duplicated -> stringResource(
-                            sign_in_information_screen_duplication_check
-                        )
-
-                        DuplicateState.NotDuplicated -> stringResource(
-                            sign_in_information_screen_duplication_check_done
-                        )
-                    },
-                    onTrailingButtonClick = onNicknameDuplicationCheck
+                    errorText = stringResource(
+                        sign_in_information_screen_nickname_input_box_error_text
+                    ),
+                    duplicateState = uiState.isNicknameDuplication,
+                    onButtonClick = onNicknameDuplicationCheck,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
                 )
             }
             InputValidator(
@@ -192,6 +177,7 @@ fun SignInInformationScreen(
                     value = uiState.password.value,
                     onValueChange = onPasswordChanged,
                     hintText = stringResource(sign_in_information_screen_password_input_box_example),
+                    imeAction = ImeAction.Next,
                 )
             }
             Row(
@@ -239,7 +225,8 @@ fun SignInInformationScreen(
                     onValueChange = onPasswordRepeatChanged,
                     hintText = stringResource(
                         sign_in_information_screen_password_repeat_input_box_description
-                    )
+                    ),
+                    imeAction = ImeAction.Done,
                 )
             }
             InputValidator(
