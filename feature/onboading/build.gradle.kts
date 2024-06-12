@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":core:domain"))
+    implementation(project(":core:androidutil"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
