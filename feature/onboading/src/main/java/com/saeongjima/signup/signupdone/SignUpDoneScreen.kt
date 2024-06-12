@@ -31,11 +31,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.danjam.context.getTempPngFileUri
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.dialog.PhotoSourceSelectDialog
@@ -56,7 +56,6 @@ import com.saeongjima.login.R.string.sign_up_done_screen_select_another_photo
 import com.saeongjima.login.R.string.sign_up_done_screen_student_number_title
 import com.saeongjima.login.R.string.sign_up_done_screen_title
 import com.saeongjima.signup.FullAsyncImageDialog
-import java.io.File
 
 @Composable
 fun SignUpDoneRoute(
@@ -109,17 +108,7 @@ fun SignUpDoneScreen(
         PhotoSourceSelectDialog(
             onDismissRequest = { isOpenPhotoGetterSelectDialog = false },
             onCameraClicked = {
-                val directory = File(context.cacheDir, "images")
-                directory.mkdirs()
-
-                val file = File.createTempFile(
-                    "selected_image",
-                    ".jpg",
-                    directory,
-                )
-
-                val authority = context.packageName + ".fileprovider"
-                selectedImageUri = FileProvider.getUriForFile(context, authority, file)
+                selectedImageUri = context.getTempPngFileUri()
                 takePictureLauncher.launch(selectedImageUri)
             },
             onGalleryClicked = {

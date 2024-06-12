@@ -35,6 +35,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.danjam.context.getTempPngFileUri
 import com.saeongjima.designsystem.component.PhotoSelectGuideBox
 import com.saeongjima.designsystem.component.button.CloseUpIconButton
 import com.saeongjima.designsystem.component.button.MainButton
@@ -101,17 +102,7 @@ fun UniversityCertificationScreen(
         PhotoSourceSelectDialog(
             onDismissRequest = { isOpenPhotoGetterSelectDialog = false },
             onCameraClicked = {
-                val directory = File(context.cacheDir, "images")
-                directory.mkdirs()
-
-                val file = File.createTempFile(
-                    "selected_image",
-                    ".jpg",
-                    directory,
-                )
-
-                val authority = context.packageName + ".fileprovider"
-                selectedImageUri = FileProvider.getUriForFile(context, authority, file)
+                selectedImageUri = context.getTempPngFileUri()
                 takePictureLauncher.launch(selectedImageUri)
             },
             onGalleryClicked = {
