@@ -20,6 +20,7 @@ include(":core:model")
 include(":core:data")
 include(":core:domain")
 include(":core:designsystem")
+include(":core:androidutil")
 
 include(":feature")
 include(":feature:onboading")
