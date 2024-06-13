@@ -9,4 +9,10 @@ interface SignUpService {
         @Query("email")
         email: String
     ): Result<Boolean>
+
+    @GET("/api/user/check-username")
+    suspend fun validateId(
+        @Query("username")
+        username: String
+    ): Result<Boolean>
 }
