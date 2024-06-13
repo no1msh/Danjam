@@ -131,7 +131,7 @@ internal fun PersonalInformationScreen(
                 .padding(top = 32.dp),
         ) {
             DanjamDuplicationCheckButtonTextField(
-                value = uiState.email,
+                value = uiState.email.value,
                 onValueChange = onEmailChanged,
                 hintText = stringResource(personal_information_email_input_box_hint),
                 isError = uiState.isValidEmail == DuplicateState.Duplicated,
