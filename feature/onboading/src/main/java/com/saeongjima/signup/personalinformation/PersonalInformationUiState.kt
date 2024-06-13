@@ -4,6 +4,7 @@ import com.saeongjima.model.DuplicateState
 import com.saeongjima.model.account.Email
 
 data class PersonalInformationUiState(
+    val isLoading: Boolean = false,
     val name: String = "",
     val isMale: Boolean = true,
     val birthDay: String = "",

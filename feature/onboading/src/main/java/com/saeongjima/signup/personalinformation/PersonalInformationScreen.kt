@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R.string.main_button_text_next
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.DanjamDuplicationCheckButtonTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
@@ -79,6 +80,10 @@ internal fun PersonalInformationScreen(
     onEmailValidateButtonClick: () -> Unit,
     onNextButtonClick: (PersonalInformationUiState) -> Unit,
 ) {
+    if (uiState.isLoading) {
+        LoadingDialog(onDismissRequest = { /*TODO*/ })
+    }
+
     Column(
         modifier = modifier,
     ) {

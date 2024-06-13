@@ -51,11 +51,12 @@ class PersonalInformationViewModel @Inject constructor(
 
     fun checkValidationEmail() {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
             validateEmailUseCase(email = uiState.value.email)
                 .onSuccess { isValid ->
                     _uiState.update {
                         it.copy(
-                            email = Email(""),
+                            email = if (isValid) it.email else Email(""),
                             isValidEmail = if (isValid) DuplicateState.NotDuplicated else DuplicateState.Duplicated
                         )
                     }
@@ -63,6 +64,7 @@ class PersonalInformationViewModel @Inject constructor(
                 .onFailure {
                     // TODO: 오류 처리 어떻게 할지 합의 후 변경
                 }
+            _uiState.update { it.copy(isLoading = false) }
         }
     }
 }
