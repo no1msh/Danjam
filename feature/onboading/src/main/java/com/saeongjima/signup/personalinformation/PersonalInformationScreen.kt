@@ -81,7 +81,7 @@ internal fun PersonalInformationScreen(
     onNextButtonClick: (PersonalInformationUiState) -> Unit,
 ) {
     if (uiState.isLoading) {
-        LoadingDialog(onDismissRequest = { /*TODO*/ })
+        LoadingDialog()
     }
 
     Column(

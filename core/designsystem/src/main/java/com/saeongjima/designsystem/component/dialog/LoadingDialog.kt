@@ -21,7 +21,7 @@ import com.saeongjima.designsystem.theme.PointColor1
 
 @Composable
 fun LoadingDialog(
-    onDismissRequest: () -> Unit,
+    onDismissRequest: () -> Unit = {},
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
