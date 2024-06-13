@@ -2,6 +2,8 @@ package com.saeongjima.signup.signininformation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.domain.usecase.ValidateIdUseCase
+import com.saeongjima.domain.usecase.ValidateNicknameUseCase
 import com.saeongjima.model.DuplicateState
 import com.saeongjima.model.account.Id
 import com.saeongjima.model.account.Nickname
@@ -15,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInInformationViewModel @Inject constructor() : ViewModel() {
+class SignInInformationViewModel @Inject constructor(
+    private val validateIdUseCase: ValidateIdUseCase,
+    private val validateNicknameUseCase: ValidateNicknameUseCase,
+) : ViewModel() {
 
     private val _signInInformationUiState: MutableStateFlow<SignInInformationUiState> =
         MutableStateFlow(SignInInformationUiState())
@@ -54,19 +59,39 @@ class SignInInformationViewModel @Inject constructor() : ViewModel() {
 
     fun checkIdDuplication() {
         viewModelScope.launch {
-            _signInInformationUiState.update {
-                it.copy(
-                    isIdDuplication = DuplicateState.NotDuplicated
-                ) // TODO: 서버 통신 연결 시 변경)
-            }
+            _signInInformationUiState.update { it.copy(isLoading = true) }
+            validateIdUseCase(_signInInformationUiState.value.id)
+                .onSuccess { isValid ->
+                    _signInInformationUiState.update {
+                        it.copy(
+                            id = if (isValid) it.id else Id(""),
+                            isIdDuplication = if (isValid) DuplicateState.NotDuplicated else DuplicateState.Duplicated
+                        )
+                    }
+                }
+                .onFailure {
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
+                }
+            _signInInformationUiState.update { it.copy(isLoading = false) }
         }
     }
 
     fun checkNicknameDuplication() {
         viewModelScope.launch {
-            _signInInformationUiState.update {
-                it.copy(isNicknameDuplication = DuplicateState.NotDuplicated) // TODO: 서버 통신 연결 시 변경)
-            }
+            _signInInformationUiState.update { it.copy(isLoading = true) }
+            validateNicknameUseCase(_signInInformationUiState.value.nickname)
+                .onSuccess { isValid ->
+                    _signInInformationUiState.update {
+                        it.copy(
+                            nickname = if (isValid) it.nickname else Nickname(""),
+                            isNicknameDuplication = if (isValid) DuplicateState.NotDuplicated else DuplicateState.Duplicated
+                        )
+                    }
+                }
+                .onFailure {
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
+                }
+            _signInInformationUiState.update { it.copy(isLoading = false) }
         }
     }
 }

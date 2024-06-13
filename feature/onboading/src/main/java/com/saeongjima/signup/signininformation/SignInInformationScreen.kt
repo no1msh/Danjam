@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.R.string.main_button_text_next
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.component.textfield.DanjamDuplicationCheckButtonTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
 import com.saeongjima.designsystem.component.textfield.SecureTextField
@@ -95,6 +96,10 @@ fun SignInInformationScreen(
     onNextButtonClick: (SignInInformationUiState) -> Unit,
 ) {
     val scrollState: ScrollState = rememberScrollState()
+
+    if (uiState.isLoading) {
+        LoadingDialog()
+    }
 
     Column(modifier = modifier) {
 
