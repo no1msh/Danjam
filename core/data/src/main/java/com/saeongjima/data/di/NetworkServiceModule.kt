@@ -1,6 +1,8 @@
 package com.saeongjima.data.di
 
 import com.saeongjima.data.api.SignInService
+import com.saeongjima.data.api.SignUpService
+import com.saeongjima.data.token.PublicRetrofit
 import com.saeongjima.data.token.SignInRetrofit
 import dagger.Module
 import dagger.Provides
@@ -17,4 +19,10 @@ object NetworkServiceModule {
     fun providesSignInService(
         @SignInRetrofit retrofit: Retrofit,
     ): SignInService = retrofit.create(SignInService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesSignUpService(
+        @PublicRetrofit retrofit: Retrofit,
+    ): SignUpService = retrofit.create(SignUpService::class.java)
 }
