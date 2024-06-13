@@ -6,6 +6,7 @@ import com.saeongjima.model.account.Nickname
 import com.saeongjima.model.account.Password
 
 data class SignInInformationUiState(
+    val isLoading: Boolean = false,
     val id: Id = Id(""),
     val isIdDuplication: DuplicateState = DuplicateState.NotChecked,
     val nickname: Nickname = Nickname(""),
