@@ -15,4 +15,10 @@ interface SignUpService {
         @Query("username")
         username: String
     ): Result<Boolean>
+
+    @GET("/api/user/check-nickname")
+    suspend fun validateNickname(
+        @Query("nickname")
+        nickname: String
+    ): Result<Boolean>
 }
