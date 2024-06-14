@@ -31,6 +31,7 @@ import com.saeongjima.signup.personalinformation.OnboardingTopAppBar
 import com.saeongjima.signup.personalinformation.PersonalInformationRoute
 import com.saeongjima.signup.signininformation.SignInInformationRoute
 import com.saeongjima.signup.signupdone.SignUpDoneRoute
+import com.saeongjima.signup.universityinformation.UniversityInformationRoute
 import kotlinx.coroutines.launch
 
 @Composable
@@ -127,7 +128,10 @@ internal fun SignUpScreen(
                         )
 
                         4 -> UniversityInformationRoute(
-                            onNextButtonClick = onNextButtonClick,
+                            onNextButtonClick = { universityInformationUiState ->
+                                viewModel.updateUniversityInformation(universityInformationUiState)
+                                onNextButtonClick()
+                            },
                             modifier = modifierWithDefaultPadding,
                         )
 

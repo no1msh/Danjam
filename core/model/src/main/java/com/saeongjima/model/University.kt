@@ -1,7 +1,6 @@
 package com.saeongjima.model
 
-data class Department(
+data class University(
     val id: Int,
     val name: String,
-    val division: String,
 )

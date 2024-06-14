@@ -1,4 +1,4 @@
-package com.saeongjima.signup
+package com.saeongjima.signup.universityinformation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.component.dropdownmenu.DanjamExposedDropDownMenu
 import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
@@ -35,16 +36,13 @@ import com.saeongjima.login.R.string.university_information_screen_entrance_year
 import com.saeongjima.login.R.string.university_information_screen_title
 import com.saeongjima.login.R.string.university_information_screen_university_input_box_example
 import com.saeongjima.login.R.string.university_information_screen_university_input_box_title
-import com.saeongjima.model.Department
-import com.saeongjima.signup.departmentselect.DepartmentItemUiState
 import com.saeongjima.signup.departmentselect.DepartmentSelectScreen
-import com.saeongjima.signup.universityinformation.UniversityInformationUiState
 
 @Composable
 fun UniversityInformationRoute(
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    onNextButtonClick: () -> Unit,
+    viewModel: UniversityInformationViewModel = hiltViewModel(),
+    onNextButtonClick: (UniversityInformationUiState) -> Unit,
 ) {
     val uiState by viewModel.universityInformationUiState.collectAsStateWithLifecycle()
 
@@ -54,7 +52,7 @@ fun UniversityInformationRoute(
         onUserEntranceYearChanged = viewModel::updateUserEntranceYear,
         onUserUniversityChanged = viewModel::updateUserUniversity,
         onUserDepartmentChanged = viewModel::updateUserDepartment,
-        onNextButtonClick = onNextButtonClick,
+        onNextButtonClick = { onNextButtonClick(uiState) },
     )
 }
 
@@ -62,8 +60,8 @@ fun UniversityInformationRoute(
 fun UniversityInformationScreen(
     modifier: Modifier = Modifier,
     uiState: UniversityInformationUiState,
-    onUserEntranceYearChanged: (String) -> Unit,
-    onUserUniversityChanged: (String) -> Unit,
+    onUserEntranceYearChanged: (Int) -> Unit,
+    onUserUniversityChanged: (Int) -> Unit,
     onUserDepartmentChanged: (String) -> Unit,
     onNextButtonClick: () -> Unit,
 ) {
@@ -73,11 +71,12 @@ fun UniversityInformationScreen(
         DepartmentSelectScreen(
             onValueSelected = { onUserDepartmentChanged(it) },
             onDismissRequest = { openDialog = false },
-            departments = listOf(
-                DepartmentItemUiState(1, Department("게임소프트웨어전공", "게임학부")),
-                DepartmentItemUiState(2, Department("게임그래픽디자인전공", "게임학부")),
-            ),
+            departments = uiState.departments,
         )
+    }
+
+    if (uiState.isLoading) {
+        LoadingDialog()
     }
 
     Column(modifier = modifier) {
@@ -153,7 +152,7 @@ private fun UniversityInformationScreenPreview() {
             uiState = UniversityInformationUiState(
                 entranceYears = listOf("2024", "2023"),
                 universities = listOf("홍익대, 고려대"),
-                departments = listOf("컴퓨터 공학과", "패션 디자인 학과"),
+                departments = emptyList(),
                 userUniversity = "고려대",
                 userEntranceYear = "2018",
                 userDepartment = "컴퓨터 공학",
