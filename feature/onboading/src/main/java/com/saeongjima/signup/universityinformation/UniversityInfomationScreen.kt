@@ -36,6 +36,7 @@ import com.saeongjima.login.R.string.university_information_screen_entrance_year
 import com.saeongjima.login.R.string.university_information_screen_title
 import com.saeongjima.login.R.string.university_information_screen_university_input_box_example
 import com.saeongjima.login.R.string.university_information_screen_university_input_box_title
+import com.saeongjima.model.University
 import com.saeongjima.signup.departmentselect.DepartmentSelectScreen
 
 @Composable
@@ -108,7 +109,7 @@ fun UniversityInformationScreen(
             DanjamExposedDropDownMenu(
                 options = uiState.universities,
                 modifier = Modifier.fillMaxWidth(),
-                initialValue = uiState.userUniversity,
+                initialValue = uiState.userUniversity.name,
                 hintText = stringResource(university_information_screen_university_input_box_example),
                 onValueChanged = onUserUniversityChanged,
             )
@@ -153,7 +154,7 @@ private fun UniversityInformationScreenPreview() {
                 entranceYears = listOf("2024", "2023"),
                 universities = listOf("홍익대, 고려대"),
                 departments = emptyList(),
-                userUniversity = "고려대",
+                userUniversity = University(2, "고려대"),
                 userEntranceYear = "2018",
                 userDepartment = "컴퓨터 공학",
             ),

@@ -19,10 +19,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.danjam.context.processAndAdjustImage
 import com.saeongjima.designsystem.R
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.extension.modifier.pagerFadeTransition
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.DanjamTheme
@@ -54,6 +58,13 @@ internal fun SignUpScreen(
 ) {
     val pagerState = rememberPagerState(pageCount = { SignUpProgress.entries.size })
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+
+    if (isLoading) {
+        LoadingDialog()
+    }
 
     Column {
         OnboardingTopAppBar(
@@ -144,7 +155,12 @@ internal fun SignUpScreen(
                         )
 
                         6 -> UniversityCertificationRoute(
-                            onNextButtonClick = onNextButtonClick,
+                            onNextButtonClick = {
+                                viewModel.signUp { uri ->
+                                    processAndAdjustImage(context = context, uri = uri)
+                                }
+                                onNextButtonClick()
+                            },
                             modifier = modifierWithDefaultPadding,
                         )
 

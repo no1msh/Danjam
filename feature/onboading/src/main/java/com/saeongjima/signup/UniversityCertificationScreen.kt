@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.danjam.context.getTempPngFileUri
+import com.danjam.context.processAndAdjustImage
 import com.saeongjima.designsystem.component.PhotoSelectGuideBox
 import com.saeongjima.designsystem.component.button.CloseUpIconButton
 import com.saeongjima.designsystem.component.button.MainButton
@@ -79,6 +80,9 @@ fun UniversityCertificationScreen(
     var selectedImageUri by remember<MutableState<Uri?>> {
         mutableStateOf(null)
     }
+
+    val context = LocalContext.current
+
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
@@ -96,7 +100,6 @@ fun UniversityCertificationScreen(
             }
         }
 
-    val context = LocalContext.current
 
     if (isOpenPhotoGetterSelectDialog) {
         PhotoSourceSelectDialog(
