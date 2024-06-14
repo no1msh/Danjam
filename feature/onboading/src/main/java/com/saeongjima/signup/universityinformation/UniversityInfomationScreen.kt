@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.component.dropdownmenu.DanjamExposedDropDownMenu
 import com.saeongjima.designsystem.component.textfield.DanjamBasicTextField
 import com.saeongjima.designsystem.component.textfield.InputBox
@@ -41,7 +42,7 @@ import com.saeongjima.signup.departmentselect.DepartmentSelectScreen
 fun UniversityInformationRoute(
     modifier: Modifier = Modifier,
     viewModel: UniversityInformationViewModel = hiltViewModel(),
-    onNextButtonClick: () -> Unit,
+    onNextButtonClick: (UniversityInformationUiState) -> Unit,
 ) {
     val uiState by viewModel.universityInformationUiState.collectAsStateWithLifecycle()
 
@@ -51,7 +52,7 @@ fun UniversityInformationRoute(
         onUserEntranceYearChanged = viewModel::updateUserEntranceYear,
         onUserUniversityChanged = viewModel::updateUserUniversity,
         onUserDepartmentChanged = viewModel::updateUserDepartment,
-        onNextButtonClick = onNextButtonClick,
+        onNextButtonClick = { onNextButtonClick(uiState) },
     )
 }
 
@@ -72,6 +73,10 @@ fun UniversityInformationScreen(
             onDismissRequest = { openDialog = false },
             departments = uiState.departments,
         )
+    }
+
+    if (uiState.isLoading) {
+        LoadingDialog()
     }
 
     Column(modifier = modifier) {

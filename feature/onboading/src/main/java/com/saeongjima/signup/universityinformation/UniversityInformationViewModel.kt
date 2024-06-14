@@ -2,7 +2,9 @@ package com.saeongjima.signup.universityinformation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.domain.usecase.GetDepartmentsUseCase
 import com.saeongjima.domain.usecase.GetUniversitiesUseCase
+import com.saeongjima.model.Department
 import com.saeongjima.model.EntranceYears
 import com.saeongjima.model.University
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UniversityInformationViewModel @Inject constructor(
-    private val getUniversitiesUseCase: GetUniversitiesUseCase
+    private val getUniversitiesUseCase: GetUniversitiesUseCase,
+    private val getDepartmentsUseCase: GetDepartmentsUseCase,
 ) : ViewModel() {
     private val _universityInformationUiState: MutableStateFlow<UniversityInformationUiState> =
         MutableStateFlow(
@@ -48,6 +51,7 @@ class UniversityInformationViewModel @Inject constructor(
                 .onFailure {
                     // TODO: 오류 처리 어떻게 할지 합의 후 변경
                 }
+            _universityInformationUiState.update { it.copy(isLoading = false) }
         }
     }
 
@@ -60,6 +64,22 @@ class UniversityInformationViewModel @Inject constructor(
     fun updateUserUniversity(index: Int) {
         _universityInformationUiState.update {
             it.copy(userUniversity = it.universities[index])
+        }
+        viewModelScope.launch {
+            _universityInformationUiState.update { it.copy(isLoading = true) }
+            getDepartmentsUseCase(_universities.value[index].id)
+                .onSuccess { departments: List<Department> ->
+                    _universityInformationUiState.update { uiState ->
+                        uiState.copy(
+                            userDepartment = "",
+                            departments = departments,
+                        )
+                    }
+                }
+                .onFailure {
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
+                }
+            _universityInformationUiState.update { it.copy(isLoading = false) }
         }
     }
 

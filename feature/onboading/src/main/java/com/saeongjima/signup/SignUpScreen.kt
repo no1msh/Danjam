@@ -128,7 +128,10 @@ internal fun SignUpScreen(
                         )
 
                         4 -> UniversityInformationRoute(
-                            onNextButtonClick = onNextButtonClick,
+                            onNextButtonClick = { universityInformationUiState ->
+                                viewModel.updateUniversityInformation(universityInformationUiState)
+                                onNextButtonClick()
+                            },
                             modifier = modifierWithDefaultPadding,
                         )
 

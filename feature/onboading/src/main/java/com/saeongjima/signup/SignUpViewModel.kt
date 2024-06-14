@@ -3,6 +3,7 @@ package com.saeongjima.signup
 import androidx.lifecycle.ViewModel
 import com.saeongjima.signup.personalinformation.PersonalInformationUiState
 import com.saeongjima.signup.signininformation.SignInInformationUiState
+import com.saeongjima.signup.universityinformation.UniversityInformationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,11 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(SignInInformationUiState())
     val signInInformationUiState: StateFlow<SignInInformationUiState> =
         _signInInformationUiState.asStateFlow()
+
+    private val _universityInformationUiState: MutableStateFlow<UniversityInformationUiState> =
+        MutableStateFlow(UniversityInformationUiState())
+    val universityInformationUiState: StateFlow<UniversityInformationUiState> =
+        _universityInformationUiState.asStateFlow()
 
     private val _idCardImageUri: MutableStateFlow<String> = MutableStateFlow("")
     val idCardImageUri: StateFlow<String> = _idCardImageUri.asStateFlow()
@@ -41,5 +47,9 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     fun updateSignInInformation(signInInformationUiState: SignInInformationUiState) {
         _signInInformationUiState.value = signInInformationUiState
+    }
+
+    fun updateUniversityInformation(universityInformationUiState: UniversityInformationUiState) {
+        _universityInformationUiState.value = universityInformationUiState
     }
 }
