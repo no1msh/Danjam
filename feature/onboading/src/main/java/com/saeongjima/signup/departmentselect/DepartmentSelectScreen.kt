@@ -56,13 +56,13 @@ import com.saeongjima.model.Department
 @Composable
 fun DepartmentSelectScreen(
     modifier: Modifier = Modifier,
-    departments: List<DepartmentItemUiState>,
+    departments: List<Department>,
     onDismissRequest: () -> Unit,
     onValueSelected: (String) -> Unit,
 ) {
     var input: String by remember { mutableStateOf("") }
 
-    var selectedItem: DepartmentItemUiState? by remember { mutableStateOf(null) }
+    var selectedItem: Department? by remember { mutableStateOf(null) }
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -121,7 +121,7 @@ fun DepartmentSelectScreen(
                 }
             )
 
-            val items = departments.filter { it.department.name.contains(input) }
+            val items = departments.filter { it.name.contains(input) }
 
             if (items.isEmpty()) {
                 NotFoundScreen(modifier = Modifier.weight(1f))
@@ -133,7 +133,7 @@ fun DepartmentSelectScreen(
                 ) {
                     items(
                         items = items,
-                        key = { item -> item.index }
+                        key = { item -> item.id }
                     ) {
                         DepartmentItem(
                             item = it,
@@ -150,7 +150,7 @@ fun DepartmentSelectScreen(
                 modifier = Modifier.padding(vertical = 28.dp)
             ) {
                 selectedItem?.let {
-                    onValueSelected(it.department.name)
+                    onValueSelected(it.name)
                 }
                 onDismissRequest()
             }
@@ -182,7 +182,7 @@ private fun NotFoundScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun DepartmentItem(
-    item: DepartmentItemUiState,
+    item: Department,
     modifier: Modifier = Modifier,
     isSelected: Boolean,
     onClick: () -> Unit
@@ -195,12 +195,12 @@ fun DepartmentItem(
             .clickable(onClick = onClick)
     ) {
         Text(
-            text = item.department.name,
+            text = item.name,
             style = MaterialTheme.typography.titleLarge,
             color = if (isSelected) PointColor1 else Black800
         )
         Text(
-            text = item.department.division,
+            text = item.division,
             style = MaterialTheme.typography.labelLarge,
             color = Black800,
             modifier = Modifier.padding(top = 4.dp)
@@ -216,8 +216,8 @@ fun DepartmentSelectScreenPreview() {
             modifier = Modifier.padding(top = 24.dp),
             onDismissRequest = {},
             departments = listOf(
-                DepartmentItemUiState(1, Department("게임소프트웨어전공", "게임학부")),
-                DepartmentItemUiState(2, Department("게임그래픽디자인전공", "게임학부")),
+                Department(1, "게임소프트웨어전공", "게임학부"),
+                Department(2, "게임그래픽디자인전공", "게임학부"),
             ),
             onValueSelected = {},
         )
