@@ -28,7 +28,7 @@ fun DanjamExposedDropDownMenu(
     modifier: Modifier = Modifier,
     hintText: String,
     initialValue: String = options[0],
-    onValueChanged: (String) -> Unit,
+    onValueChanged: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(initialValue) }
@@ -60,13 +60,13 @@ fun DanjamExposedDropDownMenu(
                 .exposedDropdownSize()
 
         ) {
-            options.forEach { selectionOption ->
+            options.forEachIndexed { index, selectionOption ->
                 DanjamDropdownMenuItem(
                     value = selectionOption,
                     isSelected = selectionOption == selectedOptionText,
                     modifier = Modifier.clickable {
                         selectedOptionText = selectionOption
-                        onValueChanged(selectedOptionText)
+                        onValueChanged(index)
                         expanded = false
                     }
                 )
