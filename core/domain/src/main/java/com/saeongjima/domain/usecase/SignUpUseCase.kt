@@ -10,9 +10,7 @@ class SignUpUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         signUpInformation: SignUpInformation,
-        authImgFile: File,
-        residentImgFile: File
     ): Result<Unit> {
-        return signUpRepository.signUp(signUpInformation, authImgFile, residentImgFile)
+        return signUpRepository.signUp(signUpInformation)
     }
 }

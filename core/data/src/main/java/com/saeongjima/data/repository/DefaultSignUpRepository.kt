@@ -1,16 +1,12 @@
 package com.saeongjima.data.repository
 
 import com.saeongjima.data.api.SignUpService
+import com.saeongjima.data.mapper.toRequest
 import com.saeongjima.model.account.Email
 import com.saeongjima.model.account.Id
 import com.saeongjima.model.account.Nickname
 import com.saeongjima.model.account.SignUpInformation
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import javax.inject.Inject
 
 class DefaultSignUpRepository @Inject constructor(
@@ -28,53 +24,36 @@ class DefaultSignUpRepository @Inject constructor(
         return signUpService.validateNickname(nickname.value)
     }
 
-    override suspend fun signUp(
-        signUpInformation: SignUpInformation,
-        authImgFile: File,
-        residentImgFile: File
-    ): Result<Unit> {
-        val map = HashMap<String, RequestBody>()
+    override suspend fun signUp(signUpInformation: SignUpInformation): Result<Unit> {
+        val signUpRequestPartMap = HashMap<String, RequestBody>()
+        val signUpRequest = signUpInformation.toRequest()
 
-        val authRequestFile = authImgFile.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val authMultiPartBody =
-            MultipartBody.Part.createFormData("authImgFile", authImgFile.name, authRequestFile)
-
-        val residentRequestFile = residentImgFile.asRequestBody("image/jpg".toMediaTypeOrNull())
-        val residentMultiPartBody = MultipartBody.Part.createFormData(
-            "residentImgFile",
-            residentImgFile.name,
-            residentRequestFile
-        )
-
-        val id = signUpInformation.id.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val password =
-            signUpInformation.password.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val gender =
-            signUpInformation.gender.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val nickname =
-            signUpInformation.nickname.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val email = signUpInformation.email.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val birth = signUpInformation.birth.toRequestBody("text/plain".toMediaTypeOrNull())
-        val university = signUpInformation.university.id.toString()
-            .toRequestBody("text/plain".toMediaTypeOrNull())
-        val entryYear =
-            signUpInformation.entryYear.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val major = signUpInformation.major.toRequestBody("text/plain".toMediaTypeOrNull())
-
-        map["username"] = id
-        map["password"] = password
-        map["schoolId"] = university
-        map["gender"] = gender
-        map["nickname"] = nickname
-        map["email"] = email
-        map["birth"] = birth
-        map["entryYear"] = entryYear
-        map["major"] = major
+        signUpRequestPartMap[USERNAME_KEY] = signUpRequest.username
+        signUpRequestPartMap[PASSWORD_KEY] = signUpRequest.password
+        signUpRequestPartMap[SCHOOL_ID_KEY] = signUpRequest.schoolId
+        signUpRequestPartMap[GENDER_KEY] = signUpRequest.gender
+        signUpRequestPartMap[NICKNAME_KEY] = signUpRequest.nickname
+        signUpRequestPartMap[EMAIL_KEY] = signUpRequest.email
+        signUpRequestPartMap[BIRTH_KEY] = signUpRequest.birth
+        signUpRequestPartMap[ENTRY_YEAR_KEY] = signUpRequest.entryYear
+        signUpRequestPartMap[MAJOR_KEY] = signUpRequest.major
 
         return signUpService.signUp(
-            signUpRequest = map,
-            authImgFile = authMultiPartBody,
-            residentImgFile = residentMultiPartBody,
+            signUpRequest = signUpRequestPartMap,
+            authImgFile = signUpRequest.authImgFile,
+            residentImgFile = signUpRequest.residentImgFile,
         )
+    }
+
+    companion object {
+        private const val USERNAME_KEY = "username"
+        private const val PASSWORD_KEY = "password"
+        private const val SCHOOL_ID_KEY = "schoolId"
+        private const val GENDER_KEY = "gender"
+        private const val NICKNAME_KEY = "nickname"
+        private const val EMAIL_KEY = "email"
+        private const val BIRTH_KEY = "birth"
+        private const val ENTRY_YEAR_KEY = "entryYear"
+        private const val MAJOR_KEY = "major"
     }
 }

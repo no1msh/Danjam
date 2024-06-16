@@ -91,16 +91,16 @@ class SignUpViewModel @Inject constructor(
                 signUpInformation = SignUpInformation(
                     id = signInInformationUiState.value.id,
                     password = signInInformationUiState.value.password,
-                    gender = if (personalInformationUiState.value.isMale) 1 else 0,
+                    gender = personalInformationUiState.value.isMale,
                     nickname = signInInformationUiState.value.nickname,
                     email = personalInformationUiState.value.email,
                     birth = personalInformationUiState.value.birthDay,
                     university = universityInformationUiState.value.userUniversity,
-                    entryYear = universityInformationUiState.value.userEntranceYear.toInt(),
+                    entryYear = universityInformationUiState.value.userEntranceYear,
                     major = universityInformationUiState.value.userDepartment,
-                ),
-                authImgFile = authImgFile.await(),
-                residentImgFile = residentImgFile.await(),
+                    authImgFile = authImgFile.await(),
+                    residentImgFile = residentImgFile.await(),
+                )
             )
                 .onSuccess {
                     onSuccess()
