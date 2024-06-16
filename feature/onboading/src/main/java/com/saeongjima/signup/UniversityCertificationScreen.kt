@@ -31,15 +31,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.danjam.context.getTempPngFileUri
-import com.danjam.context.processAndAdjustImage
 import com.saeongjima.designsystem.component.PhotoSelectGuideBox
 import com.saeongjima.designsystem.component.button.CloseUpIconButton
 import com.saeongjima.designsystem.component.button.MainButton
+import com.saeongjima.designsystem.component.dialog.LoadingDialog
 import com.saeongjima.designsystem.component.dialog.PhotoSourceSelectDialog
 import com.saeongjima.designsystem.theme.Black100
 import com.saeongjima.designsystem.theme.Black200
@@ -49,7 +48,6 @@ import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.PointColor1
 import com.saeongjima.designsystem.theme.White
 import com.saeongjima.login.R
-import java.io.File
 
 @Composable
 fun UniversityCertificationRoute(
@@ -57,19 +55,19 @@ fun UniversityCertificationRoute(
     modifier: Modifier = Modifier,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val universityCheckImageUri by signUpViewModel.universityCheckImageUri.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.universityCertificationUiState.collectAsStateWithLifecycle()
 
     UniversityCertificationScreen(
-        imageUri = universityCheckImageUri,
+        uiState = uiState,
         onImageTaken = signUpViewModel::updateUniversityCheckImageUri,
         onNextButtonClick = onNextButtonClick,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
 fun UniversityCertificationScreen(
-    imageUri: String,
+    uiState: UniversityCertificationUiState,
     onImageTaken: (String) -> Unit,
     onNextButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -100,6 +98,9 @@ fun UniversityCertificationScreen(
             }
         }
 
+    if (uiState.isLoading) {
+        LoadingDialog()
+    }
 
     if (isOpenPhotoGetterSelectDialog) {
         PhotoSourceSelectDialog(
@@ -118,7 +119,7 @@ fun UniversityCertificationScreen(
 
     if (isOpenPhotoCloseUpDialog) {
         FullAsyncImageDialog(
-            uri = Uri.parse(imageUri),
+            uri = Uri.parse(uiState.imageUri),
             contentDescription = stringResource(R.string.university_certification_screen_image_box_description),
             onDismissRequest = { isOpenPhotoCloseUpDialog = false }
         )
@@ -141,9 +142,9 @@ fun UniversityCertificationScreen(
             description = stringResource(R.string.university_certification_screen_description),
         )
 
-        if (imageUri.isNotEmpty()) {
+        if (uiState.imageUri.isNotEmpty()) {
             ImageBox(
-                uri = Uri.parse(imageUri),
+                uri = Uri.parse(uiState.imageUri),
                 onCloseUpClick = { isOpenPhotoCloseUpDialog = true },
                 contentDescription = stringResource(R.string.university_certification_screen_image_box_description),
                 modifier = Modifier
@@ -164,7 +165,7 @@ fun UniversityCertificationScreen(
         MainButton(
             text = stringResource(com.saeongjima.designsystem.R.string.main_button_text_next),
             modifier = Modifier.padding(top = 16.dp, bottom = 28.dp),
-            enabled = imageUri.isNotEmpty(),
+            enabled = uiState.imageUri.isNotEmpty(),
             containerColor = PointColor1,
             textColor = Black100,
             onClick = onNextButtonClick,
@@ -206,7 +207,7 @@ private fun ImageBox(
 fun UniversityCertificationScreenPreview() {
     DanjamTheme {
         UniversityCertificationScreen(
-            "",
+            uiState = UniversityCertificationUiState(),
             modifier = Modifier.padding(
                 top = 40.dp,
                 start = 24.dp,

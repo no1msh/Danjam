@@ -1,18 +1,21 @@
 package com.saeongjima.signup
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saeongjima.domain.usecase.SignUpUseCase
 import com.saeongjima.model.account.SignUpInformation
 import com.saeongjima.signup.personalinformation.PersonalInformationUiState
 import com.saeongjima.signup.signininformation.SignInInformationUiState
+import com.saeongjima.signup.signupdone.SignUpDoneUiState
 import com.saeongjima.signup.universityinformation.UniversityInformationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -21,53 +24,69 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase
 ) : ViewModel() {
-    private val _personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
+    private val personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
         MutableStateFlow(PersonalInformationUiState())
-    val personalInformationUiState: StateFlow<PersonalInformationUiState> =
-        _personalInformationUiState.asStateFlow()
 
-    private val _signInInformationUiState: MutableStateFlow<SignInInformationUiState> =
+    private val signInInformationUiState: MutableStateFlow<SignInInformationUiState> =
         MutableStateFlow(SignInInformationUiState())
-    val signInInformationUiState: StateFlow<SignInInformationUiState> =
-        _signInInformationUiState.asStateFlow()
 
-    private val _universityInformationUiState: MutableStateFlow<UniversityInformationUiState> =
+    private val universityInformationUiState: MutableStateFlow<UniversityInformationUiState> =
         MutableStateFlow(UniversityInformationUiState())
-    val universityInformationUiState: StateFlow<UniversityInformationUiState> =
-        _universityInformationUiState.asStateFlow()
 
     private val _idCardImageUri: MutableStateFlow<String> = MutableStateFlow("")
     val idCardImageUri: StateFlow<String> = _idCardImageUri.asStateFlow()
 
-    private val _universityCheckImageUri: MutableStateFlow<String> = MutableStateFlow("")
-    val universityCheckImageUri: StateFlow<String> = _universityCheckImageUri.asStateFlow()
+    private val _signUpDoneUiState: MutableStateFlow<SignUpDoneUiState> = MutableStateFlow(
+        SignUpDoneUiState()
+    )
+    val signUpDoneUiState: StateFlow<SignUpDoneUiState> = _signUpDoneUiState.asStateFlow()
 
-    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+    private val _universityCertificationUiState: MutableStateFlow<UniversityCertificationUiState> =
+        MutableStateFlow(UniversityCertificationUiState())
+    val universityCertificationUiState: StateFlow<UniversityCertificationUiState> =
+        _universityCertificationUiState.asStateFlow()
+
+    fun updateProfileImageUri(value: String) {
+        _signUpDoneUiState.update {
+            it.copy(profileImageUri = value)
+        }
+    }
 
     fun updateIdCardImageUri(value: String) {
         _idCardImageUri.value = value
     }
 
     fun updateUniversityCheckImageUri(value: String) {
-        _universityCheckImageUri.value = value
+        _universityCertificationUiState.update { it.copy(imageUri = value) }
     }
 
-    fun updatePersonalInformation(personalInformationUiState: PersonalInformationUiState) {
-        _personalInformationUiState.value = personalInformationUiState
+    fun updatePersonalInformation(uiState: PersonalInformationUiState) {
+        personalInformationUiState.value = uiState
     }
 
-    fun updateSignInInformation(signInInformationUiState: SignInInformationUiState) {
-        _signInInformationUiState.value = signInInformationUiState
+    fun updateSignInInformation(uiState: SignInInformationUiState) {
+        signInInformationUiState.value = uiState
+        _signUpDoneUiState.update { it.copy(id = uiState.id.value) }
     }
 
-    fun updateUniversityInformation(universityInformationUiState: UniversityInformationUiState) {
-        _universityInformationUiState.value = universityInformationUiState
+    fun updateUniversityInformation(uiState: UniversityInformationUiState) {
+        universityInformationUiState.value = uiState
+        _signUpDoneUiState.update {
+            it.copy(
+                entryYear = uiState.userEntranceYear,
+                department = uiState.userDepartment,
+            )
+        }
     }
 
-    fun signUp(uriToFile: (Uri) -> File) {
+    fun signUp(uriToFile: (Uri) -> File, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _universityCertificationUiState.update { it.copy(isLoading = true) }
+            val authImgFile =
+                async(Dispatchers.IO) { uriToFile(Uri.parse(universityCertificationUiState.value.imageUri)) }
+            val residentImgFile =
+                async(Dispatchers.IO) { uriToFile(Uri.parse(idCardImageUri.value)) }
+
             signUpUseCase(
                 signUpInformation = SignUpInformation(
                     id = signInInformationUiState.value.id,
@@ -80,16 +99,16 @@ class SignUpViewModel @Inject constructor(
                     entryYear = universityInformationUiState.value.userEntranceYear.toInt(),
                     major = universityInformationUiState.value.userDepartment,
                 ),
-                authImgFile = uriToFile(Uri.parse(universityCheckImageUri.value)),
-                residentImgFile = uriToFile(Uri.parse(idCardImageUri.value)),
+                authImgFile = authImgFile.await(),
+                residentImgFile = residentImgFile.await(),
             )
                 .onSuccess {
-                    Log.d("bandal", "signUp: 회원가입 성공")
+                    onSuccess()
                 }
                 .onFailure {
-                    Log.d("bandal", "signUp: 회원가입 실패")
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
                 }
-            _isLoading.value = false
+            _universityCertificationUiState.update { it.copy(isLoading = false) }
         }
     }
 }
