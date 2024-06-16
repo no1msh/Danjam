@@ -27,8 +27,11 @@ class SignInInterceptor @Inject constructor(
             val refreshToken = response.headers[SET_COOKIE_KEY]
 
             if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank()) {
-                launch { jwtManager.saveAccessJwt(accessToken) }
-                launch { jwtManager.saveRefreshJwt(refreshToken) }
+                launch {
+                    jwtManager.clearAllTokens()
+                    launch { jwtManager.saveAccessJwt(accessToken) }
+                    launch { jwtManager.saveRefreshJwt(refreshToken) }
+                }
             }
         }
 
