@@ -25,9 +25,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
     private const val CONTENT_TYPE = "application/json"
-    private const val CONNECT_TIMEOUT = 15L
-    private const val WRITE_TIMEOUT = 15L
-    private const val READ_TIMEOUT = 15L
+    private const val CONNECT_TIMEOUT = 20L
+    private const val WRITE_TIMEOUT = 20L
+    private const val READ_TIMEOUT = 20L
     private const val TAG_HTTP_LOG = "Http_Log"
 
     @Provides

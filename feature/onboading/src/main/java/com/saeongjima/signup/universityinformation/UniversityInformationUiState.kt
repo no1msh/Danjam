@@ -1,6 +1,7 @@
 package com.saeongjima.signup.universityinformation
 
 import com.saeongjima.model.Department
+import com.saeongjima.model.University
 
 data class UniversityInformationUiState(
     val isLoading: Boolean = false,
@@ -8,12 +9,12 @@ data class UniversityInformationUiState(
     val universities: List<String> = emptyList(),
     val departments: List<Department> = emptyList(),
     val userEntranceYear: String = "",
-    val userUniversity: String = "",
+    val userUniversity: University = University(0,""),
     val userDepartment: String = "",
 ) {
     fun hasMetAllConditions(): Boolean {
         return userEntranceYear.isNotBlank() &&
-                userUniversity.isNotBlank() &&
+                userUniversity.name.isNotBlank() &&
                 userDepartment.isNotBlank()
     }
 }

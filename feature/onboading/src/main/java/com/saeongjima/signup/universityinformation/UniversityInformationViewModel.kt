@@ -63,7 +63,7 @@ class UniversityInformationViewModel @Inject constructor(
 
     fun updateUserUniversity(index: Int) {
         _universityInformationUiState.update {
-            it.copy(userUniversity = it.universities[index])
+            it.copy(userUniversity = _universities.value[index])
         }
         viewModelScope.launch {
             _universityInformationUiState.update { it.copy(isLoading = true) }
