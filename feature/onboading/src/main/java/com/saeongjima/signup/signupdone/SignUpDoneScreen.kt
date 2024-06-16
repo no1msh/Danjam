@@ -56,17 +56,18 @@ import com.saeongjima.login.R.string.sign_up_done_screen_select_another_photo
 import com.saeongjima.login.R.string.sign_up_done_screen_student_number_title
 import com.saeongjima.login.R.string.sign_up_done_screen_title
 import com.saeongjima.signup.FullAsyncImageDialog
+import com.saeongjima.signup.SignUpViewModel
 
 @Composable
 fun SignUpDoneRoute(
     modifier: Modifier,
-    viewModel: SignUpDoneViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val profileImageUri by viewModel.profileImageUri.collectAsStateWithLifecycle()
+    val signUpDoneUiState by viewModel.signUpDoneUiState.collectAsStateWithLifecycle()
 
     SignUpDoneScreen(
         modifier = modifier,
-        imageUri = profileImageUri,
+        signUpUiState = signUpDoneUiState,
         onImageTaken = viewModel::updateProfileImageUri,
         onNextButtonClick = { /* TODO: 홈 화면 이동 로직*/ }
     )
@@ -75,7 +76,7 @@ fun SignUpDoneRoute(
 @Composable
 fun SignUpDoneScreen(
     modifier: Modifier = Modifier,
-    imageUri: String,
+    signUpUiState: SignUpDoneUiState,
     onImageTaken: (String) -> Unit,
     onNextButtonClick: () -> Unit,
 ) {
@@ -121,7 +122,7 @@ fun SignUpDoneScreen(
 
     if (isOpenPhotoCloseUpDialog) {
         FullAsyncImageDialog(
-            uri = Uri.parse(imageUri),
+            uri = Uri.parse(signUpUiState.profileImageUri),
             contentDescription = stringResource(sign_up_done_screen_profile_image_description),
             onDismissRequest = { isOpenPhotoCloseUpDialog = false }
         )
@@ -148,7 +149,7 @@ fun SignUpDoneScreen(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data(imageUri.ifEmpty { R.drawable.ic_camera_24 })
+                    .data(signUpUiState.profileImageUri.ifEmpty { R.drawable.ic_camera_24 })
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -156,14 +157,14 @@ fun SignUpDoneScreen(
                     .background(Black300, shape = CircleShape)
                     .clip(CircleShape)
                     .clickable {
-                        if (imageUri.isEmpty()) {
+                        if (signUpUiState.profileImageUri.isEmpty()) {
                             isOpenPhotoGetterSelectDialog = true
                         } else {
                             isOpenPhotoCloseUpDialog = true
                         }
                     }
                     .size(200.dp)
-                    .padding(if (imageUri.isEmpty()) 68.dp else 0.dp)
+                    .padding(if (signUpUiState.profileImageUri.isEmpty()) 68.dp else 0.dp)
                     .align(Alignment.CenterHorizontally),
             )
 
@@ -176,7 +177,7 @@ fun SignUpDoneScreen(
                         modifier = Modifier.width(80.dp),
                     )
                     Text(
-                        text = "Honggildong",
+                        text = signUpUiState.id,
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
                     )
@@ -189,7 +190,7 @@ fun SignUpDoneScreen(
                         modifier = Modifier.width(80.dp),
                     )
                     Text(
-                        text = "게임소프트웨어전공",
+                        text = signUpUiState.department,
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
                     )
@@ -202,7 +203,7 @@ fun SignUpDoneScreen(
                         modifier = Modifier.width(80.dp),
                     )
                     Text(
-                        text = "24학번",
+                        text = signUpUiState.entryYear.drop(2) + "학번",
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
                     )
@@ -210,7 +211,7 @@ fun SignUpDoneScreen(
             }
         }
 
-        if (imageUri.isNotEmpty()) {
+        if (signUpUiState.profileImageUri.isNotEmpty()) {
             MainButton(
                 text = stringResource(sign_up_done_screen_select_another_photo),
                 containerColor = MainColor,
@@ -236,7 +237,7 @@ fun SignUpDoneScreen(
 fun SignUpDoneScreenPreview() {
     DanjamTheme {
         SignUpDoneScreen(
-            imageUri = "",
+            signUpUiState = SignUpDoneUiState(),
             modifier = Modifier,
             onImageTaken = {},
             onNextButtonClick = {}
