@@ -3,6 +3,7 @@ package com.saeongjima.signup
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.domain.usecase.SignInUseCase
 import com.saeongjima.domain.usecase.SignUpUseCase
 import com.saeongjima.model.account.SignUpInformation
 import com.saeongjima.signup.personalinformation.PersonalInformationUiState
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: SignInUseCase,
 ) : ViewModel() {
     private val personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
         MutableStateFlow(PersonalInformationUiState())
@@ -103,7 +105,16 @@ class SignUpViewModel @Inject constructor(
                 )
             )
                 .onSuccess {
-                    onSuccess()
+                    signInUseCase(
+                        username = signInInformationUiState.value.id.value,
+                        password = signInInformationUiState.value.password.value,
+                    )
+                        .onSuccess {
+                            onSuccess()
+                        }
+                        .onFailure {
+                            // TODO: 로그인 창으로 다시 이동
+                        }
                 }
                 .onFailure {
                     // TODO: 오류 처리 어떻게 할지 합의 후 변경
