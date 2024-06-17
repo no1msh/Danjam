@@ -18,3 +18,15 @@ annotation class SignInClient
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class SignInRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NeedAuthClient
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NeedAuthRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RefreshTokenClient

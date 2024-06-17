@@ -4,8 +4,12 @@ import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.saeongjima.data.BuildConfig
 import com.saeongjima.data.DanjamCallAdapter
+import com.saeongjima.data.token.NeedAuthClient
+import com.saeongjima.data.token.NeedAuthRetrofit
 import com.saeongjima.data.token.PublicClient
 import com.saeongjima.data.token.PublicRetrofit
+import com.saeongjima.data.token.RefreshTokenClient
+import com.saeongjima.data.token.RefreshTokenInterceptor
 import com.saeongjima.data.token.SignInClient
 import com.saeongjima.data.token.SignInInterceptor
 import com.saeongjima.data.token.SignInRetrofit
@@ -88,6 +92,49 @@ object ApiModule {
             .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
             .addCallAdapterFactory(DanjamCallAdapter.CallAdapterFactory)
             .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @NeedAuthClient
+    fun provideAuthOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @NeedAuthRetrofit
+    fun provideAuthRetrofit(
+        @NeedAuthClient okHttpClient: OkHttpClient,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @RefreshTokenClient
+    fun provideRefreshTokenOkHttpClient(
+        refreshTokenInterceptor: RefreshTokenInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(refreshTokenInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             .build()
     }
 }
