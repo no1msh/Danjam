@@ -111,5 +111,6 @@
     <string name="sign_up_done_screen_student_number_title">학번</string>
     <string name="sign_up_done_screen_select_another_photo">다른사진 선택하기</string>
     <string name="sign_up_done_screen_go_to_sign_in_button_text">로그인 하러가기</string>
+    <string name="sign_up_done_screen_profile_image_change_button_description">프로필 사진 교체 버튼</string>
 
 </resources>
