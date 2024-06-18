@@ -23,15 +23,23 @@ private fun Uri.getBitmapFromUri(context: Context): Bitmap? {
 }
 
 private fun Bitmap.convertResizeImage(context: Context): File {
+    val maxWidth = 500
+    val scaleFactor = maxWidth.toFloat() / width
+    val newWidth = (width * scaleFactor).toInt()
+    val newHeight = (height * scaleFactor).toInt()
+    val resizedBitmap = Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
+
     val tempFile = File.createTempFile("resized_image", ".jpg", context.cacheDir)
 
     FileOutputStream(tempFile).use { fileOutputStream ->
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            this.compress(Bitmap.CompressFormat.WEBP_LOSSY, 80, fileOutputStream)
+            resizedBitmap.compress(Bitmap.CompressFormat.WEBP_LOSSY, 80, fileOutputStream)
         } else {
-            this.compress(Bitmap.CompressFormat.WEBP, 80, fileOutputStream)
+            resizedBitmap.compress(Bitmap.CompressFormat.WEBP, 80, fileOutputStream)
         }
     }
+
+    resizedBitmap.recycle()
     return tempFile
 }
 

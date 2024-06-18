@@ -3,6 +3,8 @@ package com.saeongjima.signup
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.domain.usecase.ResisterProfileImageUseCase
+import com.saeongjima.domain.usecase.SignInUseCase
 import com.saeongjima.domain.usecase.SignUpUseCase
 import com.saeongjima.model.account.SignUpInformation
 import com.saeongjima.signup.personalinformation.PersonalInformationUiState
@@ -22,7 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: SignInUseCase,
+    private val resisterProfileImageUseCase: ResisterProfileImageUseCase,
 ) : ViewModel() {
     private val personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
         MutableStateFlow(PersonalInformationUiState())
@@ -46,9 +50,18 @@ class SignUpViewModel @Inject constructor(
     val universityCertificationUiState: StateFlow<UniversityCertificationUiState> =
         _universityCertificationUiState.asStateFlow()
 
-    fun updateProfileImageUri(value: String) {
+    fun updateProfileImageUri(value: String, uriToFile: (Uri) -> File) {
         _signUpDoneUiState.update {
             it.copy(profileImageUri = value)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            resisterProfileImageUseCase(uriToFile(Uri.parse(value)))
+                .onSuccess {
+                    // TODO: 사용자에게 성공적인 변경을 안내
+                }
+                .onFailure {
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
+                }
         }
     }
 
@@ -103,7 +116,16 @@ class SignUpViewModel @Inject constructor(
                 )
             )
                 .onSuccess {
-                    onSuccess()
+                    signInUseCase(
+                        username = signInInformationUiState.value.id.value,
+                        password = signInInformationUiState.value.password.value,
+                    )
+                        .onSuccess {
+                            onSuccess()
+                        }
+                        .onFailure {
+                            // TODO: 로그인 창으로 다시 이동
+                        }
                 }
                 .onFailure {
                     // TODO: 오류 처리 어떻게 할지 합의 후 변경

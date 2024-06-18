@@ -1,7 +1,8 @@
 package com.saeongjima.data.token
 
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -23,12 +24,15 @@ class SignInInterceptor @Inject constructor(
         }
 
         runBlocking {
-            val accessToken = response.headers[ACCESS_KEY]
-            val refreshToken = response.headers[SET_COOKIE_KEY]
+            withContext(Dispatchers.IO) {
+                val accessToken = response.headers[ACCESS_KEY]
+                val refreshToken = response.headers[SET_COOKIE_KEY]
 
-            if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank()) {
-                launch { jwtManager.saveAccessJwt(accessToken) }
-                launch { jwtManager.saveRefreshJwt(refreshToken) }
+                if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank()) {
+                    jwtManager.clearAllTokens()
+                    jwtManager.saveAccessJwt(accessToken)
+                    jwtManager.saveRefreshJwt(refreshToken)
+                }
             }
         }
 
@@ -36,7 +40,7 @@ class SignInInterceptor @Inject constructor(
     }
 
     companion object {
-        const val ACCESS_KEY = "access"
-        const val SET_COOKIE_KEY = "Set-Cookie"
+        private const val ACCESS_KEY = "access"
+        private const val SET_COOKIE_KEY = "Set-Cookie"
     }
 }
