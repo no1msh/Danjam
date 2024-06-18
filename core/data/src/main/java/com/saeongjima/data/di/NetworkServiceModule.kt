@@ -6,6 +6,8 @@ import com.saeongjima.data.api.RefreshTokenService
 import com.saeongjima.data.api.SignInService
 import com.saeongjima.data.api.SignUpService
 import com.saeongjima.data.api.UniversityService
+import com.saeongjima.data.api.UserService
+import com.saeongjima.data.token.NeedAuthRetrofit
 import com.saeongjima.data.token.PublicRetrofit
 import com.saeongjima.data.token.RefreshTokenClient
 import com.saeongjima.data.token.SignInRetrofit
@@ -52,4 +54,10 @@ object NetworkServiceModule {
         .client(okHttpClient)
         .build()
         .create(RefreshTokenService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesUserService(
+        @NeedAuthRetrofit retrofit: Retrofit,
+    ): UserService = retrofit.create(UserService::class.java)
 }

@@ -4,6 +4,8 @@ import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.saeongjima.data.BuildConfig
 import com.saeongjima.data.DanjamCallAdapter
+import com.saeongjima.data.token.AccessTokenInterceptor
+import com.saeongjima.data.token.DefaultAuthenticator
 import com.saeongjima.data.token.NeedAuthClient
 import com.saeongjima.data.token.NeedAuthRetrofit
 import com.saeongjima.data.token.PublicClient
@@ -100,9 +102,13 @@ object ApiModule {
     @NeedAuthClient
     fun provideAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
+        accessTokenInterceptor: AccessTokenInterceptor,
+        authenticator: DefaultAuthenticator,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(accessTokenInterceptor)
+            .authenticator(authenticator)
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -117,6 +123,7 @@ object ApiModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
+            .addCallAdapterFactory(DanjamCallAdapter.CallAdapterFactory)
             .addConverterFactory(Json.asConverterFactory(CONTENT_TYPE.toMediaType()))
             .client(okHttpClient)
             .build()

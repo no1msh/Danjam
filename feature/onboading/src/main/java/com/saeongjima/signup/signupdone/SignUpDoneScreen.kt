@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.danjam.context.getTempPngFileUri
+import com.danjam.context.processAndAdjustImage
 import com.saeongjima.designsystem.R
 import com.saeongjima.designsystem.component.button.MainButton
 import com.saeongjima.designsystem.component.dialog.PhotoSourceSelectDialog
@@ -71,10 +72,19 @@ fun SignUpDoneRoute(
 ) {
     val signUpDoneUiState by viewModel.signUpDoneUiState.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
     SignUpDoneScreen(
         modifier = modifier,
         signUpUiState = signUpDoneUiState,
-        onImageTaken = viewModel::updateProfileImageUri,
+        onImageTaken = { imageUri ->
+            viewModel.updateProfileImageUri(
+                value = imageUri,
+                uriToFile = { uri ->
+                    processAndAdjustImage(context = context, uri = uri)
+                }
+            )
+        },
         onNextButtonClick = { /* TODO: 홈 화면 이동 로직*/ }
     )
 }
@@ -253,12 +263,12 @@ fun SignUpDoneScreen(
 }
 
 fun @receiver:DrawableRes Int.getResourceUri(context: Context): String {
-    return context.resources.let {
+    return context.resources.let { resources ->
         Uri.Builder()
             .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-            .authority(it.getResourcePackageName(this))        // it : resources, this : ResId(Int)
-            .appendPath(it.getResourceTypeName(this))        // it : resources, this : ResId(Int)
-            .appendPath(it.getResourceEntryName(this))        // it : resources, this : ResId(Int)
+            .authority(resources.getResourcePackageName(this))
+            .appendPath(resources.getResourceTypeName(this))
+            .appendPath(resources.getResourceEntryName(this))
             .build()
             .toString()
     }

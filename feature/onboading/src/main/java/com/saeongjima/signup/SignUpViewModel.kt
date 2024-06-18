@@ -3,6 +3,7 @@ package com.saeongjima.signup
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saeongjima.domain.usecase.ResisterProfileImageUseCase
 import com.saeongjima.domain.usecase.SignInUseCase
 import com.saeongjima.domain.usecase.SignUpUseCase
 import com.saeongjima.model.account.SignUpInformation
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
+    private val resisterProfileImageUseCase: ResisterProfileImageUseCase,
 ) : ViewModel() {
     private val personalInformationUiState: MutableStateFlow<PersonalInformationUiState> =
         MutableStateFlow(PersonalInformationUiState())
@@ -48,9 +50,18 @@ class SignUpViewModel @Inject constructor(
     val universityCertificationUiState: StateFlow<UniversityCertificationUiState> =
         _universityCertificationUiState.asStateFlow()
 
-    fun updateProfileImageUri(value: String) {
+    fun updateProfileImageUri(value: String, uriToFile: (Uri) -> File) {
         _signUpDoneUiState.update {
             it.copy(profileImageUri = value)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            resisterProfileImageUseCase(uriToFile(Uri.parse(value)))
+                .onSuccess {
+                    // TODO: 사용자에게 성공적인 변경을 안내
+                }
+                .onFailure {
+                    // TODO: 오류 처리 어떻게 할지 합의 후 변경
+                }
         }
     }
 
