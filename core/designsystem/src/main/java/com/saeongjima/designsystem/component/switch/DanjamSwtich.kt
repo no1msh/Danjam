@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.saeongjima.designsystem.theme.Black200
 import com.saeongjima.designsystem.theme.Black900
 import com.saeongjima.designsystem.theme.DanjamTheme
+import com.saeongjima.designsystem.theme.Error
 import com.saeongjima.designsystem.theme.MainColor
+import com.saeongjima.designsystem.theme.Pink40
 
 private val SWITCH_WIDTH = 52.dp
 private val SWITCH_HEIGHT = 32.dp
@@ -89,6 +91,19 @@ private fun DanjamSwitchPreviewNotChecked() {
     DanjamTheme {
         DanjamSwitch(
             checked = false,
+            onCheckedChange = { /* 스위치 전환시 상태 변환 처리 및 추가 작업을 수행합니다. */ }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DanjamSwitchDifferentColorPreviewChecked() {
+    DanjamTheme {
+        DanjamSwitch(
+            checked = true,
+            checkedTrackColor = Error,
+            thumbColor = Pink40,
             onCheckedChange = { /* 스위치 전환시 상태 변환 처리 및 추가 작업을 수행합니다. */ }
         )
     }
