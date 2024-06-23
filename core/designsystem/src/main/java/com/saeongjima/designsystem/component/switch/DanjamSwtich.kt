@@ -1,5 +1,8 @@
 package com.saeongjima.designsystem.component.switch
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -41,6 +44,13 @@ fun DanjamSwitch(
     thumbColor: Color = Black900,
 ) {
     var isChecked by remember { mutableStateOf(checked) }
+    val animateThumbOffset by animateDpAsState(
+        targetValue = if (isChecked) thumbOffset.dp else -thumbOffset.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    )
 
     Box(
         modifier = Modifier
@@ -64,7 +74,7 @@ fun DanjamSwitch(
         Box(
             modifier = Modifier
                 .size(thumbSize.dp)
-                .offset(x = if (isChecked) thumbOffset.dp else -thumbOffset.dp)
+                .offset(x = animateThumbOffset)
                 .background(
                     color = thumbColor,
                     shape = CircleShape
