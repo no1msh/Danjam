@@ -86,35 +86,38 @@ fun DanjamSwitch(
 
 @Preview
 @Composable
-private fun DanjamSwitchPreviewChecked() {
+fun DanjamSwitchPreviewChecked() {
     DanjamTheme {
+        var switchState by remember { mutableStateOf(true) }
         DanjamSwitch(
-            checked = true,
-            onCheckedChange = { /* 스위치 전환시 상태 변환 처리 및 추가 작업을 수행합니다. */ }
+            checked = switchState,
+            onCheckedChange = { switchState = it }
         )
     }
 }
 
 @Preview
 @Composable
-private fun DanjamSwitchPreviewNotChecked() {
+fun DanjamSwitchPreviewNotChecked() {
     DanjamTheme {
+        var switchState by remember { mutableStateOf(false) }
         DanjamSwitch(
-            checked = false,
-            onCheckedChange = { /* 스위치 전환시 상태 변환 처리 및 추가 작업을 수행합니다. */ }
+            checked = switchState,
+            onCheckedChange = { switchState = it }
         )
     }
 }
 
 @Preview
 @Composable
-private fun DanjamSwitchDifferentColorPreviewChecked() {
+fun DanjamSwitchPreviewDifferentColor() {
     DanjamTheme {
+        var switchState by remember { mutableStateOf(true) }
         DanjamSwitch(
-            checked = true,
+            checked = switchState,
             checkedTrackColor = Error,
             thumbColor = Pink40,
-            onCheckedChange = { /* 스위치 전환시 상태 변환 처리 및 추가 작업을 수행합니다. */ }
+            onCheckedChange = { switchState = it }
         )
     }
 }
