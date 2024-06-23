@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,6 +56,7 @@ fun DanjamSwitch(
     Box(
         modifier = Modifier
             .size(switchWidth.dp, switchHeight.dp)
+            .clip(RoundedCornerShape(switchHeight.dp / 2))
             .clickable {
                 isChecked = !isChecked
                 onCheckedChange(isChecked)
