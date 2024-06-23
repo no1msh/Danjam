@@ -44,9 +44,8 @@ fun DanjamSwitch(
     uncheckedTrackColor: Color = Black200,
     thumbColor: Color = Black900,
 ) {
-    var isChecked by remember { mutableStateOf(checked) }
     val animateThumbOffset by animateDpAsState(
-        targetValue = if (isChecked) thumbOffset.dp else -thumbOffset.dp,
+        targetValue = if (checked) thumbOffset.dp else -thumbOffset.dp,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioNoBouncy,
             stiffness = Spring.StiffnessMedium
@@ -58,8 +57,7 @@ fun DanjamSwitch(
             .size(switchWidth.dp, switchHeight.dp)
             .clip(RoundedCornerShape(switchHeight.dp / 2))
             .clickable {
-                isChecked = !isChecked
-                onCheckedChange(isChecked)
+                onCheckedChange(!checked)
             },
         contentAlignment = Alignment.Center
     ) {
@@ -68,7 +66,7 @@ fun DanjamSwitch(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = if (isChecked) checkedTrackColor else uncheckedTrackColor,
+                    color = if (checked) checkedTrackColor else uncheckedTrackColor,
                     shape = RoundedCornerShape(switchHeight.dp / 2)
                 )
         )
