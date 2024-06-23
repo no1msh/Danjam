@@ -26,11 +26,11 @@ import com.saeongjima.designsystem.theme.Error
 import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.Pink40
 
-private val SWITCH_WIDTH = 52.dp
-private val SWITCH_HEIGHT = 32.dp
-private val THUMB_SIZE = 24.dp
-private val THUMB_PADDING = 2.dp
-private val THUMB_OFFSET = 10.dp
+const val switchWidth = 52
+const val switchHeight = 32
+const val thumbSize = 24
+const val thumbPadding = 2
+const val thumbOffset = 10
 
 @Composable
 fun DanjamSwitch(
@@ -44,7 +44,7 @@ fun DanjamSwitch(
 
     Box(
         modifier = Modifier
-            .size(SWITCH_WIDTH, SWITCH_HEIGHT)
+            .size(switchWidth.dp, switchHeight.dp)
             .clickable {
                 isChecked = !isChecked
                 onCheckedChange(isChecked)
@@ -57,19 +57,19 @@ fun DanjamSwitch(
                 .fillMaxSize()
                 .background(
                     color = if (isChecked) checkedTrackColor else uncheckedTrackColor,
-                    shape = RoundedCornerShape(SWITCH_HEIGHT / 2)
+                    shape = RoundedCornerShape(switchHeight.dp / 2)
                 )
         )
         // Thumb
         Box(
             modifier = Modifier
-                .size(THUMB_SIZE)
-                .offset(x = if (isChecked) THUMB_OFFSET else -THUMB_OFFSET)
+                .size(thumbSize.dp)
+                .offset(x = if (isChecked) thumbOffset.dp else -thumbOffset.dp)
                 .background(
                     color = thumbColor,
                     shape = CircleShape
                 )
-                .padding(THUMB_PADDING)
+                .padding(thumbPadding.dp)
         )
     }
 }
