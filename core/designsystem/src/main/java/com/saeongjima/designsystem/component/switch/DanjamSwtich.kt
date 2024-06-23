@@ -30,11 +30,11 @@ import com.saeongjima.designsystem.theme.Error
 import com.saeongjima.designsystem.theme.MainColor
 import com.saeongjima.designsystem.theme.Pink40
 
-const val switchWidth = 52
-const val switchHeight = 32
-const val thumbSize = 24
-const val thumbPadding = 2
-const val thumbOffset = 10
+private const val switchWidth = 52
+private const val switchHeight = 32
+private const val thumbSize = 24
+private const val thumbPadding = 2
+private const val thumbOffset = 10
 
 @Composable
 fun DanjamSwitch(
